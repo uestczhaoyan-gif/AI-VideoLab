@@ -11,7 +11,7 @@
 | [02 · 芯片运行拓展](demos/02-isometric-chip/README.md) | 同属等轴方法，场景独立新写 | 概念迁移基本通过，用户指出视觉简陋，已收尾 |
 | [03 · 线条动画](demos/03-line-art/README.md) | `source/demos/02-line-art/` | 原版获认可；《归途》初步迁移通过，已记录叙事顺序要求 |
 | [04 · 三维质感](demos/04-3d-render/README.md) | `source/demos/04-3d-render/` | 原质量获认可；RIPPLE v1 未通过；v2 运动与最终成片获接受；失败版本和经验已归档 |
-| [05 · 形变动画](demos/05-shape-morph/README.md) | `source/demos/08-morph/` | 原版获认可；WANDER 初版未通过；短研究修订后，14 秒 v2 长版待观看 |
+| [05 · 形变动画](demos/05-shape-morph/README.md) | `source/demos/08-morph/` | 原版与 WANDER v3 获接受；v3 仍欠原作神韵，保留为后续风格研究经验 |
 
 ## 目录
 

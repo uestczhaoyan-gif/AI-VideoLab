@@ -25,3 +25,5 @@ node tools/check-seeking.mjs 05-shape-morph
 最新修订：[双翼比例与生长研究](studies/03-two-wings/README.md)，回应翅膀过大和缺失第二只翼的问题，保留前一版转换方向。
 
 当前完整修订：[WANDER v2 连续序列](revisions/v2-sequence/README.md)，整合已研究的双翼转换，加入叶片与回到水滴，检验长段落的连贯性；等待成片检查与用户反馈。
+
+针对 v2 仍显缓慢、背景变化不足，完成 [WANDER v3 节奏修订](revisions/v3-rhythm/README.md)：10 秒内 8 次快速形变，整屏颜色随形态同步切换，并对部分阶段作小幅位移。用户勉强接受，认为仍欠原作神韵；当前案例归档，供后续风格研究参考。
