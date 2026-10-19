@@ -1,0 +1,33 @@
+{
+  "film": "films/two-points",
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "decoded_frames": 1800,
+    "seconds": 60.0,
+    "bytes": 20727952
+  },
+  "expected": {
+    "duration": 60,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "frames": 1800
+  },
+  "audio": {
+    "integrated_lufs": -14.0,
+    "lra_lu": 2.8,
+    "true_peak_dbfs": -1.4
+  },
+  "preview": {
+    "bytes": 2941125
+  },
+  "storyboard": {
+    "bytes": 206853
+  },
+  "poster": {
+    "bytes": 366635
+  },
+  "issues": []
+}

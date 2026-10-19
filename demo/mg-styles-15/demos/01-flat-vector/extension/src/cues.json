@@ -1,0 +1,15 @@
+{
+  "duration": 10,
+  "fps": 30,
+  "seedLand": 0.8,
+  "sproutStart": 1.25,
+  "stemReady": 3.8,
+  "bloomStart": 4.0,
+  "bloomReady": 5.5,
+  "gardenStart": 5.8,
+  "gardenReady": 8.0,
+  "titleStart": 8.0,
+  "endHold": 8.8,
+  "leafTimes": [2.1, 2.65],
+  "gardenTimes": [6.25, 5.8, 6.05, 6.02, 6.35, 6.6]
+}

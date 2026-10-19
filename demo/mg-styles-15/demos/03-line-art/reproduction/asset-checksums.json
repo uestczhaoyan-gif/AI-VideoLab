@@ -1,0 +1,18 @@
+[
+  {
+    "path": "assets/fonts/latin/cormorantgaramond/CormorantGaramond-VF.ttf",
+    "sha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0"
+  },
+  {
+    "path": "assets/fonts/cjk/notoserifsc/NotoSerifSC-VF.ttf",
+    "sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9"
+  },
+  {
+    "path": "assets/textures/grain/grain_fine_2048.png",
+    "sha256": "a7b1cc008f0b3832147d4762beb7ee2a474586aaec6b20f6c18989a7d91594d3"
+  },
+  {
+    "path": "demos/02-line-art/out/timing.json",
+    "sha256": "9838f326da35c5c195159a30ce4be7eacd889fc86d2df7fcd76f613ec8b3a6f1"
+  }
+]

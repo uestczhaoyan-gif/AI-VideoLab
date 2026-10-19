@@ -1,0 +1,22 @@
+[
+  {
+    "path": "source/assets/fonts/latin/unbounded/Unbounded-VF.ttf",
+    "sha256": "323B511BE380C8D474EF030686B71AEDDE501F8D9CD46DA558B7C40454372C3F"
+  },
+  {
+    "path": "source/assets/fonts/latin/jetbrainsmono/JetBrainsMono-VF.ttf",
+    "sha256": "3CFAFA86E28B87184D592FEF82846E8C10CB48653C62EFCDA34F082DA225EC34"
+  },
+  {
+    "path": "source/assets/fonts/cjk/harmonyossanssc/HarmonyOS_Sans_SC_Bold.ttf",
+    "sha256": "43A424B85E47FB53A17B3B32026A71801F86F8E022CA6798D186B47D39FA5F01"
+  },
+  {
+    "path": "source/assets/fonts/cjk/harmonyossanssc/HarmonyOS_Sans_SC_Medium.ttf",
+    "sha256": "6ED1553EDCCDDC48EB27FF25D134A4A715CF54211238D4840B3038576CBA1944"
+  },
+  {
+    "path": "source/demos/03-isometric/assets/fonts/Unbounded-800-static.ttf",
+    "sha256": "388ECD4C2B81C47981A06708F04E3BCB2CA8677D157872567303FAA9F9EFEBF0"
+  }
+]

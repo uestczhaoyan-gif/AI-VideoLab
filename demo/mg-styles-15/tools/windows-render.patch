@@ -1,0 +1,66 @@
+diff --git a/harness/render.mjs b/harness/render.mjs
+index 1b65a7f..7ae0f88 100644
+--- a/harness/render.mjs
++++ b/harness/render.mjs
+@@ -26,7 +26,7 @@ import puppeteer from 'puppeteer-core';
+ import events from 'node:events';
+ events.defaultMaxListeners = 100;
+ 
+-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
++const ROOT = process.env.MG_ROOT ? path.resolve(process.env.MG_ROOT) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+ const CHROME = process.env.MG_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+ // GPU flags: ANGLE/Metal on macOS; on Linux (e.g. the NVIDIA render box) default to ANGLE/Vulkan, override with MG_GPU_ARGS.
+ const GPU_ARGS = process.env.MG_GPU_ARGS ? process.env.MG_GPU_ARGS.split(' ').filter(Boolean)
+@@ -110,7 +110,7 @@ async function shot(page, w, h) {
+ }
+ 
+ function ffmpeg(args, opts = {}) {
+-  const p = spawn('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: ['pipe', 'inherit', 'inherit'], ...opts });
++  const p = spawn(process.env.MG_FFMPEG || 'ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: ['pipe', 'inherit', 'inherit'], ...opts });
+   const done = new Promise((res, rej) => p.on('close', (c) => (c === 0 ? res() : rej(new Error('ffmpeg exit ' + c)))));
+   return { p, done };
+ }
+@@ -122,7 +122,7 @@ function writeAsync(stream, buf) {
+ 
+ // Machine-wide cap on concurrent full renders (captures are GPU-serialized anyway; this bounds RAM use).
+ const SLOTS = +(process.env.MG_RENDER_SLOTS || 3);
+-const LOCKDIR = '/tmp/mg-render-slots';
++const LOCKDIR = process.env.MG_RENDER_LOCKDIR || path.join(os.tmpdir(), 'mg-render-slots');
+ const alive = (pid) => { try { process.kill(pid, 0); return true; } catch (e) { return e.code === 'EPERM'; } };
+ async function acquireSlot() {
+   fs.mkdirSync(LOCKDIR, { recursive: true });
+@@ -182,7 +182,7 @@ async function main() {
+     for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sig, () => { freeSlot(); process.exit(1); });
+   }
+   const demoDir = path.resolve(args._[0] || '.');
+-  const rel = path.relative(ROOT, demoDir);
++  const rel = path.relative(ROOT, demoDir).split(path.sep).join('/');
+   const srv = await startServer();
+   const port = srv.address().port;
+   const url = `http://127.0.0.1:${port}/${rel}/${args.page || 'index.html'}${args.query ? '?' + args.query : ''}`;
+@@ -213,7 +213,7 @@ async function main() {
+     const FPS = +(args.fps || cfg.fps || 30), DUR = +(args.duration || cfg.duration || 10);
+     const MB = Math.max(1, +(args.mb || cfg.motionBlur?.samples || 1));
+     const SHUTTER = +(args.shutter ?? cfg.motionBlur?.shutter ?? 0.5);
+-    const outDir = path.join(demoDir, 'out');
++    const outDir = process.env.MG_OUT_DIR ? path.resolve(process.env.MG_OUT_DIR) : path.join(demoDir, 'out');
+     fs.mkdirSync(outDir, { recursive: true });
+     SCALE = +(args.scale || 1); // e.g. --scale 0.5 for fast low-res previews (layout stays at W×H CSS px)
+ 
+@@ -290,7 +290,7 @@ async function main() {
+ 
+     if (args.links) fs.writeFileSync(path.resolve(args.links), JSON.stringify({ fps: FPS, u0: TM ? TM.u0 : 0, frames: Object.keys(LINKS).map(Number).sort((a, b) => a - b).map((f) => ({ f, ...LINKS[f] })) }));
+     const list = path.join(tmp, 'list.txt');
+-    fs.writeFileSync(list, segs.filter(Boolean).map((s) => `file '${s}'`).join('\n'));
++    fs.writeFileSync(list, segs.filter(Boolean).map((s) => `file '${s.split(path.sep).join('/').replaceAll("'", "'\\''")}'`).join('\n'));
+     if (args.mkv) {
+       await ffmpeg(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', path.resolve(args.mkv)]).done;
+       fs.rmSync(tmp, { recursive: true, force: true });
+@@ -302,6 +302,7 @@ async function main() {
+     if (audio && !args.noaudio) enc.push('-i', audio);
+     enc.push('-map', '0:v:0');
+     if (audio && !args.noaudio) enc.push('-map', '1:a:0', '-af', 'apad', '-c:a', 'aac', '-b:a', '320k', '-ar', '48000', '-shortest');
++    enc.push('-t', String((f1 - f0) / FPS)); // Bound padded audio to the exact rendered frame duration.
+     enc.push('-vf', 'scale=out_color_matrix=bt709:out_range=tv:flags=lanczos+accurate_rnd+full_chroma_int,format=yuv420p',
+       '-c:v', 'libx264', '-threads', '4', '-preset', 'slow', '-crf', String(args.crf || 14), '-profile:v', 'high',
+       '-x264-params', 'aq-mode=3', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',

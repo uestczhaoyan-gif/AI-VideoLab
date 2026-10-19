@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>RIPPLE · 一触，层层回应</title><style>
+@font-face{font-family:DM;src:url('/source/assets/fonts/latin/dmsans/DMSans-VF.ttf');font-weight:100 900}
+@font-face{font-family:Harmony;src:url('/source/assets/fonts/cjk/harmonyossanssc/HarmonyOS_Sans_SC_Medium.ttf');font-weight:500}
+body{margin:0;background:#ced8d2;overflow:hidden}#stage{position:relative;width:1920px;height:1080px}img{position:absolute;width:1920px;height:1080px}#lock{position:absolute;top:66px;left:0;right:0;text-align:center;color:#284c45;opacity:0}.en{font:500 52px DM;letter-spacing:19px;padding-left:19px}.zh{font:500 26px Harmony;letter-spacing:6px;margin-top:13px}#opening{position:absolute;top:100px;left:110px;font:500 23px Harmony;letter-spacing:5px;color:#46665d}
+</style><div id="stage"><img id="plate"><div id="opening">一次轻触</div><div id="lock"><div class="en">RIPPLE</div><div class="zh">一触，层层回应。</div></div></div><script type="module">
+const c=await(await fetch('./cues.json')).json();const draft=new URLSearchParams(location.search).has('draft');const p=document.querySelector('#plate');
+await Promise.all([document.fonts.load('500 52px DM'),document.fonts.load('500 26px Harmony','一触层层回应一次轻触')]);
+const ease=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)};
+window.DEMO={width:1920,height:1080,fps:24,duration:8,motionBlur:{samples:1,shutter:.35}};
+window.renderAt=async(t)=>{let f=Math.max(0,Math.min(191,Math.round(t*24)));p.src=`../${draft?'draft-frames':'frames'}/${String(f).padStart(4,'0')}.png`;await p.decode();const q=ease((t-c.title)/.7);document.querySelector('#lock').style.opacity=q;document.querySelector('#lock').style.transform=`translateY(${(1-q)*12}px)`;document.querySelector('#opening').style.opacity=ease(t/.4)*(1-ease((t-1.2)/.5));};await window.renderAt(0);window.__ready=true;
+</script></html>

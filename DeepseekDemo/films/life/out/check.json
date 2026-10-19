@@ -1,0 +1,33 @@
+{
+  "film": "films/life",
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "decoded_frames": 2460,
+    "seconds": 82.0,
+    "bytes": 26246715
+  },
+  "expected": {
+    "duration": 82.0,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "frames": 2460
+  },
+  "audio": {
+    "integrated_lufs": -14.0,
+    "lra_lu": 3.8,
+    "true_peak_dbfs": -1.4
+  },
+  "preview": {
+    "bytes": 3772138
+  },
+  "storyboard": {
+    "bytes": 189158
+  },
+  "poster": {
+    "bytes": 363030
+  },
+  "issues": []
+}

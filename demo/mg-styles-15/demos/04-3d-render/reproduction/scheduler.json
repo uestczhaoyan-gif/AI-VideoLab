@@ -1,0 +1,8 @@
+{
+  "task_name": "VideoLab-SoftLanding-FullQuality",
+  "recurring": false,
+  "launch_method": "Windows Task Scheduler, interactive current user, limited privileges",
+  "progress_command": "tools/soft-status.ps1",
+  "state_at_registration": "Ready",
+  "reason": "Initial child process vanished after one new full-quality frame; original reason unknown."
+}

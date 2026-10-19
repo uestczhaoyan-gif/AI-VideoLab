@@ -1,0 +1,18 @@
+[
+  {
+    "path": "assets/fonts/latin/ibmplexmono/IBMPlexMono-Medium.ttf",
+    "sha256": "a9b4c49bb299e05b5f6c481e7fb5e78943d2793249a0c8874ab574a2d1ea6755"
+  },
+  {
+    "path": "demos/08-morph/assets/fonts/Outfit-SemiBold.ttf",
+    "sha256": "fc7287273e66929776e2ba54f144fe699080bec29f61bf649d70d871468aeade"
+  },
+  {
+    "path": "assets/textures/paper/Paper001_4K_color.jpg",
+    "sha256": "3aaed6c30f8bc7ea98628ccd75acb852e75d910f32f384f6193169214ab4bec1"
+  },
+  {
+    "path": "demos/08-morph/glyphs.json",
+    "sha256": "548ad1315f89f747271280655972bc7e783261a799666eeb7c70db87c17d7248"
+  }
+]

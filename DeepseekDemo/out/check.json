@@ -1,0 +1,32 @@
+{
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "decoded_frames": 300,
+    "seconds": 10.0,
+    "bytes": 3809231
+  },
+  "expected": {
+    "duration": 10,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "frames": 300
+  },
+  "audio": {
+    "integrated_lufs": -14.0,
+    "lra_lu": 0.7,
+    "true_peak_dbfs": -2.9
+  },
+  "preview": {
+    "bytes": 635222
+  },
+  "storyboard": {
+    "bytes": 186588
+  },
+  "poster": {
+    "bytes": 373135
+  },
+  "issues": []
+}

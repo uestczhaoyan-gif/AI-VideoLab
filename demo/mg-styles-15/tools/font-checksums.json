@@ -1,0 +1,18 @@
+[
+  {
+    "sha256": "2BA02E68B152868AEF9BA28E24B3648C7D457FE6F25C761F2C2C53FB61A73FC8",
+    "path": "assets/fonts/latin/fredoka/Fredoka-VF.ttf"
+  },
+  {
+    "sha256": "A3041811A78C361B1DE50F953C805E0244951C21C5BD412F7232EF0D899AF0DA",
+    "path": "assets/fonts/cjk/notosanssc/NotoSansSC-VF.ttf"
+  },
+  {
+    "sha256": "085A738EC5B4020607867B1DC9A65FD32B0465A74AC2A849ED4C579169E8BD28",
+    "path": "assets/fonts/cjk/resourcehanrounded/ResourceHanRoundedCN-Bold.ttf"
+  },
+  {
+    "sha256": "3763F19B68697D0C31B0327DF4569C0F91AF537DF74FC40F1D36EEE3515ABDBE",
+    "path": "assets/fonts/cjk/resourcehanrounded/ResourceHanRoundedCN-Heavy.ttf"
+  }
+]

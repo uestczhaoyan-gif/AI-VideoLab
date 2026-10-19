@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "continuity": {
+    "maxVelocityJoinDifference": 0.022372192347575037,
+    "tolerance": 0.2
+  },
+  "hashes": {
+    "11": "78efcf1d78cb3fb43e6eac2cb9f255d54d91820b080cba50e02898f4e233852c",
+    "3.2": "f46ee39e722d390fa976c38335879fb68b472f0070319835bf459c5dd6035815",
+    "7.7": "94511eed9a7e846b94023e0f40c7b4998b9e67605e71f52dba37f5e3284d379a",
+    "0.5": "45317975e789805e6d5d4606d346d9b76df3f9f86ddd1b244e3d1a2a9e1aa7e0",
+    "13.5": "c10f0718c77d2d3992e88da7a10d65906c1df8973eb507be2fd806a61c75522a"
+  },
+  "pageErrors": []
+}
