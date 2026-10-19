@@ -1,0 +1,19 @@
+*.md text eol=lf
+*.txt text eol=lf
+*.gitignore text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.html text eol=lf
+*.ps1 text eol=crlf
+*.mp4 binary
+*.wav binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.ttf binary
+*.hdr binary
+*.patch whitespace=-blank-at-eol -blank-at-eof
+DeepseekDemo/assets/licenses/*.txt whitespace=-blank-at-eol
+demo/*/demos/*/reproduction/UPSTREAM_PROMPT.md whitespace=-blank-at-eof
