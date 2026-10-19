@@ -28,3 +28,5 @@ Thumbs.db
 DeepseekDemo/films/*/out/*.log
 DeepseekDemo/films/*/out/shots/
 DeepseekDemo/films/*/out/stills/
+demo/**/video.mp4
+*.mp4
