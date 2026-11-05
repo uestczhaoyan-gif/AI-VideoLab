@@ -1,16 +1,18 @@
 # AI 视频制作：理论资料研究
 
+当前资料为 [VideoLab 工作台计划](../../PROJECT.md) 提供背景与出处，分类、流程和 Prompt 归纳见 [方法库](../library/README.md)。本目录保存逐来源证据，不要求先完成 demo，也不把文章写作作为工作台前置条件。
+
 创建：2026-10-14。目标是广泛、细致、可追溯地积累来源观点，为实践结束后的工程技术文章准备材料。**本目录是研究资料，不是当前视频制作的操作规范。**
 
 **第一批资料已于 2026-10-15 收尾归档**：5 条视频逐来源提取＋8 份项目／工具来源笔记。视频正文已有全片时间范围的采样依据；公开材料未披露的内容与未完成的听辨明确保留为边界。[本批覆盖与交接](BATCH_01_REVIEW.md) 说明完成范围，不能将“提取完成”理解为作者观点已获验证。
 
-## 两条线怎样配合
+## 资料与实验怎样配合
 
-- 实践线：按 [项目计划](../../RESEARCH_PLAN.md) 复现原版效果、理解设计与实现、重构并换概念验证。
-- 理论线：逐个阅读视频和项目，保留其中的问题分析、方法、参数、约束、反例与局限。此阶段不把读到的建议自动加入制作流程。
-- 后期汇合：用来源观点解释实测，用实验检验观点；保留不符合预期的证据，再写工程文章。
+- 资料：逐个记录来源、版本、读取范围与缺口，供 catalog、模板预览和候选流程引用。
+- 实验：按 [当前计划](../../PROJECT.md) 选择影响实际制作的代表难点；既有案例保留，不自动续做逐风格队列。
+- 写作：用来源解释实测、保留反例，工程文章属于可选成果，早期提纲已归档。
 
-执行顺序为**资料批次收尾 → 实践批次与经验 MD → 综合分析**，两线独立保存、串行推进。第一批归档后停止追加检索，新线索进入下一批候选。
+原复现阶段采用过“资料批次收尾 → 实践批次与经验 → 综合分析”的顺序；旧计划保留在历史归档，不再决定当前排期。来源笔记和执行结果仍分开保存，历史批次不追加覆盖声明。
 
 同一观点出现在不同来源中，分别记录。不因为重复而删除，也不把不同作者的话合成一个没有出处的“共识”。同一作者的视频和仓库分别建档，记录关联，后期不能当成两份独立实验证据。
 
@@ -19,8 +21,7 @@
 ```text
 theory/
 ├── README.md                 # 研究办法、来源索引、覆盖状态
-├── ARTICLE_PLAN.md           # 后期文章结构与证据需求，暂不下结论
-├── BATCH_01_REVIEW.md        # 本批完成范围、验证边界与实践交接
+├── BATCH_01_REVIEW.md        # 首批完成范围与验证边界
 ├── extractions/
 │   ├── videos/Vxx-<video-id>.md  # 每个视频一份，保留章节／时间点
 │   └── projects/Pxx-<project>.md # 每个项目或独立文档源一份
@@ -66,7 +67,46 @@ theory/
 
 P03 从 V04 作者简介中定位。P04 由公开检索线索找到，再以仓库作者身份与方法描述交叉核对；不能把仓库的更新内容当作视频发布时已经讲过的内容。
 
-仅有名称、缺少准确来源的 Fogsight、muyang 动画项目、math-concept-film、FastMovieAI 等线索仍在 [想法池](../IDEAS.md)。确认准确地址后逐个建档，不将名称相似的仓库擅自当作用户所指项目。
+仅有名称、缺少准确来源的 Fogsight、muyang 动画项目、math-concept-film、FastMovieAI 等线索仍在 [想法池](../archive/2026-10/IDEAS.md)。确认准确地址后逐个建档，不将名称相似的仓库擅自当作用户所指项目。
+
+## 第二批来源：2026-10-29 建档与关联仓库补查
+
+首轮四条视频与两份来源之外，本次补入 P11–P21 十一份仓库记录，读取与获取范围见 [BATCH_02_INTAKE.md](BATCH_02_INTAKE.md) 和 [仓库清单](../library/REPOSITORIES.md)。四条视频均完成全时间范围的两秒文字采样；32 分钟视频已补齐 965 个时间点并通读文字，仍未完整视听。
+
+| ID | 来源 | 提取文件 | 当前覆盖 |
+| --- | --- | --- | --- |
+| V06 | 341 风格与 DeepSeek 代码动画 | [BV1bqx76wEUM](extractions/videos/V06-BV1bqx76wEUM.md) | 简介、章节、168 个采样点的烧录文字；费用按作者报告 |
+| V07 | Vibe 科普动画拆解 | [BV1ALnw6YEM7](extractions/videos/V07-BV1ALnw6YEM7.md) | 简介、章节、110 个采样点；保留 90／140 秒规格冲突 |
+| V08 | AI 动画制作全流程 | [BV1xFnt6zE3K](extractions/videos/V08-BV1xFnt6zE3K.md) | 965 个两秒文字采样；补核分工、审片返工、时间对齐与分段细节，非完整视听 |
+| V09 | 个人 harness 与 auto 动画 | [BV1Gg3E6BEbn](extractions/videos/V09-BV1Gg3E6BEbn.md) | 98 个采样点；多模型任务分工、风格适配与 A/B；P11／P12 已定位 |
+| P09 | code-animation-prompts | [项目提取](extractions/projects/P09-code-animation-prompts.md) | 索引 341 项、193 图、555 文件哈希校验；核心文档／脚本与部分完整 Prompt 已读，未安装／渲染 |
+| P10 | Ploto 长视频制作文章 | [文章提取](extractions/projects/P10-ploto-long-video-workflow.md) | 完整文章、表格、附录与部分展示页；未取得完整制片工程 |
+| P11 | auto-motion | [核心提取](extractions/projects/P11-auto-motion.md) | 完整固定 ZIP；README、Prompt、调用与测试脚本已读；未运行 |
+| P12 | Open Design | [核心提取](extractions/projects/P12-open-design.md) | 仅 49 个相关文件；适配、按需加载与时间线初读；非完整软件 |
+| P13 | Manim Skill | [范围初读](extractions/projects/P13-manim-skill.md) | 完整快照；README 与许可；未渲染 |
+| P14 | Remotion Agent Skills | [范围初读](extractions/projects/P14-remotion-skills.md) | 完整快照；官方工序入口，根未见单独 LICENSE |
+| P15 | HyperFrames | [范围初读](extractions/projects/P15-hyperframes.md) | 完整 ZIP；README 与许可，内部链接展开为 Windows 副本 |
+| P16 | Onetake | [范围初读](extractions/projects/P16-onetake.md) | 完整快照；连续性方法，非商业许可，案例源码不含 |
+| P17 | Anidoodle | [范围初读](extractions/projects/P17-anidoodle.md) | 完整快照；媒介／逐笔动画说明，音源另有条款 |
+| P18 | Claudian | [范围初读](extractions/projects/P18-claudian.md) | 完整快照；文件工作台与隐私说明，不含作者全部自制插件 |
+| P19 | Awesome AI Motion | [范围初读](extractions/projects/P19-awesome-ai-motion.md) | 完整快照；题材索引与第三方权利，未逐片看 |
+| P20 | Awesome Opus Videos | [范围初读](extractions/projects/P20-awesome-opus-videos.md) | 完整快照；概况／分类，未精读全部 Prompt |
+| P21 | Awesome Claude Videos | [范围初读](extractions/projects/P21-awesome-claude-videos.md) | 完整快照；中文 README 与证据／权利范围，未重算分析 |
+
+累计逐来源笔记为 9 条视频、21 份项目／工具／文章，共 30 份；其中 P13–P21 为范围明确的初读，不称为深读全部工程。另有 lemo-opuscar 本地项目记录未计入 Pxx。来源数量不是独立实验次数。
+
+## 第三批来源：2026-11-06 视频与工作流参考
+
+四支视频完成本地低清抽取、稀疏抽帧与 `faster-whisper` 转写；**无独立字幕，转写不是作者原字幕，也未完整视听**。采集方式、覆盖与落地建议见 [BATCH_03_INTAKE.md](BATCH_03_INTAKE.md)。
+
+| ID | 来源 | 提取文件 | 当前覆盖 |
+| --- | --- | --- | --- |
+| V10 | DSH+Remotion 代码动画展示片 | [BV1ztH96uE1Z](extractions/videos/V10-BV1ztH96uE1Z.md) | 45.0 s 全片 1 秒抽帧、切点与节拍网格分析；无口播，未听音 |
+| V11 | 俯仰代码动画加强版 | [BV1vsx66BE4p](extractions/videos/V11-BV1vsx66BE4p.md) | 转写 367 段覆盖全片；仓库固定 commit／许可只读核查；未安装运行 |
+| V12 | AI 做动画视频完全指南 | [BV1f94c6uEr3](extractions/videos/V12-BV1f94c6uEr3.md) | 转写 453 段覆盖全片；motion-showreel 结构只读核查；未安装 Skill |
+| V13 | Harness 实践 | [BV1ypdgBCE9B](extractions/videos/V13-BV1ypdgBCE9B.md) | 转写 602 段覆盖全片；四外链只读核查；未取得工程与账单 |
+
+本批四条视频合计约 52 分钟，累计逐来源笔记为 **13 条视频 + 21 份项目／工具／文章，共 34 份**。V06／P09／V11 是同一作者、同一 341 素材库的不同版本与封装，V12／V13 是同一作者的两套不同 Skill 与年代；均不能算独立验证。来源数量不是独立实验次数。
 
 ## 当前问题意识
 

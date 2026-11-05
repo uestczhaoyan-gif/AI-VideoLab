@@ -1,3 +1,5 @@
+> Historical archive. Current direction and tasks: [PROJECT.md](../../../PROJECT.md). The original text below is retained for reference, not active instructions.
+
 AI视频创作
 
 **类电影视频制作**：

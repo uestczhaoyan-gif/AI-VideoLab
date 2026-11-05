@@ -1,0 +1,13 @@
+# Issue 入口配置
+# 只保留 Bug 与功能请求两种模板；空 Issue 关闭，引导到文档与私下安全渠道。
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 安全漏洞（私下报告）
+    url: https://github.com/uestczhaoyan-gif/AI-VideoLab/security/advisories/new
+    about: 不要用公开 Issue 报告未修复的漏洞；报告范围、隐私要求与处理方式见 SECURITY.md。
+  - name: 📖 使用、启动与排错文档
+    url: https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/docs/README.md
+    about: 先看目录导航：安装、启动、检索预览、保存导出、常见问题与当前能力边界。
+  - name: 🤝 参与、复现与开发检查
+    url: https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/CONTRIBUTING.md
+    about: 提交代码或资料前先读：回归命令、来源与许可边界、不要提交的忽略资源。

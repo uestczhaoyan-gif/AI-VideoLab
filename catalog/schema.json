@@ -1,0 +1,459 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://videolab.local/catalog-v1.schema.json",
+  "title": "VideoLab Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sources",
+    "templates",
+    "recipes",
+    "models"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/source"
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/template"
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/recipe"
+      }
+    },
+    "models": {
+      "type": "array",
+      "maxItems": 0,
+      "description": "No verified provider/model configuration has been registered."
+    }
+  },
+  "definitions": {
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/text"
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "commercial",
+        "note"
+      ],
+      "properties": {
+        "label": {
+          "$ref": "#/definitions/text"
+        },
+        "commercial": {
+          "enum": [
+            "allowed",
+            "restricted",
+            "unknown"
+          ]
+        },
+        "note": {
+          "$ref": "#/definitions/text"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "note_path",
+        "url",
+        "revision",
+        "coverage",
+        "license"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(V[0-9]{2}|P[0-9]{2}|LEMO)$"
+        },
+        "title": {
+          "$ref": "#/definitions/text"
+        },
+        "note_path": {
+          "$ref": "#/definitions/text"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coverage": {
+          "$ref": "#/definitions/text"
+        },
+        "license": {
+          "$ref": "#/definitions/license"
+        },
+        "timing": {
+          "$ref": "#/definitions/timing"
+        },
+        "lineage": {
+          "$ref": "#/definitions/lineage"
+        }
+      }
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "path",
+        "scope"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "image",
+            "video"
+          ]
+        },
+        "path": {
+          "$ref": "#/definitions/text"
+        },
+        "poster_path": {
+          "$ref": "#/definitions/text"
+        },
+        "scope": {
+          "const": "local_only"
+        }
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "source_id",
+        "revision",
+        "upstream_id",
+        "collection",
+        "category",
+        "kind",
+        "summary",
+        "purposes",
+        "tags",
+        "reference_path",
+        "project_path",
+        "preview",
+        "license",
+        "validation",
+        "runnable",
+        "recipe_ids",
+        "related_ids",
+        "engine",
+        "parameters",
+        "requirements"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]+$"
+        },
+        "name": {
+          "$ref": "#/definitions/text"
+        },
+        "source_id": {
+          "$ref": "#/definitions/text"
+        },
+        "revision": {
+          "$ref": "#/definitions/text"
+        },
+        "upstream_id": {
+          "$ref": "#/definitions/text"
+        },
+        "collection": {
+          "enum": [
+            "CAP",
+            "LEMO",
+            "MG15",
+            "LOCAL",
+            "TOOLS"
+          ]
+        },
+        "category": {
+          "$ref": "#/definitions/text"
+        },
+        "kind": {
+          "enum": [
+            "reference",
+            "prompt",
+            "project"
+          ]
+        },
+        "summary": {
+          "$ref": "#/definitions/text"
+        },
+        "purposes": {
+          "$ref": "#/definitions/strings"
+        },
+        "tags": {
+          "$ref": "#/definitions/strings"
+        },
+        "reference_path": {
+          "$ref": "#/definitions/text"
+        },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parameters": {
+          "$ref": "#/definitions/strings"
+        },
+        "requirements": {
+          "$ref": "#/definitions/strings"
+        },
+        "project_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preview": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/preview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "license": {
+          "$ref": "#/definitions/license"
+        },
+        "validation": {
+          "enum": [
+            "indexed",
+            "code_read",
+            "technical_pass",
+            "accepted_with_limits"
+          ]
+        },
+        "runnable": {
+          "const": false
+        },
+        "recipe_ids": {
+          "$ref": "#/definitions/strings"
+        },
+        "related_ids": {
+          "$ref": "#/definitions/strings"
+        },
+        "timing": {
+          "$ref": "#/definitions/timing"
+        },
+        "lineage": {
+          "$ref": "#/definitions/lineage"
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "output",
+        "premium",
+        "budget",
+        "model_id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/text"
+        },
+        "name": {
+          "$ref": "#/definitions/text"
+        },
+        "output": {
+          "$ref": "#/definitions/text"
+        },
+        "premium": {
+          "$ref": "#/definitions/text"
+        },
+        "budget": {
+          "$ref": "#/definitions/text"
+        },
+        "model_id": {
+          "type": "null"
+        }
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "name",
+        "summary",
+        "purposes",
+        "source_ids",
+        "requirements",
+        "limitations",
+        "stages",
+        "status",
+        "runnable"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/text"
+        },
+        "revision": {
+          "$ref": "#/definitions/text"
+        },
+        "name": {
+          "$ref": "#/definitions/text"
+        },
+        "summary": {
+          "$ref": "#/definitions/text"
+        },
+        "purposes": {
+          "$ref": "#/definitions/strings"
+        },
+        "source_ids": {
+          "$ref": "#/definitions/strings"
+        },
+        "requirements": {
+          "$ref": "#/definitions/strings"
+        },
+        "limitations": {
+          "$ref": "#/definitions/strings"
+        },
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/stage"
+          }
+        },
+        "status": {
+          "const": "draft"
+        },
+        "runnable": {
+          "const": false
+        }
+      }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fps",
+        "duration_seconds",
+        "frames"
+      ],
+      "properties": {
+        "fps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "frames": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bpm": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "beat_frames": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hit_tiers": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/definitions/text"
+          }
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "same_author",
+        "derived_from",
+        "evidence_role"
+      ],
+      "properties": {
+        "same_author": {
+          "$ref": "#/definitions/strings"
+        },
+        "derived_from": {
+          "$ref": "#/definitions/strings"
+        },
+        "evidence_role": {
+          "enum": [
+            "primary",
+            "new_version",
+            "packaging",
+            "reference"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

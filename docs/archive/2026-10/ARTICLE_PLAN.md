@@ -1,3 +1,5 @@
+> Historical archive. Current direction and tasks: [PROJECT.md](../../../PROJECT.md). The original text below is retained for reference, not active instructions.
+
 # 后期工程技术文章：暂定结构与证据需求
 
 状态：资料准备，不是研究结论。等阶段性开源复现、重构与迁移实验完成后再展开写作。

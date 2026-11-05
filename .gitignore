@@ -1,32 +1,24 @@
 **/.venv/
+.venv/
 **/node_modules/
 **/__pycache__/
 **/.tmp/
 **/.env
 *.log
-demo/*/source/
-demo/*/downloads/
+
+# Upstream snapshots and research evidence are local caches, never published.
+resources/*/source/
+resources/*/downloads/
 docs/theory/_sources/
 docs/theory/_evidence/
+
+# Local personal projects and produced media stay out of the public repo.
+projects/
+*.mp4
+
 output/playwright/
 .playwright-cli/
-demo/*/demos/*/extension/checks/
-demo/*/demos/*/reproduction/stills/
-demo/*/demos/*/extension/frames/
-demo/*/demos/*/extension/draft-frames/
-demo/*/demos/*/extension/work/
-demo/*/demos/*/extension/revisions/*/frames/
-demo/*/demos/*/extension/revisions/*/draft-frames/
-demo/*/demos/*/extension/revisions/*/work/
-demo/*/demos/*/extension/revisions/*/checks/
-demo/*/demos/*/extension/studies/*/stills/
-demo/*/demos/*/extension/revisions/*/stills/
 
 .DS_Store
 Thumbs.db
 .idea/
-DeepseekDemo/films/*/out/*.log
-DeepseekDemo/films/*/out/shots/
-DeepseekDemo/films/*/out/stills/
-demo/**/video.mp4
-*.mp4

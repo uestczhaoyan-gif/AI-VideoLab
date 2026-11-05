@@ -1,0 +1,34 @@
+# VideoLab 编辑器约定（https://editorconfig.org）
+# 行尾与 .gitattributes 保持一致：文本 LF，PowerShell 脚本 CRLF，二进制媒体不转换。
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# 代码、数据与文档：2 空格
+[*.{js,mjs,cjs,jsx,ts,tsx,json,jsonc,yml,yaml,html,css,svg,md}]
+indent_size = 2
+
+# Markdown 行尾的两个空格是硬换行写法，不自动裁剪
+[*.md]
+trim_trailing_whitespace = false
+
+# Python：4 空格（与 tools/、deepseek 脚本现有风格一致）
+[*.py]
+indent_size = 4
+
+# Windows PowerShell 脚本按 .gitattributes 使用 CRLF
+[*.ps1]
+end_of_line = crlf
+
+# 二进制媒体与字体：不参与编码、行尾和空白处理
+[*.{mp4,webm,wav,mp3,png,jpg,jpeg,webp,gif,ttf,hdr,zip}]
+charset = unset
+end_of_line = unset
+insert_final_newline = false
+trim_trailing_whitespace = false

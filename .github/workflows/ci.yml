@@ -1,0 +1,69 @@
+# VideoLab 持续集成
+#
+# 只运行不需要浏览器、不需要本机上游快照、不访问外部服务的检查：
+#   1. 依赖安装（--ignore-scripts：不执行生命周期脚本，也不会下载 Playwright 浏览器）
+#   2. catalog 结构、Schema、引用与安全路径校验
+#   3. 项目 JSON Schema 生成物是否最新
+#   4. Node 单元测试与服务测试（缺失本机缓存时会显式跳过依赖缓存的用例）
+#   5. Markdown 相对链接检查
+#
+# 不在 CI 运行 `npm run test:ui`：浏览器回归需要本机已安装的 Edge/Chrome 或已有的
+# Playwright Chromium。也不运行 `npm run loop:smoke`：它需要浏览器与 ffmpeg 才能
+# 真实渲染并编码。CI 明确不下载浏览器与媒体；界面／闭环改动请在本机运行并记录结果。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22 = 仓库声明的最低版本（package.json engines），24 = 当前主线版本
+        node-version: ['22', '24']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies (no lifecycle scripts, no browser download)
+        run: npm ci --ignore-scripts
+
+      - name: Validate catalog schema, references and safe paths
+        run: npm run catalog:check
+
+      - name: Verify generated project validator is current
+        run: node tools/project/build-validator.mjs --check
+
+      - name: Run unit, catalog and local server tests
+        run: npm test
+
+      # 说明：UI 回归与最小闭环需要已安装浏览器／ffmpeg，CI 不安装、不执行：
+      #   npm run test:ui
+      #   npm run loop:smoke
+      - name: Note skipped browser checks
+        run: >-
+          echo "UI regression and loop:smoke need a local browser and ffmpeg;
+          they are run locally, not in CI."
+
+      - name: Check Markdown relative file links
+        run: npm run docs:check

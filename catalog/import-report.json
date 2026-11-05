@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "collections": [
+    {
+      "collection": "CAP",
+      "input": "docs/theory/_sources/code-animation-prompts/skills/code-animation-prompts/references/catalog.json",
+      "status": "imported",
+      "count": 341
+    },
+    {
+      "collection": "LEMO",
+      "input": "resources/lemo-opuscar/source/styles/README.md",
+      "status": "imported",
+      "count": 51
+    },
+    {
+      "collection": "MG15",
+      "status": "curated_index",
+      "count": 15
+    }
+  ]
+}

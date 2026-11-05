@@ -1,0 +1,82 @@
+name: ✨ 功能请求
+description: 提出与 VideoLab 定位一致的新能力、资料整理或工作流改进
+title: "[Feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先读 [PROJECT.md](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/PROJECT.md) 的「近期不做」与阶段边界。
+        本项目**本地优先**：默认复用用户已配置的 AI 助手与本地工具，不要求先开 Web 或另配付费模型 API。
+        不符合定位的请求（如托管 SaaS、模型服务、无人值守生成 API、代为定价与推荐排行）会被关闭，但欢迎先讨论。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解决的具体问题
+      description: 描述真实使用场景与当前受阻之处，而不是先给实现方案。
+      placeholder: 例如：我想在 CLI 里按“专业讲解 + 公式推导”开始制作，但现有规范没说清公式核对到什么程度。
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 期望的行为
+      description: 你希望用户看到什么、内部需要什么；说明它属于哪个阶段。
+      placeholder: 期望新增/修改哪些文档、catalog 字段、界面或工具；是否属于阶段 1–6 中某一项。
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 现状与已有替代
+      description: 已知的现有目录、工具或文档是否已经覆盖？为什么不够？（先查现成 catalog / Prompt / 工具）
+      placeholder: 已有 docs/library/CREATE_VIDEO.md 与 xxx，但缺少……
+    validations:
+      required: true
+
+  - type: dropdown
+    id: entry
+    attributes:
+      label: 主要影响的入口
+      options:
+        - CLI 对话制作（主入口）
+        - Web 浏览与选型（可选）
+        - 两者共用的 catalog / 制作资料
+        - 文档、工具或测试
+        - 不确定
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 依据与来源
+      description: 列出相关来源 ID（Vxx／Pxx）、固定版本、文档路径或实测记录；没有依据也可以写“仅有想法”。
+      placeholder: P11 auto-motion（fixed commit ...）；docs/library/ROUTING.md；本机实测片段……
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 怎样算做完
+      description: 给出可检查的验收方式（命令、产物、真实任务），并说明哪些是未知项。
+      placeholder: npm run catalog:check / npm test / npm run docs:check 通过；CLI 用真实任务走通一次并记录未验证项。
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 范围确认
+      options:
+        - label: 该请求服务本机／小团队的视频制作或资料整理，而不是公开多租户平台。
+          required: true
+        - label: 不要求默认新增付费模型调用、账号登录或对外上传；确需新增时会在实现前单独确认预算与授权。
+          required: true
+        - label: 请求中没有编造模型能力、价格、排名或“已验证”结论；未知项已标注。
+          required: true
+        - label: 我理解界面能力（可查看预览 / 可导出任务包 / 可执行）与商用资格是分开的状态。
+          required: true

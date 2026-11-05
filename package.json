@@ -1,0 +1,28 @@
+{
+  "name": "videolab-workbench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "catalog:import": "node tools/catalog/import.mjs",
+    "catalog:check": "node tools/catalog/validate.mjs",
+    "project:schema": "node tools/project/build-validator.mjs",
+    "project:check": "node tools/project/cli.mjs check",
+    "project:init": "node tools/project/cli.mjs init",
+    "project:import": "node tools/project/cli.mjs import",
+    "docs:check": "node tools/check-docs.mjs",
+    "cli": "pi @docs/library/CREATE_VIDEO.md",
+    "web": "node apps/workbench/server.mjs",
+    "dev": "node apps/workbench/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:ui": "node tests/workbench.browser.mjs",
+    "loop:smoke": "node tools/loop/run.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "lucide": "0.468.0",
+    "marked": "15.0.12"
+  },
+  "devDependencies": { "@playwright/test": "1.58.2" }
+}
