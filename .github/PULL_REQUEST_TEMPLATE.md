@@ -10,7 +10,7 @@
 
 - [ ] 文档 / 索引与导航
 - [ ] catalog 数据（Schema、导入器或条目）
-- [ ] 工作台（界面或只读服务）
+- [ ] CLI studio / 执行器
 - [ ] 工具与检查脚本
 - [ ] 测试
 - [ ] CI / 工程脚手架
@@ -28,13 +28,15 @@
 
 ```sh
 npm run catalog:check
+npm run integration:check
+npm run recipe:check
 npm test
 npm run docs:check
 ```
 
 - [ ] 以上命令在本机实际运行，结果如实填写（失败或跳过要写明）
 - [ ] 未运行的项目已说明原因（例如依赖本机浏览器 / 上游快照）
-- [ ] 界面改动已在本机运行 `npm run test:ui`（CI 需要浏览器，**不运行**该测试）
+- [ ] 改动 recipe 时已在本机运行 `npm run make -- --yes`（CI 不运行真实渲染）
 
 ## 边界与真实性检查
 
@@ -50,7 +52,7 @@ npm run docs:check
 - [ ] 未提交密钥、凭据、`.env`、私人稿件或未授权素材
 - [ ] 未提交上游快照、逐字 OCR、渲染帧、临时日志或本机缓存（应为 gitignored）
 - [ ] 新增媒体已记录来源、许可与取得方式；大文件说明恢复入口而不是直接入库
-- [ ] 没有把不受信的上游 HTML / 脚本放进工作台执行
+- [ ] 没有把不受信的上游 HTML / 脚本直接执行；resources 只作参考/待安装
 
 ## 移动、删除与链接
 

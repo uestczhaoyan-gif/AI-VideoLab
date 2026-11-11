@@ -2,16 +2,16 @@
   "CAP": {
     "revision": "69ccbeaf0b821591a40936572c2f559d8f4cfb68",
     "count": 1,
-    "sha256": "60e2797b7f1d6825b307954de3c3959b49b86ca6831d745bae449797b3e11deb"
+    "sha256": "44bcc2134641432a93868affb2f9285c09a4a4d950a3ae889d991eb4a4552806"
   },
   "LEMO": {
     "revision": "b5e8ef93930b6d828f352055a689320f138237b1",
     "count": 51,
-    "sha256": "74e28b520aaa990b096fb1e7d2c02296196bbbcccee61f71ffad3b8eb407cc7b"
+    "sha256": "9470233cac7db257cb6c636b9533adfa8d084c361f090c6f2501e9a22043b32f"
   },
   "MG15": {
     "revision": "49052d80bfaf9fa8412cc9710530e5e95a3b8d8c",
     "count": 15,
-    "sha256": "f8e2ae5b1e74007d786bd421091a8a7e1c1684030222fa6a74231d83bed7fbde"
+    "sha256": "9fc9abf99a9dc518cf6da2e3beb679c6cbd7279379e5ef0ab162770ac945adb8"
   }
 }

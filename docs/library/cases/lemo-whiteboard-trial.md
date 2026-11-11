@@ -5,7 +5,7 @@
 ## 来源与版本
 
 - 上游：lemomo-ai/lemo-opuscar，固定 commit `b5e8ef93930b6d828f352055a689320f138237b1`（MIT）。
-- 本地快照按 [resources](../../../resources/README.md) 的说明位于 `resources/lemo-opuscar/source/`（整理中；快照被 Git 忽略，需按固定版本获取）。
+- 本地快照按 [resources](../../../resources/README.md) 的说明位于 `resources/styles/lemo-opuscar/source/`（整理中；快照被 Git 忽略，需按固定版本获取）。
 - 风格骨架取自 `styles/whiteboard/STYLE.md`；来源记录见 [SOURCES](../SOURCES.md)、[STYLES](../STYLES.md) 里的 lemo-opuscar 条目。
 - 制作日期：2026-10-20。
 - 目录名 `whiteboard-24fps` 指**题材**（为什么 24 帧／秒看起来连续），不是输出帧率——成片实际为 30 fps。

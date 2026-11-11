@@ -5,7 +5,7 @@
 ## 来源与目标
 
 - 复用来源：`demo/mg-styles-15/demos/03-line-art/` 的 `DESIGN.md`、`METHOD.md`、`EXPERIENCE.md` 与上游 Prompt（现按 [mg-03](mg-03-line-art.md) 阅读）。
-- 渲染基础设施：上游 `source/harness/render.mjs`、mgaudio、字体与颗粒纹理；快照现按固定版本位于 `resources/mg-styles-15/source/`（见 [resources](../../../resources/README.md)）。
+- 渲染基础设施：上游 `source/harness/render.mjs`、mgaudio、字体与颗粒纹理；快照现按固定版本位于 `resources/styles/mg-styles-15/source/`（见 [resources](../../../resources/README.md)）。
 - 上游重建成片**只作参考帧**，用来量最终构图坐标、读节奏、对照检查。
 - 目标：检验“项目里已经写下的设计与方法笔记，够不够重写一遍这条片子”——所以只用文档 + 参考帧，**没有打开上游 `demos/02-line-art/film.js`**。
 - 重写的是实现：`cues.json` 每一条路径、每个时间点、镜头模型、填金与门洞合成、字标排版、`audio.py` 整段配乐。

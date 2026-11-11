@@ -6,21 +6,21 @@
 
 | 来源 | 固定版本／入口 | 已保存什么 | 可执行性与缺口 |
 | --- | --- | --- | --- |
-| P01 ai-promo-video-maker | `279ba5178c3c80d472b84ac2efa36c6fca33bba2`；[提取笔记](../theory/extractions/projects/P01-ai-promo-video-maker.md) | 本地 `docs/theory/_sources/ai-promo-video-maker/`；工作流、Skill、参考文档、脚本等；记录为 MIT | 未独立跑完整产品片；依赖真实产品素材和可选声音服务；完整案例工程覆盖范围见笔记 |
-| P02 mg-styles-15 | `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；[提取笔记](../theory/extractions/projects/P02-mg-styles-15.md) | 本地 `resources/mg-styles-15/source/` 为选择性获取：15 份 Prompt、5 个上游 demo 源码目录、渲染器与音频库；[MIT 文本](../../resources/mg-styles-15/UPSTREAM-LICENSE) | 本项目仅部分风格有对照案例（摘要见 [cases](cases/README.md)）；其他风格源码需补取；原 demo 环境说明已随清理删除，重跑需按上游 README 重建 |
-| P03 fifi-video-prompt | `6b31ed2cefe610c164e2bd96da03e02e34103495`；[提取笔记](../theory/extractions/projects/P03-fifi-video-prompt.md) | 本地 `docs/theory/_sources/fifi-video-prompt/`；README 与验证码案例完整 Prompt；记录为 MIT | 该版本没有完整已生成动画源码；可以研究 Prompt，不能称为直接可渲染工程 |
-| P04 Table-VideoSOP | `a51fea1c8a1e6b9b0a5d1d42491fd58978816dd0`；[提取笔记](../theory/extractions/projects/P04-Table-VideoSOP.md) | 本地 `docs/theory/_sources/Table-VideoSOP/`；SOP、设计、QA、协作与工具；正文 CC BY 4.0、工具 MIT | 不含完整制作项目、生成服务与角色素材；采用生成素材的环节包含人工操作 |
+| P01 ai-promo-video-maker | `279ba5178c3c80d472b84ac2efa36c6fca33bba2`；[提取笔记](../theory/extractions/projects/P01-ai-promo-video-maker.md) | 本地 `resources/workflows/ai-promo-video-maker/source/`；工作流、Skill、参考文档、脚本等；记录为 MIT | 未独立跑完整产品片；依赖真实产品素材和可选声音服务；完整案例工程覆盖范围见笔记 |
+| P02 mg-styles-15 | `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；[提取笔记](../theory/extractions/projects/P02-mg-styles-15.md) | 本地 `resources/styles/mg-styles-15/source/` 为选择性获取：15 份 Prompt、5 个上游 demo 源码目录、渲染器与音频库；[MIT 文本](../../resources/styles/mg-styles-15/UPSTREAM-LICENSE) | 本项目仅部分风格有对照案例（摘要见 [cases](cases/README.md)）；其他风格源码需补取；原 demo 环境说明已随清理删除，重跑需按上游 README 重建 |
+| P03 fifi-video-prompt | `6b31ed2cefe610c164e2bd96da03e02e34103495`；[提取笔记](../theory/extractions/projects/P03-fifi-video-prompt.md) | 本地 `resources/prompt-libraries/fifi-video-prompt/source/`；README 与验证码案例完整 Prompt；记录为 MIT | 该版本没有完整已生成动画源码；可以研究 Prompt，不能称为直接可渲染工程 |
+| P04 Table-VideoSOP | `a51fea1c8a1e6b9b0a5d1d42491fd58978816dd0`；[提取笔记](../theory/extractions/projects/P04-Table-VideoSOP.md) | 本地 `resources/workflows/table-video-sop/source/`；SOP、设计、QA、协作与工具；正文 CC BY 4.0、工具 MIT | 不含完整制作项目、生成服务与角色素材；采用生成素材的环节包含人工操作 |
 | P05 ManimGL | [官方仓库](https://github.com/3b1b/manim)；[提取笔记](../theory/extractions/projects/P05-manim-gl.md) | 已有 README 摘要与使用边界 | 未保存本项目固定引擎版本或运行案例；使用前核对对应版本依赖和许可 |
 | P06 Manim Community | [官方文档](https://docs.manim.community/en/stable/)；[提取笔记](../theory/extractions/projects/P06-manim-community.md) | 历史笔记记录页面版本 v0.22.0，提取构件与渲染机制 | 文档的 `stable` 链接会变化；未本地跑案例；不能混用 ManimGL 示例 |
 | P07 Remotion | [官方文档](https://www.remotion.dev/docs/)；[提取笔记](../theory/extractions/projects/P07-remotion.md) | 逐帧组件、动画与时间组合说明 | 未固定本项目执行版本、未跑完整视频；源码可读不说明所有商业或自动化场景免费，需核查实际许可 |
-| P08 Anatomy | `bc943e40c59998be5da61f9d39c6a983b1116099`；[提取笔记](../theory/extractions/projects/P08-anatomy.md) | 本地 `resources/anatomy/source/`；源码、Skill 与示例；记录为 MIT | 未运行；原输出首先是交互图解，转视频需要时间线与导出层 |
-| P09 code-animation-prompts | `69ccbeaf0b821591a40936572c2f559d8f4cfb68`；[项目提取](../theory/extractions/projects/P09-code-animation-prompts.md) | 本地 `docs/theory/_sources/code-animation-prompts/`；341 个 Prompt、193 图、离线挑选器、Skill、检索与渲染工具、3 份示例 HTML 与 3 个 MP4 | 555 原素材哈希全部通过，只读检索通过；未安装／渲染，未逐条精读；合集非统一 MIT |
+| P08 Anatomy | `bc943e40c59998be5da61f9d39c6a983b1116099`；[提取笔记](../theory/extractions/projects/P08-anatomy.md) | 本地 `resources/studies/anatomy/source/`；源码、Skill 与示例；记录为 MIT | 未运行；原输出首先是交互图解，转视频需要时间线与导出层 |
+| P09 code-animation-prompts | `69ccbeaf0b821591a40936572c2f559d8f4cfb68`；[项目提取](../theory/extractions/projects/P09-code-animation-prompts.md) | 本地 `resources/prompt-libraries/code-animation-prompts/source/`；341 个 Prompt、193 图、离线挑选器、Skill、检索与渲染工具、3 份示例 HTML 与 3 个 MP4 | 555 原素材哈希全部通过，只读检索通过；未安装／渲染，未逐条精读；合集非统一 MIT |
 | P10 Ploto 长片制作文章 | [作者原文](https://ploto.me/posts/how-i-made-a-long-video-with-ai/)；[文章提取](../theory/extractions/projects/P10-ploto-long-video-workflow.md) | 完整文章、方法与成本表、公开工作台展示；正文 CC BY 4.0 | 没有取得完整长片源码、插件实现、调用明细或完整工作库 |
 | P11 auto-motion | `17ead629d010f7e5495f645d46fafd6876482c32`；[核心提取](../theory/extractions/projects/P11-auto-motion.md) | 完整 ZIP、主 Prompt、单镜头脚本与技术测试已读 | 当前为 HyperFrames，视频讲 Remotion；未运行，根未见全项目 LICENSE |
 | P12 Open Design | `fa19ff40e34dd50a9b01888b0339a1b2e1e68cc7`；[核心提取](../theory/extractions/projects/P12-open-design.md) | 仅 49 份核心文档与 Skill 入口；适配、加载与设计初读 | 不是完整软件；根 Apache-2.0，例外与依赖未收齐 |
 | P13–P18 制作与工作台候选 | [逐仓库清单](REPOSITORIES.md)；各自固定 commit | Manim Skill、Remotion Skills、HyperFrames、Onetake、Anidoodle、Claudian 完整 ZIP；范围初读分别建档 | 未安装／运行；Onetake 非商业，Remotion Skills 根未见单独 LICENSE，其他条款分别记录 |
 | P19–P21 作品／Prompt 集合 | [逐仓库清单](REPOSITORIES.md)；各自固定 commit | 三个作品集完整 ZIP，README／权利范围初读 | 不含全部外链工程与视频；第三方媒体／Prompt 不继承根许可 |
-| lemo-opuscar | `b5e8ef93930b6d828f352055a689320f138237b1`；[本地记录](../../resources/lemo-opuscar/README.md) | 本地 `resources/lemo-opuscar/source/`；51 个风格目录、`STYLE.md`、`DEMO.md`、demo 与 `core/`；记录为 MIT，资产许可另计 | 本轮核对风格索引和文件数量，未逐份阅读；白板试片摘要见 [案例](cases/lemo-whiteboard-trial.md)，尚无正式原作复现 |
+| lemo-opuscar | `b5e8ef93930b6d828f352055a689320f138237b1`；[本地记录](../../resources/styles/lemo-opuscar/README.md) | 本地 `resources/styles/lemo-opuscar/source/`；51 个风格目录、`STYLE.md`、`DEMO.md`、demo 与 `core/`；记录为 MIT，资产许可另计 | 本轮核对风格索引和文件数量，未逐份阅读；白板试片摘要见 [案例](cases/lemo-whiteboard-trial.md)，尚无正式原作复现 |
 
 lemo-opuscar 中实际有 52 组 `STYLE.md`／`DEMO.md`，其中 `_template` 是模板；索引的 51 个风格目录全部存在。这里不把模板计为额外风格。
 
@@ -56,7 +56,6 @@ V01–V05 属于第一批，覆盖见 [BATCH_01_REVIEW.md](../theory/BATCH_01_RE
 | 实际结果与失败 | 各案例文档的验收、失败与用户反馈段 | 避免把技术通过或单次成功推广为稳定能力 |
 | 可编辑实现 | 已删除；结构与做法写入案例文档 | 需要重建时按上游固定版本与案例描述重做，不冒充现成工程 |
 | 执行依赖 | 已删除；保留上游快照与版本 | 原案例依赖本机虚拟环境、字体、音频库与 Chrome，不能仅靠根目录 `npm ci` 复原 |
-| 原始想法 | [AI 视频制作笔记](../archive/2026-10/AI视频制作.md)、[想法池](../archive/2026-10/IDEAS.md) | 保存用户原始判断和待定位线索，不冒充已核实来源 |
 
 ## 怎样判断“开源文件够不够”
 

@@ -1,0 +1,24 @@
+{
+  "title": "示例数据：四个指标条如何随时间增长",
+  "kicker": "VIDEOLAB / EXPLAIN-DATA",
+  "subtitle": "条形、数值与单位都来自同一份 content.json；这只是演示，不是真实统计。",
+  "data_kind": "example",
+  "chart": {
+    "title": "示例指标：四组演示值",
+    "unit": "示例单位 u",
+    "max": 100,
+    "bars": [
+      { "label": "指标 A", "value": 42, "note": "演示" },
+      { "label": "指标 B", "value": 68, "note": "演示" },
+      { "label": "指标 C", "value": 55, "note": "演示" },
+      { "label": "指标 D", "value": 91, "note": "演示" }
+    ]
+  },
+  "source": "示例数据，不是真实统计；仅用于验证 explain-data 本地渲染链，不可引用为任何事实、趋势或结论。",
+  "takeaway": "看数据先看口径：单位、样本和时间范围不同，数字不能直接比较。",
+  "duration": 10,
+  "fps": 30,
+  "accent": "#e8b04b",
+  "accentSoft": "#f3d08a",
+  "wash": "#16233b"
+}

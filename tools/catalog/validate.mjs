@@ -67,6 +67,17 @@ export function validateCatalog(data) {
   for (const recipe of data.recipes) {
     for (const id of recipe.source_ids) if (!sources.has(id)) errors.push(`Unknown source ${id} on ${recipe.id}`);
     unique(recipe.stages, `stage in ${recipe.id}`);
+    if (recipe.adapter) {
+      checkPath(recipe.adapter.entry, `adapter of ${recipe.id}`);
+      if (recipe.adapter.director_model && !data.models.some((m) => m.id === recipe.adapter.director_model)) errors.push(`Unknown director model ${recipe.adapter.director_model} on ${recipe.id}`);
+      if (recipe.runnable && recipe.adapter.status !== 'local_only') errors.push(`Runnable recipe ${recipe.id} needs a local_only adapter`);
+      if (!recipe.runnable && recipe.adapter.status === 'local_only') errors.push(`Non-runnable recipe ${recipe.id} declares a local adapter`);
+    }
+    if (recipe.runnable && !recipe.adapter) errors.push(`Runnable recipe ${recipe.id} is missing adapter metadata`);
+  }
+  const models = unique(data.models, 'model');
+  for (const model of models) {
+    if (model.verification === 'verified' && model.price_status === 'unknown') errors.push(`Verified model ${model.id} needs a price record or must stay unverified`);
   }
   return errors;
 }
@@ -80,5 +91,5 @@ export function loadCatalog() {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const data = loadCatalog();
-  console.log(`Catalog valid: ${data.sources.length} sources, ${data.templates.length} templates, ${data.recipes.length} draft recipes; no executable model routes.`);
+  console.log(`Catalog valid: ${data.sources.length} sources, ${data.templates.length} templates, ${data.recipes.filter((r) => r.runnable).length} locally runnable / ${data.recipes.filter((r) => !r.runnable).length} draft recipes, ${data.models.length} model record(s); unverified model records are not capability claims.`);
 }

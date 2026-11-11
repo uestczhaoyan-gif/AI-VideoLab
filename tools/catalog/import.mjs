@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { marked } from 'marked';
 import { ROOT, validateCatalog, safeRelative } from './validate.mjs';
-import { REVISIONS, LICENCES, MG_STYLES, RECIPES } from './seed.mjs';
+import { REVISIONS, LICENCES, MG_STYLES, RECIPES, MODELS } from './seed.mjs';
 import { verifySnapshot } from './fingerprint.mjs';
 
 const out = path.join(ROOT, 'catalog/catalog.json');
@@ -25,7 +25,7 @@ function sourceNote(notePath) {
     id, title: title.replace(/^[VP]\d+\s*[·.]?\s*/, ''), note_path: notePath,
     url: links[0], revision,
     coverage: id.startsWith('V') ? '已提取文字／画面；完整视听范围见笔记，未独立验证作者方法。' : '已读范围与已取得文件逐项见来源笔记，未运行不视为通过。',
-    license: id === 'P16' ? LICENCES.noncommercial : id === 'P09' ? LICENCES.CAP : LICENCES.unknown,
+    license: id === 'P16' ? LICENCES.noncommercial : id === 'P09' ? LICENCES.CAP : id === 'P22' ? LICENCES.APACHE : id === 'P23' ? LICENCES.SITE : LICENCES.unknown,
   };
 }
 const sources = [];
@@ -45,6 +45,8 @@ const SOURCE_EXTRA = {
   V11: { lineage: { same_author: ['V06', 'P09'], derived_from: ['V06', 'P09'], evidence_role: 'new_version', note: '同一 341 素材库的加强版封装；四组 A/B 无日志与评分标准，不计独立验证。' } },
   V12: { lineage: { same_author: ['V13'], derived_from: [], evidence_role: 'primary', note: 'motion-showreel：逐帧时间表方案。' } },
   V13: { lineage: { same_author: ['V12'], derived_from: [], evidence_role: 'primary', note: 'web-video-presentation：网页录屏方案，早于 V12；与 motion-showreel 不同 Skill，不互为替代。' } },
+  V14: { lineage: { same_author: ['P22'], derived_from: [], evidence_role: 'primary', note: 'video-shotcraft 的介绍视频；与 P22 同作者同仓库链。' } },
+  P22: { lineage: { same_author: ['V14'], derived_from: ['V14'], evidence_role: 'packaging', note: 'V14 介绍的仓库本体，不构成独立验证。' } },
 };
 for (const source of sources) {
   const extra = SOURCE_EXTRA[source.id];
@@ -70,7 +72,7 @@ function snapshot(collection, input, make) {
   report.collections.push({ collection, input, status: 'retained_from_catalog', count: retained.length });
   return retained;
 }
-const capRoot = 'docs/theory/_sources/code-animation-prompts/skills/code-animation-prompts';
+const capRoot = 'resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts';
 const templates = snapshot('CAP', `${capRoot}/references/catalog.json`, () => {
   verifySnapshot('CAP', [`${capRoot}/references/catalog.json`]);
   const catalog = readJSON(`${capRoot}/references/catalog.json`);
@@ -80,7 +82,7 @@ const templates = snapshot('CAP', `${capRoot}/references/catalog.json`, () => {
     return entry({ id: `cap-${item.id.toLowerCase()}`, name: item.name || `未命名条目 ${item.id}`, source_id: 'P09', revision: REVISIONS.CAP, upstream_id: item.id, collection: 'CAP', category: item.category, kind: 'prompt', summary: item.description || `上游索引未提供描述，保留原编号 ${item.id}，采用前需阅读原文件。`, purposes: [], tags: [...new Set([item.series, ...(item.tags ?? []), item.fit].filter(Boolean))], reference_path: `${capRoot}/${item.file}`, preview: item.image ? { kind: 'image', path: `${capRoot}/${item.image}`, scope: 'local_only' } : null, license: LICENCES.CAP });
   });
 });
-const lemoRoot = 'resources/lemo-opuscar/source/styles';
+const lemoRoot = 'resources/styles/lemo-opuscar/source/styles';
 templates.push(...snapshot('LEMO', `${lemoRoot}/README.md`, () => {
   const folders = fs.readdirSync(localPath(lemoRoot), { withFileTypes: true }).filter((d) => d.isDirectory() && d.name !== '_template' && fs.existsSync(localPath(`${lemoRoot}/${d.name}/style.json`)));
   verifySnapshot('LEMO', folders.map(({ name }) => `${lemoRoot}/${name}/style.json`));
@@ -91,15 +93,22 @@ templates.push(...snapshot('LEMO', `${lemoRoot}/README.md`, () => {
     return entry({ id: `lemo-${name}`, name: item.cn, source_id: 'LEMO', revision: REVISIONS.LEMO, upstream_id: name, collection: 'LEMO', category: item.category_cn, kind: 'project', summary: item.line_cn || item.line || item.film, purposes: [], tags: [...new Set([item.en, ...(item.uses ?? [])])], reference_path: `${lemoRoot}/${name}/STYLE.md`, project_path: `${lemoRoot}/${name}/demo`, preview: { kind: 'image', path: `${lemoRoot}/${name}/poster.jpg`, scope: 'local_only' }, license: LICENCES.LEMO });
   });
 }));
-const mgRoot = 'resources/mg-styles-15';
+const mgRoot = 'resources/styles/mg-styles-15';
 if (!process.argv.includes('--offline') && fs.existsSync(localPath(`${mgRoot}/source/prompts`))) verifySnapshot('MG15', MG_STYLES.map(([slug]) => `${mgRoot}/source/prompts/${slug}.md`));
 report.collections.push({ collection: 'MG15', status: 'curated_index', count: MG_STYLES.length });
 templates.push(...MG_STYLES.map(([slug, name, category]) => {
   const upstreamDemo = `${mgRoot}/source/demos/${slug}`;
+  const upstreamVideo = `${mgRoot}/source/videos/${slug}.mp4`;
   const hasDemo = fs.existsSync(localPath(upstreamDemo));
-  return entry({ id: `mg-${slug}`, name, source_id: 'P02', revision: REVISIONS.MG15, upstream_id: slug, collection: 'MG15', category, kind: hasDemo ? 'project' : 'prompt', summary: hasDemo ? '上游示例工程保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。' : '已保存风格 Prompt；本项目未取得或验证该风格的完整工程。', purposes: [], tags: [name, slug], reference_path: `${mgRoot}/source/prompts/${slug}.md`, project_path: hasDemo ? upstreamDemo : null, preview: null, license: LICENCES.MG15 });
+  const hasVideo = fs.existsSync(localPath(upstreamVideo));
+  const posterPath = `${mgRoot}/source/videos/${slug}.jpg`;
+  const hasPoster = fs.existsSync(localPath(posterPath));
+  return entry({ id: `mg-${slug}`, name, source_id: 'P02', revision: REVISIONS.MG15, upstream_id: slug, collection: 'MG15', category, kind: hasDemo ? 'project' : 'prompt', summary: hasDemo ? '上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。' : '已保存风格 Prompt；本项目未取得或验证该风格的完整工程。', purposes: [], tags: [name, slug], reference_path: `${mgRoot}/source/prompts/${slug}.md`, project_path: hasDemo ? upstreamDemo : null, preview: hasVideo ? { kind: 'video', path: upstreamVideo, scope: 'local_only' } : hasPoster ? { kind: 'image', path: posterPath, scope: 'local_only' } : null, license: LICENCES.MG15 });
 }));
-templates.push(entry({ id: 'tool-onetake', name: 'Onetake 连续镜头', source_id: 'P16', revision: '013a61ac8d98883c73733f59c06e49e9ba444f14', upstream_id: 'onetake', collection: 'TOOLS', category: '形变与运动', kind: 'reference', summary: '连续性方法与工具候选；案例不含影片源码。商业使用受限，尚无工作台适配。', purposes: ['product', 'motion'], tags: ['一镜到底', '连续性', '非商业'], reference_path: 'docs/theory/extractions/projects/P16-onetake.md', license: LICENCES.noncommercial }));
+templates.push(entry({ id: 'tool-onetake', name: 'Onetake 连续镜头', source_id: 'P16', revision: '013a61ac8d98883c73733f59c06e49e9ba444f14', upstream_id: 'onetake', collection: 'TOOLS', category: '形变与运动', kind: 'reference', summary: '连续性方法与工具候选；案例不含影片源码。商业使用受限，尚无工作台适配。', purposes: ['product', 'motion'], tags: ['一镜到底', '连续性', '非商业'], reference_path: 'docs/theory/extractions/projects/P16-onetake.md', preview: fs.existsSync(localPath('resources/engines/onetake/preview/skill-demo.jpg')) ? { kind: 'image', path: 'resources/engines/onetake/preview/skill-demo.jpg', scope: 'local_only' } : null, license: LICENCES.noncommercial }));
+templates.push(entry({ id: 'tool-video-shotcraft', name: 'video-shotcraft 镜头库', source_id: 'P22', revision: '1266a3ec4831289c4d893d42dd5102723658039a', upstream_id: 'video-shotcraft', collection: 'TOOLS', category: '镜头与动效', kind: 'project', summary: '124 张镜头配方卡 / 150 个镜头 + Remotion 实现 + Ink Press 产品片模板；Apache-2.0 代码，素材另计。本机只读索引，未安装未渲染。', purposes: ['product', 'motion'], tags: ['镜头卡', 'Remotion', '产品宣传片', 'Apache-2.0'], reference_path: 'docs/theory/extractions/projects/P22-video-shotcraft.md', preview: fs.existsSync(localPath('resources/engines/video-shotcraft/source/assets/readme/examples/rhythm.webp')) ? { kind: 'image', path: 'resources/engines/video-shotcraft/source/assets/readme/examples/rhythm.webp', scope: 'local_only' } : null, license: LICENCES.APACHE }));
+templates.push(entry({ id: 'tool-awesome-ai-motion', name: 'Awesome AI Motion 参考库', source_id: 'P23', revision: '5d57042e22c9297fefdc3e633b0de4f935bbbe3c', upstream_id: 'awesome-ai-motion', collection: 'TOOLS', category: '参考索引', kind: 'reference', summary: '一千多条 AI 动效作品索引，按题材分类，部分附原作者提示词与源码链接；许可逐条核对，不搬运素材。', purposes: ['education', 'motion', 'product'], tags: ['参考作品', '提示词', '索引'], reference_path: 'docs/theory/extractions/projects/P23-awesome-ai-motion.md', license: LICENCES.SITE }));
+
 const related = (a, b) => {
   const first = templates.find((t) => t.id === a), second = templates.find((t) => t.id === b);
   if (first && second) {
@@ -115,7 +124,7 @@ for (const t of templates.filter((t) => t.collection === 'LEMO')) {
   for (const cap of templates.filter((c) => c.collection === 'CAP' && c.tags.includes('L') && normalized(c.name) === normalized(t.name))) related(t.id, cap.id);
 }
 for (const t of templates) for (const id of [...t.related_ids]) related(t.id, id);
-const data = { schema_version: 1, sources: sources.sort((a, b) => a.id.localeCompare(b.id, 'en')), templates, recipes: RECIPES, models: [] };
+const data = { schema_version: 1, sources: sources.sort((a, b) => a.id.localeCompare(b.id, 'en')), templates, recipes: RECIPES, models: MODELS };
 const errors = validateCatalog(data);
 if (errors.length) throw new Error(errors.join('\n'));
 const serialized = JSON.stringify(data, null, 2) + '\n';
@@ -126,5 +135,5 @@ if (process.argv.includes('--check')) {
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, serialized);
   fs.writeFileSync(path.join(ROOT, 'catalog/import-report.json'), JSON.stringify(report, null, 2) + '\n');
-  console.log(`Imported ${templates.length} entries, ${sources.length} source records and ${RECIPES.length} draft recipes. No model or execution capability claimed.`);
+  console.log(`Imported ${templates.length} entries, ${sources.length} source records, ${RECIPES.filter((r) => r.runnable).length} locally runnable recipe(s) and ${MODELS.length} user-designated model record(s). Unverified models and missing adapters are not execution claims.`);
 }

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>VideoLab explain-data</title>
+<style>
+  /* Every visible value below is derived from t only. No CSS animation,
+     no random numbers, no wall-clock state: render(t) is the single input. */
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  html { font-size: 16px; }
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #070b14; }
+  body { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; color: #e9eef7; -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: 100vw; height: 100vh; overflow: hidden;
+    background: radial-gradient(78rem 42rem at 18% 6%, var(--wash, #16233b) 0%, #0a101c 58%, #070b14 100%); }
+  .grid { position: absolute; inset: 0; opacity: .16;
+    background-image: linear-gradient(#7da2d81f 0.0625rem, transparent 0.0625rem), linear-gradient(90deg, #7da2d81f 0.0625rem, transparent 0.0625rem);
+    background-size: 4rem 4rem; }
+
+  .kicker { position: absolute; left: 5rem; top: 2.5rem; font-size: .82rem; letter-spacing: .34em; color: var(--accent-soft, #f3d08a); opacity: 0; }
+  h1 { position: absolute; left: 4.9rem; top: 3.5rem; margin: 0; max-width: 64rem; font-size: 2.6rem; line-height: 1.2; font-weight: 650; letter-spacing: .01em; opacity: 0; }
+  .sub { position: absolute; left: 5rem; top: 9.3rem; max-width: 66rem; font-size: 1.06rem; line-height: 1.75; color: #a9b7cc; opacity: 0; }
+
+  .chart { position: absolute; left: 5rem; right: 5rem; top: 12.6rem; padding: 1.35rem 1.6rem 1.15rem;
+    border: 0.0625rem solid #2a3a55; border-radius: .85rem; background: #0e1726e6; box-shadow: 0 1.5rem 4rem #00000055; opacity: 0; }
+  .chart-head { display: flex; align-items: center; gap: .9rem; margin-bottom: 1.05rem; }
+  .chart-title { font-size: 1.02rem; font-weight: 600; color: #dbe6f6; }
+  .unit { font: .74rem/1 Consolas, monospace; color: #93a2b8; border: 0.0625rem solid #33445f; border-radius: 2rem; padding: .32rem .7rem; }
+  .badge { margin-left: auto; font: 600 .72rem/1 Consolas, monospace; letter-spacing: .08em; color: #f3d08a;
+    border: 0.0625rem solid #6b5426; background: #2a2110; border-radius: 2rem; padding: .32rem .7rem; }
+  .rows { display: flex; flex-direction: column; gap: .62rem; }
+  .row { display: grid; grid-template-columns: 15rem 1fr 10rem; align-items: center; gap: 1rem; }
+  .row-label { font-size: .92rem; color: #cfdbec; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-label .note { margin-left: .5rem; font-size: .72rem; color: #7d8ca3; }
+  .track { position: relative; height: 1.55rem; border-radius: .3rem; background: #0a1220; overflow: hidden;
+    box-shadow: inset 0 0 0 0.0625rem #22304a; }
+  .track::before { content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(90deg, #ffffff12 0 0.0625rem, transparent 0.0625rem);
+    background-size: 25% 100%; }
+  .fill { position: relative; display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, #c8871f, #f2c879); border-radius: .3rem; }
+  .value { font: 600 1.05rem/1 Consolas, "Microsoft YaHei", monospace; text-align: right; color: #f6e3ba; font-variant-numeric: tabular-nums; }
+  .value .u { margin-left: .32rem; font: .72rem/1 Consolas, monospace; color: #93a2b8; }
+  .axis { position: relative; height: 1.5rem; margin-top: .55rem; }
+  .axis-inner { position: absolute; left: 16rem; right: 11rem; height: 100%; border-top: 0.0625rem solid #22304a; }
+  .tick { position: absolute; top: .35rem; transform: translateX(-50%); font: .68rem/1 Consolas, monospace; color: #7d8ca3; }
+  .tick:first-child { transform: none; }
+  .tick:last-child { transform: translateX(-100%); }
+
+  .takeaway { position: absolute; left: 5rem; right: 5rem; bottom: 6.4rem; display: flex; align-items: flex-start; gap: 1.1rem;
+    padding: 1.05rem 1.45rem; border: 0.0625rem solid #6b5426; border-radius: .8rem; background: #211a0dd9; opacity: 0; }
+  .tk-label { flex: 0 0 auto; font: 600 .74rem/1.9 Consolas, monospace; letter-spacing: .16em; color: #e8b04b; }
+  .tk-text { font-size: 1.02rem; line-height: 1.7; color: #f1e4c8; }
+
+  .source { position: absolute; left: 5rem; right: 5rem; bottom: 3rem; font: .7rem/1.6 Consolas, "Microsoft YaHei", monospace; color: #7d8ca3; }
+  .source b { color: #f3d08a; font-weight: 600; }
+  .bar { position: absolute; left: 0; right: 0; bottom: 0; height: .22rem; background: #16233b; }
+  .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #b87a1c, #f2c879); }
+  .hud { position: absolute; right: 2rem; top: 1.4rem; text-align: right; font: .68rem/1.85 Consolas, monospace; color: #71809a; }
+  .hud b { color: #c9d7ea; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="grid"></div>
+  <div class="kicker" id="kicker"></div>
+  <h1 id="title"></h1>
+  <div class="sub" id="sub"></div>
+
+  <section class="chart" id="chart">
+    <div class="chart-head">
+      <span class="chart-title" id="chartTitle"></span>
+      <span class="unit" id="unit"></span>
+      <span class="badge" id="badge" hidden></span>
+    </div>
+    <div class="rows" id="rows"></div>
+    <div class="axis"><div class="axis-inner" id="axis"></div></div>
+  </section>
+
+  <div class="takeaway" id="takeaway">
+    <div class="tk-label">看完应理解</div>
+    <div class="tk-text" id="tkText"></div>
+  </div>
+
+  <div class="source" id="source"></div>
+  <div class="bar"><i id="progress"></i></div>
+  <div class="hud">
+    <div>t <b id="ht">0.00</b> s · frame <b id="hf">0</b></div>
+    <div id="hspec"></div>
+    <div>recipe explain-data · chromium + ffmpeg</div>
+  </div>
+</div>
+<script>
+  const CONTENT = __CONTENT_JSON__;
+  const SCHEDULE = CONTENT.schedule;
+  const FPS = CONTENT.fps, DURATION = CONTENT.duration, WIDTH = CONTENT.width, HEIGHT = CONTENT.height;
+  const TOTAL = Math.round(DURATION * FPS);
+  const CHART = CONTENT.chart;
+  const BARS = CHART.bars;
+  const UNIT = CHART.unit;
+  const MAX = CHART.max;
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const easeOutCubic = (v) => 1 - Math.pow(1 - clamp01(v), 3);
+  const ramp = (t, start, len) => easeOutCubic((t - start) / Math.max(0.0001, len));
+  const setText = (id, value) => { document.getElementById(id).textContent = value; };
+  const setStyle = (id, prop, value) => { document.getElementById(id).style[prop] = value; };
+  const fmt = (value, isInt) => isInt ? String(Math.round(value)) : value.toFixed(1);
+
+  function layout() {
+    document.documentElement.style.fontSize = (innerWidth / 1280) * 16 + 'px';
+    const stage = document.getElementById('stage');
+    stage.style.setProperty('--accent', CONTENT.accent || '#e8b04b');
+    stage.style.setProperty('--accent-soft', CONTENT.accentSoft || '#f3d08a');
+    stage.style.setProperty('--wash', CONTENT.wash || '#16233b');
+    setText('kicker', CONTENT.kicker || 'VIDEOLAB / EXPLAIN-DATA');
+    setText('title', CONTENT.title || '');
+    setText('sub', CONTENT.subtitle || '');
+    setText('chartTitle', CHART.title || '示例指标');
+    setText('unit', `单位：${UNIT}`);
+    const badge = document.getElementById('badge');
+    if (CONTENT.data_kind === 'example') { badge.hidden = false; badge.textContent = '示例数据 · 非真实统计'; }
+    setText('hspec', `${WIDTH}×${HEIGHT} · ${FPS} fps · ${DURATION.toFixed(1)} s`);
+
+    const rows = document.getElementById('rows');
+    rows.textContent = '';
+    BARS.forEach((bar, i) => {
+      const row = document.createElement('div'); row.className = 'row';
+      const label = document.createElement('div'); label.className = 'row-label'; label.textContent = bar.label || `指标 ${i + 1}`;
+      if (bar.note) { const note = document.createElement('span'); note.className = 'note'; note.textContent = bar.note; label.appendChild(note); }
+      const track = document.createElement('div'); track.className = 'track';
+      const fill = document.createElement('i'); fill.className = 'fill'; fill.id = `fill-${i}`;
+      track.appendChild(fill);
+      const value = document.createElement('div'); value.className = 'value';
+      const num = document.createElement('b'); num.id = `num-${i}`; num.textContent = fmt(0, Number.isInteger(bar.value));
+      const unit = document.createElement('span'); unit.className = 'u'; unit.textContent = UNIT;
+      value.append(num, unit);
+      row.append(label, track, value);
+      rows.appendChild(row);
+    });
+
+    const axis = document.getElementById('axis');
+    axis.textContent = '';
+    [0, 0.25, 0.5, 0.75, 1].forEach((f) => {
+      const tick = document.createElement('div'); tick.className = 'tick';
+      tick.style.left = `${f * 100}%`;
+      tick.textContent = fmt(MAX * f, Number.isInteger(MAX * f));
+      axis.appendChild(tick);
+    });
+
+    setText('tkText', CONTENT.takeaway || '');
+    const src = document.getElementById('source');
+    src.textContent = '';
+    const label = document.createElement('b'); label.textContent = '来源：';
+    src.append(label, document.createTextNode(CONTENT.source || ''));
+  }
+
+  function render(t) {
+    const time = Math.max(0, Math.min(DURATION, t));
+
+    setStyle('kicker', 'opacity', ramp(time, 0, DURATION * 0.06).toFixed(3));
+    const titleIn = ramp(time, DURATION * 0.02, DURATION * 0.12);
+    setText('title', CONTENT.title || '');
+    setStyle('title', 'opacity', titleIn.toFixed(3));
+    setStyle('title', 'transform', `translateY(${((1 - titleIn) * 0.6).toFixed(3)}rem)`);
+
+    const subIn = ramp(time, DURATION * 0.06, DURATION * 0.16);
+    setStyle('sub', 'opacity', subIn.toFixed(3));
+
+    setStyle('chart', 'opacity', ramp(time, DURATION * 0.10, DURATION * 0.10).toFixed(3));
+
+    BARS.forEach((bar, i) => {
+      const start = SCHEDULE.bar_starts[i];
+      const progress = ramp(time, start, SCHEDULE.grow_seconds);
+      const current = bar.value * progress;
+      setStyle(`fill-${i}`, 'width', `${((current / MAX) * 100).toFixed(3)}%`);
+      setText(`num-${i}`, fmt(current, Number.isInteger(bar.value)));
+    });
+
+    const takeIn = ramp(time, SCHEDULE.takeaway_at, DURATION * 0.08);
+    setStyle('takeaway', 'opacity', takeIn.toFixed(3));
+
+    setStyle('progress', 'width', `${((time / DURATION) * 100).toFixed(3)}%`);
+    const frame = Math.round(time * FPS);
+    setText('ht', time.toFixed(2));
+    setText('hf', `${frame} / ${TOTAL}`);
+    return { t: time, frame };
+  }
+
+  layout();
+  window.addEventListener('resize', () => { layout(); render(0); });
+  window.render = render;
+  window.__ready = true;
+  render(0);
+</script>
+</body>
+</html>

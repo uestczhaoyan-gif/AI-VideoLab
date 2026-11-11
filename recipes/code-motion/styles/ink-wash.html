@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>VideoLab · ink-wash</title>
+<style>
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #f1ebdd; }
+  body { font-family: "Songti SC", "SimSun", "STSong", serif; color: #1e1a16; }
+  #stage { position: relative; width: 100vw; height: 100vh; overflow: hidden;
+    background: radial-gradient(60rem 40rem at 70% 40%, #faf5e8 0%, #f1ebdd 55%, #e6ddc9 100%); }
+  .grain { position: absolute; inset: 0; opacity: .28; background-image: radial-gradient(#6c5a3f22 .6px, transparent .6px); background-size: 4px 4px; }
+  .kicker { position: absolute; left: 4.4rem; top: 3.2rem; font: 500 .72rem/1 "Cascadia Code", monospace; letter-spacing: .28em; color: #7c6a50; }
+  h1 { position: absolute; left: 4.1rem; top: 4.8rem; margin: 0; font: 600 3.7rem/1.25 "Songti SC", serif; letter-spacing: .03em; color: #0e0c0a; }
+  .sub { position: absolute; left: 4.4rem; top: 11.6rem; font: 500 1.08rem/1.9 "Songti SC", serif; color: #3f3428; letter-spacing: .04em; }
+  .hud { position: absolute; right: 3.4rem; top: 3.2rem; text-align: right; font: .66rem/1.9 "Cascadia Code", monospace; color: #87755c; }
+  .hud b { color: #3b3126; font-weight: 500; }
+  .steps { position: absolute; left: 4.2rem; bottom: 3.2rem; display: flex; gap: 2.2rem; }
+  .step { width: 13rem; opacity: .4; }
+  .step .n { font: .62rem/1 "Cascadia Code", monospace; letter-spacing: .18em; color: #a4532f; }
+  .step .t { margin-top: .55rem; font: 600 .95rem/1.4 "Songti SC", serif; }
+  .step .d { margin-top: .32rem; font: 400 .66rem/1.8 "Songti SC", serif; color: #6d5d47; }
+  .seal { position: absolute; right: 5.2rem; bottom: 4.2rem; width: 4.6rem; height: 4.6rem; background: #a4532f; color: #f7efe0; font: 500 1rem/1.2 "Songti SC", serif; display: grid; place-items: center; text-align: center; box-shadow: 0 0 0 2px #a4532f inset, 0 0 0 6px #f1ebdd inset; opacity: .9; }
+  .spec { position: absolute; left: 4.3rem; bottom: 10.2rem; font: .66rem/1.9 "Cascadia Code", monospace; color: #87755c; }
+  .spec b { color: #3b3126; font-weight: 500; }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .wave { fill: none; stroke: #2e3a38; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="grain"></div>
+  <div class="kicker" id="kicker"></div>
+  <h1 id="title"></h1>
+  <div class="sub" id="sub"></div>
+  <div class="hud"><div>INK / INTERFERENCE</div><div>t <b id="ht">0.00</b>s · frame <b id="hf">0</b></div><div id="hspec"></div></div>
+  <svg viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g id="rings" fill="none" stroke="#1d2624">
+      <circle cx="440" cy="330" r="0" opacity=".5" stroke-width="1.4"/>
+      <circle cx="440" cy="330" r="0" opacity=".4" stroke-width="1.2"/>
+      <circle cx="440" cy="330" r="0" opacity=".3" stroke-width="1"/>
+      <circle cx="440" cy="330" r="0" opacity=".2" stroke-width=".8"/>
+      <circle cx="820" cy="330" r="0" opacity=".5" stroke-width="1.4"/>
+      <circle cx="820" cy="330" r="0" opacity=".4" stroke-width="1.2"/>
+      <circle cx="820" cy="330" r="0" opacity=".3" stroke-width="1"/>
+      <circle cx="820" cy="330" r="0" opacity=".2" stroke-width=".8"/>
+    </g>
+    <path id="interf" class="wave" stroke-width="1.7" opacity="0" d=""/>
+    <line x1="380" y1="330" x2="900" y2="330" stroke="#a4532f" stroke-width="1" stroke-dasharray="4 8" opacity=".5"/>
+    <text x="410" y="308" font="12px Cascadia Code" fill="#87755c" letter-spacing="3">S1</text>
+    <text x="840" y="308" font="12px Cascadia Code" fill="#87755c" letter-spacing="3">S2</text>
+    <text id="eq" x="760" y="590" font="500 16px Songti SC" fill="#3b3126" opacity="0">Δ = d · sinθ</text>
+  </svg>
+  <div class="spec" id="spec"><div><b id="specTitle"></b></div><div id="specSub"></div></div>
+  <div class="steps" id="steps"></div>
+  <div class="seal">光学<br>手记</div>
+</div>
+<script>
+  const C = __CONTENT_JSON__;
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const ramp = (t, start, len) => clamp((t - start) / len);
+  const $ = (id) => document.getElementById(id);
+  $('kicker').textContent = C.kicker || 'VIDEOLAB / INK-WASH';
+  $('title').textContent = C.title || '';
+  $('sub').textContent = C.subtitle || '';
+  $('specTitle').textContent = C.specTitle || '';
+  $('specSub').textContent = C.specSubtitle || '';
+  $('hspec').textContent = (C.specTitle || '').replace(' / ', ' · ');
+  $('steps').innerHTML = (C.steps || []).map((s, i) => `<div class="step" id="step${i}"><div class="n">${s.label || '0' + (i + 1)}</div><div class="t">${s.title || ''}</div><div class="d">${s.desc || ''}</div></div>`).join('');
+  const TOTAL = Math.round(C.duration * C.fps);
+  const circles = Array.from(document.querySelectorAll('#rings circle'));
+  function render(t) {
+    const time = Math.max(0, Math.min(C.duration, t));
+    $('ht').textContent = time.toFixed(2);
+    $('hf').textContent = `${Math.round(time * C.fps)} / ${TOTAL}`;
+    $('title').style.opacity = ramp(time, 0, 1.8).toFixed(3);
+    $('sub').style.opacity = ramp(time, 1.2, 1.6).toFixed(3);
+    const phase = time * .9;
+    circles.forEach((el, i) => {
+      const source = i < 4 ? [440, 330] : [820, 330];
+      const p = ramp(time, 1.2 + (i % 4) * .4, 4);
+      const r = 8 + ((time * 26 + (i % 4) * 22) % 240);
+      el.setAttribute('cx', source[0]); el.setAttribute('cy', source[1]);
+      el.setAttribute('r', (r * p).toFixed(2));
+      el.style.opacity = (p * (0.8 - (i % 4) * 0.12)).toFixed(3);
+    });
+    const p = ramp(time, 3, 4);
+    const pts = [];
+    for (let x = 120; x <= 1160; x += 4) {
+      const y = 470 + 28 * Math.sin(x * .045 + phase * 2) * Math.cos(x * .011 + phase) * ramp(time, 3, 2);
+      pts.push(`${x},${y.toFixed(1)}`);
+    }
+    $('interf').setAttribute('d', `M${pts.join(' L')}`);
+    $('interf').style.opacity = p.toFixed(3);
+    $('eq').style.opacity = ramp(time, 8, 2).toFixed(3);
+    $('spec').style.opacity = ramp(time, C.duration * .8, 1.4).toFixed(3);
+    for (let i = 0; i < 3; i++) { const el = document.getElementById('step' + i); if (el) el.style.opacity = (.4 + .6 * ramp(time, 3 + i * 4, 1.4)).toFixed(3); }
+  }
+  window.render = render; window.__ready = true; render(0);
+</script>
+</body>
+</html>

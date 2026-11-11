@@ -35,8 +35,11 @@
     },
     "models": {
       "type": "array",
-      "maxItems": 0,
-      "description": "No verified provider/model configuration has been registered."
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/definitions/model"
+      },
+      "description": "User-designated or verified model records; an unverified record is not a capability or price claim."
     }
   },
   "definitions": {
@@ -328,7 +331,8 @@
         "limitations",
         "stages",
         "status",
-        "runnable"
+        "runnable",
+        "adapter"
       ],
       "properties": {
         "id": {
@@ -363,10 +367,23 @@
           }
         },
         "status": {
-          "const": "draft"
+          "enum": [
+            "draft",
+            "local_adapted"
+          ]
         },
         "runnable": {
-          "const": false
+          "type": "boolean"
+        },
+        "adapter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/adapter"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
@@ -452,6 +469,124 @@
         "note": {
           "type": "string",
           "maxLength": 300
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "provider",
+        "model_id",
+        "modality",
+        "verification",
+        "price_status",
+        "checked_at",
+        "note"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/text"
+        },
+        "label": {
+          "$ref": "#/definitions/text"
+        },
+        "provider": {
+          "$ref": "#/definitions/text"
+        },
+        "model_id": {
+          "$ref": "#/definitions/text"
+        },
+        "modality": {
+          "$ref": "#/definitions/strings"
+        },
+        "verification": {
+          "enum": [
+            "user_designated_unverified",
+            "verified"
+          ]
+        },
+        "price_status": {
+          "enum": [
+            "unknown",
+            "estimated",
+            "measured"
+          ]
+        },
+        "price": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "currency": {
+                  "$ref": "#/definitions/text"
+                },
+                "amount": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "unit": {
+                  "$ref": "#/definitions/text"
+                },
+                "basis": {
+                  "$ref": "#/definitions/text"
+                }
+              },
+              "required": [
+                "currency",
+                "amount",
+                "unit",
+                "basis"
+              ]
+            }
+          ]
+        },
+        "checked_at": {
+          "$ref": "#/definitions/text"
+        },
+        "note": {
+          "$ref": "#/definitions/text"
+        }
+      }
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "entry",
+        "director_model",
+        "limits"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "local_only",
+            "not_adapted"
+          ]
+        },
+        "entry": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 300
+        },
+        "director_model": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 120
+        },
+        "limits": {
+          "$ref": "#/definitions/strings"
         }
       }
     }

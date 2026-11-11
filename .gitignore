@@ -7,8 +7,9 @@
 *.log
 
 # Upstream snapshots and research evidence are local caches, never published.
-resources/*/source/
-resources/*/downloads/
+resources/**/source/
+resources/**/downloads/
+resources/**/preview/
 docs/theory/_sources/
 docs/theory/_evidence/
 
@@ -22,3 +23,6 @@ output/playwright/
 .DS_Store
 Thumbs.db
 .idea/
+
+# Release resource packs (uploaded as GitHub Release assets, not git).
+dist/

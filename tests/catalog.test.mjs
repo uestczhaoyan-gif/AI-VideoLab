@@ -5,21 +5,38 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { loadCatalog, validateCatalog, safeRelative, ROOT } from '../tools/catalog/validate.mjs';
 import { fingerprint, verifySnapshot } from '../tools/catalog/fingerprint.mjs';
-import { filterTemplates, recommendRecipes, recommendTemplates, buildPlan, planMarkdown } from '../apps/workbench/public/domain.mjs';
+import { filterTemplates, recommendRecipes, recommendTemplates, buildPlan, planMarkdown } from '../shared/planning.mjs';
 
 const catalog = loadCatalog();
 const baseBrief = { topic: '介绍四季与地轴倾角', purpose: 'education', duration: 30, aspect: '16:9', resolution: '1080p', fps: '30', language: 'zh-CN', narration: 'none', bgm: 'none', subtitles: true, budget: '', currency: 'CNY', usage: 'personal' };
 const plan = (input = baseBrief, tier = 'budget', id = 'lemo-one-line') => buildPlan(catalog, input, id, 'code-motion', tier);
 
 test('catalog counts, boundaries and unresolved metadata remain explicit', () => {
-  assert.equal(catalog.sources.length, 35);
-  assert.equal(catalog.templates.length, 408);
+  assert.equal(catalog.sources.length, 38);
+  assert.equal(catalog.templates.length, 410);
   assert.equal(catalog.templates.filter((t) => t.collection === 'CAP').length, 341);
   assert.equal(catalog.templates.filter((t) => t.name.startsWith('未命名条目')).length, 8);
   assert.equal(catalog.templates.filter((t) => t.collection === 'LOCAL').length, 0);
-  assert.equal(catalog.models.length, 0);
+  assert.equal(catalog.models.length, 1);
+  assert.equal(catalog.models[0].model_id, 'deepseek-v4.1-flash');
+  assert.equal(catalog.models[0].verification, 'user_designated_unverified');
+  assert.equal(catalog.models[0].price_status, 'unknown');
   assert.ok(catalog.templates.every((t) => !t.runnable));
-  assert.ok(catalog.recipes.every((r) => !r.runnable && r.status === 'draft'));
+  const expected = {
+    'code-motion': 'recipes/code-motion/run.mjs',
+    'explain-data': 'recipes/explain-data/run.mjs',
+    'real-product': 'recipes/real-product/run.mjs',
+  };
+  for (const [id, entry] of Object.entries(expected)) {
+    const recipe = catalog.recipes.find((r) => r.id === id);
+    assert.ok(recipe, id);
+    assert.equal(recipe.runnable, true, id);
+    assert.equal(recipe.status, 'local_adapted', id);
+    assert.equal(recipe.adapter.entry, entry, id);
+    assert.equal(recipe.adapter.status, 'local_only', id);
+    assert.equal(recipe.adapter.director_model, 'deepseek-v4.1-flash', id);
+  }
+  assert.equal(catalog.recipes.length, 3);
   assert.equal(catalog.templates.find((t) => t.id === 'tool-onetake').license.commercial, 'restricted');
 });
 
@@ -34,6 +51,10 @@ test('schema rejects duplicate IDs, dangling references, unsafe paths and false 
     (c) => { c.templates[0].preview = { kind: 'image', path: 'untrusted.html', scope: 'local_only' }; },
     (c) => { c.templates[0].runnable = true; },
     (c) => { c.templates[0].unrecognized = true; },
+    (c) => { c.recipes.find((r) => r.id === 'code-motion').adapter.director_model = 'missing-model'; },
+    (c) => { const r = c.recipes.find((x) => x.id === 'code-motion'); r.runnable = true; r.adapter = null; },
+    (c) => { const r = c.recipes.find((x) => x.id === 'explain-data'); r.runnable = false; r.status = 'draft'; },
+    (c) => { c.models.push(structuredClone(c.models[0])); },
   ]) { const copy = structuredClone(catalog); mutate(copy); assert.ok(validateCatalog(copy).length); }
   for (const p of ['../a', 'a/../b', '/a', 'C:/a', 'a\\b', 'a//b', 'file:///x', 'a\0b']) assert.equal(safeRelative(p), false);
   assert.equal(safeRelative('resources/目录/PROMPT.md'), true);
@@ -70,6 +91,22 @@ test('timing and lineage are validated, not decorative', () => {
   const selfLineage = structuredClone(catalog);
   selfLineage.sources.find((s) => s.id === 'V11').lineage.derived_from.push('V11');
   assert.ok(validateCatalog(selfLineage).some((e) => e.includes('references itself')));
+});
+
+test('every local recipe points at real files, examples and a registered director model', () => {
+  const examples = { 'code-motion': 'examples/code-motion/content.json', 'explain-data': 'examples/explain-data/content.json', 'real-product': 'examples/real-product/make-project.mjs' };
+  for (const recipe of catalog.recipes.filter((r) => r.runnable)) {
+    const entry = path.join(ROOT, recipe.adapter.entry);
+    assert.ok(fs.existsSync(entry), `missing adapter entry ${recipe.adapter.entry}`);
+    assert.ok(fs.existsSync(path.join(ROOT, examples[recipe.id])), `missing example for ${recipe.id}`);
+    assert.ok(catalog.models.some((m) => m.id === recipe.adapter.director_model));
+    const model = catalog.models.find((m) => m.id === recipe.adapter.director_model);
+    assert.equal(model.verification, 'user_designated_unverified');
+  }
+  const content = JSON.parse(fs.readFileSync(path.join(ROOT, 'examples/code-motion/content.json'), 'utf8'));
+  assert.equal(content.duration, 10);
+  assert.equal(content.fps, 30);
+  assert.ok(Array.isArray(content.steps) && content.steps.length >= 2 && content.steps.length <= 5);
 });
 
 test('import is deterministic and does not remove entries with no snapshot', () => {

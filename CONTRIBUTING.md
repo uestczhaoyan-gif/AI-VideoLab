@@ -1,25 +1,42 @@
 # 参与与复现
 
-当前产品方向、阶段和 AI 交接见 [PROJECT.md](PROJECT.md) 与 [AGENTS.md](AGENTS.md)。项目以整合已有流程、模板与模型经验、逐步搭建本地工作台为主；资料入口是 [方法库](docs/library/README.md)，逐来源记录按 [来源模板](docs/library/templates/SOURCE.md) 标明版本、许可、读取范围和缺口。
+VideoLab 是本地优先的 CLI AI 视频制作平台。当前范围与阶段见 [PROJECT.md](PROJECT.md)，AI 交接见 [AGENTS.md](AGENTS.md)，资料入口见 [docs/library/README.md](docs/library/README.md)。
 
-项目按用途、形式、风格与技术分别分类。2026-11 清理后，VideoLab 自己做的逐风格 demo 复现工程不再保留，总结知识在 [案例库](docs/library/cases/README.md)；上游快照在 [resources/](resources/README.md)。**不再默认逐个风格重做 demo**，除非有具体任务与验收理由。结构化 catalog 引用已有文档与代码，不重复复制正文。候选模型、已有预览和可执行适配分开记录。具体开发与验证按主计划，不以先完成所有复现为条件。
+## 开发环境
 
-明确选择开展新的视频实验时，按以下顺序记录：
+```sh
+npm ci --ignore-scripts
+npm run catalog:check
+npm test
+npm run recipe:check
+npm run docs:check
+npm run resources:audit
+```
 
-1. 固定上游提交、Prompt、资产和许可证，说明本次实验的版本。
-2. 先做能播放的样片或关键帧，再对照关键画面与时间。
-3. 根据成片、Prompt 与最终代码拆解设计和实现，区分观察事实与解释。
-4. 新概念拓展单独保存输入、源码和输出；失败版本也保留。原版通过不代表拓展成功。
-5. 把结果与用户反馈总结进 [案例库](docs/library/cases/README.md)（或对应来源笔记），而不是长期保留一次性工程。
+真实制作还需要本机 Chrome/Edge 与 ffmpeg：
 
-不提交 `.venv/`、`node_modules/`、渲染帧、临时浏览器数据、访问凭据与上游源码缓存。保留案例成片、必要源文件、运行说明和授权信息；大型原始输入注明来源及获取方法。
+```sh
+npm run make -- --topic "一段测试动效" --yes
+```
 
-## 开发检查
+## 代码结构
 
-结构化目录见 [catalog/README.md](catalog/README.md)，本地应用见 [工作台说明](apps/workbench/README.md)，项目契约见 `shared/project.schema.json`。在根目录运行 `npm run catalog:check`、`npm test`、`npm run docs:check`；涉及界面时用已安装浏览器运行 `npm run test:ui`；涉及项目契约或 QA 时运行 `npm run loop:smoke`（需要浏览器与 ffmpeg）。不自动下载浏览器或全局安装 Skill。
+- `tools/studio/create.mjs`：CLI 交互与制作编排。
+- `shared/planning.mjs`：项目构建、类型推荐；`shared/project.*`：契约、确认门、QA。
+- `recipes/<id>/`：三条本地执行器；必须保持 `--project --content --stage stills|render --out` 接口。
+- `catalog/`：来源/模板/recipe/整合 registry；改动后运行 `npm run catalog:import` 与 `npm run integration:build`。
+- `resources/`：分类资源库；`source/` 不入库，不 `git add -f`。
+- `docs/`：Workflow、来源笔记、整合规范与手册。
 
-修改项目契约时：先改 `shared/project.schema.json`，再运行 `npm run project:schema` 重新生成 `shared/project-validator.mjs`（CI 会用 `--check` 验证是否为最新）；不要手改生成文件。QA 状态里 `not_checked` 不是通过；确认门必须写依据。
+## 修改规则
 
-不要直接修改生成的 `catalog/catalog.json` 后又被导入覆盖；修改负责该数据的上游固定快照／人工清单，审阅版本与许可，再重跑导入。更新模板／recipe 时保留稳定 ID 并变更相应 revision，已保存方案不静默换版。上游原文、媒体和源码不因加入索引而获准公开分发。
+- 不重新引入网页 UI；平台是 CLI-only。
+- 来源 ID（Vxx/Pxx）保持稳定；新增来源按 [来源模板](docs/library/templates/SOURCE.md) 登记。
+- 不删除原始证据与失败记录；新增资源只从固定版本恢复，记录许可与抽检状态。
+- 确认门、`not_checked` 语义不能放宽；不得用抽帧或渲染成功冒充完整验收。
+- 新资源先登记到 `resources/README.md` 与 `resources/AUDIT.md`，再谈“可用”。
+- 提交前跑 `npm test`、`npm run integration:check`、`npm run docs:check`；改动 recipe 时跑一次 `npm run make -- --yes`。
 
-提交记录说明环境、输入和实际生成的内容。不要把直接运行上游源码描述成独立创作，也不要把 SSIM 等像素指标写成审美评分。用户对某一成片的评价仅适用于该成片。
+## 许可
+
+仓库代码许可见 [LICENSE](LICENSE)。上游资源许可见各自 LICENSE 与 [resources/README.md](resources/README.md)；Apache/MIT 不自动覆盖素材、字体、音效、品牌资产。

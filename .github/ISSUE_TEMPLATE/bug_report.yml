@@ -5,8 +5,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢反馈。VideoLab 是**本地优先的 AI 视频制作工作台 + 知识库**，不是 SaaS，也不是模型服务或生成 API。
-        提交前请先看 [使用与排错文档](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/docs/README.md) 与 [工作台说明](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/apps/workbench/README.md)。
+        感谢反馈。VideoLab 是**本地优先的 CLI AI 视频制作平台**，不是 SaaS，也不是模型服务或生成 API。
+        提交前请先看 [使用与排错文档](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/docs/README.md) 与 [使用手册](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/docs/USAGE.md)。
 
         安全漏洞请**不要**用公开 Issue 报告，改用[私下报告](https://github.com/uestczhaoyan-gif/AI-VideoLab/security/advisories/new)。
 
@@ -48,9 +48,9 @@ body:
       description: 选择最接近的一项；不确定就选「不确定」。
       options:
         - catalog 数据或校验
-        - 工作台 Web 界面
-        - 工作台只读服务（/api/*、媒体 Range）
-        - CLI 启动入口（npm run cli）
+        - CLI 制作入口（npm run make）
+        - 本地 recipe 执行器（code-motion / explain-data / real-product）
+        - Agent 交接入口（npm run cli）
         - 文档或相对链接
         - 工具与检查脚本（tools/）
         - 本地 demo / 案例资料
@@ -95,5 +95,5 @@ body:
           required: true
         - label: 我没有把「有预览 / 已下载 / 技术检查通过」当成「可执行 / 已验收 / 可商用」。
           required: true
-        - label: 我理解工作台只是本机只读服务，不是公开部署的生成 API。
+        - label: 我理解这是本机 CLI，不是公开部署的生成 API；资源 checked 不等于已跑通。
           required: true

@@ -1,70 +1,128 @@
 # VideoLab
 
-**按你想要的模型、风格、主题与时长，极简高质量地生成 AI 视频的本地优先工作台。**
+**本地优先的 CLI AI 视频制作平台：给一句想法，平台推荐视频类型、问几个必要问题，然后直接出片。**
 
-整合分散的 AI 视频流程、模板、Prompt 与开源工具，提供 **CLI 对话制作 + Web 浏览选型** 两种入口，共用 catalog 与制作资料。当前重心是把工作台完整搭起来，并持续丰富资源库与 Workflow（「合百家之长」），暂不做真人／短剧类视频。
-
-**当前主说明：[PROJECT.md](PROJECT.md)**。模型、费用、可执行性与许可的真实状态以它和各来源笔记为准；仓库里的条目数不代表可直接生成。
+不提供网页工作台，不提供视频预览。风格帧、成片、项目记录都写成文件路径；需要 Agent 辅助时，把仓库交给 Pi、Codex、Claude Code、DSH 等已有 Agent 打开即可，不需要平台再提供模型 API。
 
 ## 快速开始
 
-要求 Node.js 22+。首次缺依赖时安装：
+要求：Node.js 22+、本机已安装 Chrome 或 Edge、ffmpeg（`FFMPEG` 可指定路径；也支持 imageio-ffmpeg）。首次安装：
 
 ```sh
 npm ci --ignore-scripts
+npm run catalog:check
+npm run resources:fetch -- --dry-run   # 先看会下载什么（约 2.1 GB）
+npm run resources:fetch                # 首次：按固定 commit 恢复全部开源资源
 ```
 
-### 方式一：CLI 对话制作（推荐）
+`resources:fetch` 是下载仓库后必须配套执行的脚本；它从上游恢复 19 个仓库/索引到 `resources/**/source/`（P12 默认跳过）。只想要 Prompt/风格可先：
+
+```sh
+npm run resources:fetch -- --only P09,P02,LEMO
+```
+
+不想逐仓库下载时，下载 Release 里的分类 ZIP 解压到 `resources/` 即可。完整说明见 [resources/PACKS.md](resources/PACKS.md)。
+
+制作一条视频：
+
+```sh
+npm run make -- --topic "用三个指标解释缓存为什么快"
+```
+
+交互流程只有几步：
+
+1. 平台按主题推荐类型与 recipe（知识讲解/产品介绍/数据解释/短动效），可改。
+2. 询问时长、画幅；数据解释会要数据点/单位/来源，产品片会要真实截图文件夹。
+3. 生成 3 张风格帧并打印路径；确认后渲染成片。
+4. 终端打印 mp4、联系表、QA 与项目版本路径。
+
+非交互/演示：
+
+```sh
+npm run make -- --topic "一段片头动效" --yes
+npm run make -- --topic "三个指标解释缓存" --data data.json --yes
+npm run make -- --topic "产品演示" --screens ./screenshots --yes
+```
+
+产物在 `projects/<日期>-<主题>/`（已被 Git 忽略）。不调用模型 API，不联网生成，不上传。
+
+## 三条本地 recipe
+
+| recipe | 输入 | 输出 | 边界 |
+| --- | --- | --- | --- |
+| `code-motion` | 主题、时长、画幅；平台生成文案与三张卡 | 文字/图形卡点动效 | 不做生成式素材、角色、真人 |
+| `explain-data` | 主题 + 2–6 条数据、单位、来源 | 固定横向条形图数据解释 | 不验证数据真实性；示例数据必须标注 |
+| `real-product` | 主题 + 2–6 张真实截图 | 截图包装产品片 | 不生成 UI、不录屏、不验证产品事实 |
+
+每条都走同一项目契约：Brief 确认 → 风格帧确认 → 渲染 → 机械 QA（内容/主观声音/完整观看/采用永远保留给人）。
+
+> 这里的“三条”指三种**可执行渲染器**，不是资源库只有三个模板。资源库有 51 个 LEMO 风格、15 个 MG 风格、341 条 CAP Prompt、125 张镜头卡等；已把其中 3 个风格模板真正接进 `code-motion` 的执行链，见下文 Demo。其余资源可通过 Agent 读取/改写，或按 `resources/PROMPTS.md` 使用。
+
+## 三个可执行风格模板
+
+`code-motion` 已接入 3 个风格模板（可执行渲染，不是只写文档）：
+
+| CLI 风格 | 来源 | 适合 |
+| --- | --- | --- |
+| `blueprint` | LEMO `blueprint` | 光路、结构、工程解释 |
+| `bauhaus` | MG `09-bauhaus` | 概念、对比、几何/色彩 |
+| `ink-wash` | LEMO `ink-wash` | 波/场、时间、东方视觉 |
+
+```sh
+npm run make -- --topic "透镜如何改写一束光" --style blueprint --duration 20 --yes
+```
+
+模板在 `recipes/code-motion/styles/`，是按上游视觉语言改写的确定性 HTML，不是直接运行上游工程。模板 → Prompt → Workflow 的对应见 [TEMPLATE_MAP](docs/library/TEMPLATE_MAP.md)。
+
+## 让已有 Agent 接手
 
 ```sh
 npm run cli
 ```
 
-启动已安装的 Pi，并把 [制作启动任务](docs/library/CREATE_VIDEO.md) 带入首轮对话；沿用 Pi 已有模型配置，不另建模型客户端。启动后说明主题，助手用 1–3 轮短问答补齐受众、深度／公式、规格与资源，再按现有工具制作。
+用已安装的 Pi 加载 `docs/library/CREATE_VIDEO.md`（系统提示），等用户说明需求后再开始；也可把整个仓库交给 DSH、Codex、Claude Code 等 Agent，让它读 [AGENTS.md](AGENTS.md) 与 [CREATE_VIDEO.md](docs/library/CREATE_VIDEO.md)。Agent 使用你自己的 API 密钥，平台不代管密钥。
 
-### 方式二：Web 浏览与选型（可选）
+## 仓库结构
 
-```sh
-npm run web
+```text
+catalog/         410 条引用、38 条来源、3 条可执行 recipe、统一整合 registry
+recipes/         三个本地执行器（code-motion / explain-data / real-product）
+examples/        可跑通的输入示例
+shared/          项目契约、QA、规划与路由函数
+resources/       分类资源库（styles / prompt-libraries / engines / skills / workflows / collections）
+docs/            来源笔记、Workflow、整合规范与使用手册
+tools/           CLI studio、catalog 校验、路由、资源抽检、渲染与最小闭环
+projects/        本机生成的项目与成片（Git 忽略）
 ```
 
-打开 <http://127.0.0.1:4317>，可检索 catalog、查看参考预览、收藏／比较、填写制作需求并导出引用型任务包。制作方案页会显示三处人工确认门与 QA 清单；来源页显示固定版本与谱系。当前网页不执行制片、不调用模型；原 `npm run dev` 保留兼容。
+资源共 20 个仓库/索引、约 2.1 GB；详细 Prompt 的读取路径见 [resources/PROMPTS.md](resources/PROMPTS.md)。GitHub 普通仓库放不下，所以 `source/` 不进 Git：用 `npm run resources:fetch` 从固定版本恢复，或下载 Release 里的分类 ZIP（见 [resources/PACKS.md](resources/PACKS.md)）。仓库内提交 [resources/MANIFEST.md](resources/MANIFEST.md)、[resources/README.md](resources/README.md) 与 [resources/AUDIT.md](resources/AUDIT.md)，用户拿到的是可恢复的完整资源，不是空 Workflow。视频 Workflow 总表在 [docs/library/VIDEO_WORKFLOWS.md](docs/library/VIDEO_WORKFLOWS.md)，统一路由规范在 [docs/library/INTEGRATION.md](docs/library/INTEGRATION.md)。
 
-### 方式三：本地最小闭环（验证用）
+## 验证
 
 ```sh
-npm run loop:smoke
+npm test                 # 目录、契约、执行器、路由
+npm run catalog:check
+npm run integration:check
+npm run catalog:map:check
+npm run recipe:check
+npm run docs:check
+npm run resources:audit
 ```
 
-用一条 8 秒、完全本地、零付费调用的确定性代码动画跑一遍「Brief → 渲染 → 编码 → QA → 项目记录」，需要本机 Chrome／Edge 与 ffmpeg。它不是风格 demo，只验证项目契约在本机可用；详见 [tools/loop](tools/loop/README.md)。
+`npm run loop:smoke` 会跑一次 8 秒本地最小闭环；`npm run make -- --yes` 是真制作，不是 demo。
 
-## 仓库里有什么
+## 边界
 
-| 位置 | 内容 |
-| --- | --- |
-| [PROJECT.md](PROJECT.md) | 愿景、阶段、验收与下一步的唯一主说明 |
-| [docs/library/](docs/library/README.md) | 方法、风格、来源、流程、Prompt 与 [案例知识](docs/library/cases/README.md) |
-| [docs/theory/](docs/theory/README.md) | Vxx／Pxx 逐来源证据、读取范围与缺口 |
-| [catalog/](catalog/README.md) | 408 条引用条目：来源、模板／Prompt、3 条 recipe 草案与校验 |
-| [apps/workbench/](apps/workbench/README.md) | 本地只读工作台：检索、预览、比较、方案与任务包 |
-| [resources/](resources/README.md) | 上游开源快照（lemo-opuscar、mg-styles-15、anatomy；`source/` 不随仓库发布） |
-| [tools/intake/](tools/intake/README.md) | 视频来源采集：公开元数据、低清抽帧、本地语音转写 |
-| [tools/loop/](tools/loop/README.md) | 本地最小闭环：确定性渲染 → 编码 → QA → 项目记录 |
-| [shared/project.schema.json](shared/project.schema.json) | 项目契约：brief／确认门／文档槽／QA 清单 |
-| [docs/USAGE.md](docs/USAGE.md) | 使用手册：启动、检索预览、保存导出、资料恢复与排错 |
-| [tests/](tests/) | catalog、服务、归档、项目契约与浏览器回归 |
+- 除三条 recipe 与三个已接入的风格模板外，其余上游资源只作参考/待安装；`resources/AUDIT.md` 的 checked 不等于已安装、已运行或效果已验证。
+- 只有三条本地 recipe 能直接出片；其他引擎/仓库需要安装、许可核对与人工确认。
+- 不生成真人/短剧，不训练模型，不提供公网生成 API。
+- 许可：代码与内容许可见各上游 LICENSE；Apache/MIT 不自动覆盖素材、字体、音效与品牌资产。
 
-2026-11 清理：VideoLab 自己做的逐风格 demo 复现与 DeepseekDemo 已按用户要求删除；总结的设计、方法、检查数字与用户反馈保留在 [案例库](docs/library/cases/README.md)，上游资料在 `resources/`。不再自动逐风格做 demo。
+## 文档
 
-## 状态与边界
-
-- 阶段 0／1／2 首版已落地；CLI 已有本机白板讲解片的制作与返修记录。项目契约（三处确认门、文档槽、QA 清单）、catalog 时间规格／谱系字段与本地最小闭环已落地；统一执行适配、双档模型实测与生成 API 尚未完成。
-- 没有后台任务队列、生成 API 或已验证的模型路由；工作台是本地只读服务，只认已登记文件。
-- 不把参考预览、Prompt 收录或技术检查当作成片质量；未知价格不按零计算。`NOT CHECKED` 不算通过。
-- 模型推荐前必须核对 provider／model_id、接口能力、许可与日期；新增付费调用、外发素材与发布按用户实际授权执行。
-
-开发回归：`npm run catalog:check`、`npm test`、`npm run docs:check`；界面改动另跑 `npm run test:ui`，契约改动另跑 `npm run loop:smoke`（均使用已安装浏览器与 ffmpeg，不自动下载）。
-
-## 参与与许可
-
-见 [CONTRIBUTING.md](CONTRIBUTING.md)、[SECURITY.md](SECURITY.md)、[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)、[LICENSE](LICENSE) 与[第三方边界](THIRD-PARTY-NOTICES.md)。上游缓存、环境、原始采集与个人项目不随仓库发布；完整来源与获取范围保留在对应笔记。
+- [使用手册](docs/USAGE.md)
+- [项目计划](PROJECT.md)
+- [AI 交接](AGENTS.md)
+- [贡献指南](CONTRIBUTING.md)
+- [上传到 GitHub](docs/UPLOAD.md)
+- [安全](SECURITY.md)

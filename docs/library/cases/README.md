@@ -8,6 +8,7 @@
 - 删除范围（用户指定）：`demo/mg-styles-15/demos/**`、`demo/lemo-opuscar/trials/**`、`DeepseekDemo/**`。
 - 本目录文档依据删除前的 `README`／`DESIGN`／`METHOD`／`EXPERIENCE`／`PROMPT`／`TRIAL`／`REBUILD-NOTES` 等文档整理，日期 2026-11-06。
 - 上述目录及 `demo/` 下相关案例 README 已在本轮任务中删除；删除后原工程、源码、母版、分镜与检查 JSON 不再存在。
+- 2026-11-06 后续清理：本机 `projects/` 下三版白板讲解工程（约 208 MB）也按用户要求删除；其事实、检查数字与用户反馈保存在 [adjoint-whiteboard](adjoint-whiteboard.md)。
 - 未重新运行任何渲染，未重新观看或试听成片；数字与用户原话照原文转录，未做新测量。原文未记录的信息写「未记录」。
 
 ## 上游快照与恢复入口
@@ -31,6 +32,7 @@
 | [mg-05-shape-morph](mg-05-shape-morph.md) | 形变动画：一形万象 → WANDER | mg-styles-15 `demos/08-morph` | 原作 SSIM All=0.974531；v3 300 帧／10 s | “整体看起来没有什么问题”；WANDER “勉强接受”，仍欠原作神韵 |
 | [lemo-whiteboard-trial](lemo-whiteboard-trial.md) | 白板讲解 24 fps 试片（非正式） | lemo-opuscar `styles/whiteboard` | 24.0 s／720 帧／30 fps；无配音字幕 | 未记录 |
 | [deepseek-onetake](deepseek-onetake.md) | DeepseekDemo 一笔画引擎与三部片 | 依据本项目笔记从零重写 | 300／1800／2460 帧；−14.0 LUFS | 未记录（三部片均标“等待观看验收”） |
+| [adjoint-whiteboard](adjoint-whiteboard.md) | 伴随法白板讲解片（三版） | LemoLab 白板引擎 + 本地离线 TTS | 30 s／48 s／96 s；1,440／2,880 帧检查；−16.3 LUFS | v1 被指出缺“为什么”；v2「还可以」；v3 待主观试听与用户采用 |
 
 ## 证据边界
 

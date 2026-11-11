@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { marked } from 'marked';
 import { ROOT } from './catalog/validate.mjs';
 
-const files = [...new Set(execFileSync('git', ['ls-files', '-c', '-o', '--exclude-standard', '-z'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 }).split('\0').filter((p) => p.endsWith('.md') && fs.existsSync(path.join(ROOT, p))))];
+const files = [...new Set(execFileSync('git', ['ls-files', '-c', '-o', '--exclude-standard', '-z'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 }).split('\0').filter((p) => p.endsWith('.md') && fs.existsSync(path.join(ROOT, p))))].filter((p) => !p.startsWith('resources/prompts/') || p === 'resources/prompts/README.md');
 const errors = [];
 const optional = [];
 const historical = [];

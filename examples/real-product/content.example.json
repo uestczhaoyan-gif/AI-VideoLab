@@ -1,0 +1,31 @@
+{
+  "title": "替换成你的产品片标题",
+  "kicker": "VIDEOLAB / REAL-PRODUCT",
+  "subtitle": "可选副标题",
+  "duration": 10,
+  "fps": 30,
+  "scenes": [
+    {
+      "image": "assets/01-overview.png",
+      "title": "第一张截图说明",
+      "desc": "可选补充说明",
+      "label": "01",
+      "motion": "zoom-in"
+    },
+    {
+      "image": "assets/02-feature.png",
+      "title": "第二张截图说明",
+      "desc": "可选补充说明",
+      "label": "02",
+      "motion": "pan-left",
+      "highlight": { "x": 0.1, "y": 0.2, "w": 0.5, "h": 0.2 }
+    },
+    {
+      "image": "assets/03-result.png",
+      "title": "第三张截图说明",
+      "desc": "可选补充说明",
+      "label": "03",
+      "motion": "zoom-out"
+    }
+  ]
+}

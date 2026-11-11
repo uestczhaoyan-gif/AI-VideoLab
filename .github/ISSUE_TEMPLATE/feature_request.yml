@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         先读 [PROJECT.md](https://github.com/uestczhaoyan-gif/AI-VideoLab/blob/main/PROJECT.md) 的「近期不做」与阶段边界。
-        本项目**本地优先**：默认复用用户已配置的 AI 助手与本地工具，不要求先开 Web 或另配付费模型 API。
+        本项目**本地优先**：默认复用用户已配置的 AI 助手与本地工具，不要求网页或另配付费模型 API。
         不符合定位的请求（如托管 SaaS、模型服务、无人值守生成 API、代为定价与推荐排行）会被关闭，但欢迎先讨论。
 
   - type: textarea
@@ -42,7 +42,8 @@ body:
       label: 主要影响的入口
       options:
         - CLI 对话制作（主入口）
-        - Web 浏览与选型（可选）
+        - CLI 制作流程（npm run make）
+        - 本地 recipe 执行器
         - 两者共用的 catalog / 制作资料
         - 文档、工具或测试
         - 不确定

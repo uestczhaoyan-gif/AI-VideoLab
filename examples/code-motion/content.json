@@ -1,0 +1,18 @@
+{
+  "title": "一条时间表，驱动画面与声音",
+  "kicker": "VIDEOLAB / CODE-MOTION",
+  "subtitle": "同一秒的画面、旁白、配乐和音效都从同一张表读出——改一处，不会漂移。",
+  "steps": [
+    { "label": "BRIEF", "title": "先写清目标", "desc": "受众、看完应理解什么、时长与声音要求" },
+    { "label": "TIMELINE", "title": "每个事件带秒数", "desc": "镜头、字幕、音效共用一条时基，不做多份表" },
+    { "label": "CHECK", "title": "重渲同一时刻", "desc": "相同 t 得到相同画面，抽帧与规格可机械核对" }
+  ],
+  "footer": "code-motion · local render(t) · chromium + ffmpeg",
+  "duration": 10,
+  "fps": 30,
+  "specTitle": "10.0 s / 300 frames / 30 fps",
+  "specSubtitle": "1280×720 · H.264 + AAC click track · deterministic render(t)",
+  "accent": "#58b184",
+  "accentSoft": "#7fb79b",
+  "wash": "#1c3a2e"
+}

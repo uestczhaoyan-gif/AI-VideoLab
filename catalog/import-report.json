@@ -3,13 +3,13 @@
   "collections": [
     {
       "collection": "CAP",
-      "input": "docs/theory/_sources/code-animation-prompts/skills/code-animation-prompts/references/catalog.json",
+      "input": "resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/references/catalog.json",
       "status": "imported",
       "count": 341
     },
     {
       "collection": "LEMO",
-      "input": "resources/lemo-opuscar/source/styles/README.md",
+      "input": "resources/styles/lemo-opuscar/source/styles/README.md",
       "status": "imported",
       "count": 51
     },

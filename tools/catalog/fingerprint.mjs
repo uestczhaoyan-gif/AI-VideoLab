@@ -18,9 +18,9 @@ export function verifySnapshot(collection, files) {
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   if (!process.argv.includes('--initialize') || fs.existsSync(LOCK)) throw new Error('Initialization only: pass --initialize when no lock exists. Review revision and provenance first.');
   const files = {
-    CAP: ['docs/theory/_sources/code-animation-prompts/skills/code-animation-prompts/references/catalog.json'],
-    LEMO: fs.readdirSync(path.join(ROOT, 'resources/lemo-opuscar/source/styles')).map((name) => `resources/lemo-opuscar/source/styles/${name}/style.json`).filter((p) => !p.includes('/_template/') && fs.existsSync(path.join(ROOT, p))),
-    MG15: fs.readdirSync(path.join(ROOT, 'resources/mg-styles-15/source/prompts')).filter((p) => p.endsWith('.md')).map((p) => `resources/mg-styles-15/source/prompts/${p}`),
+    CAP: ['resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/references/catalog.json'],
+    LEMO: fs.readdirSync(path.join(ROOT, 'resources/styles/lemo-opuscar/source/styles')).map((name) => `resources/styles/lemo-opuscar/source/styles/${name}/style.json`).filter((p) => !p.includes('/_template/') && fs.existsSync(path.join(ROOT, p))),
+    MG15: fs.readdirSync(path.join(ROOT, 'resources/styles/mg-styles-15/source/prompts')).filter((p) => p.endsWith('.md')).map((p) => `resources/styles/mg-styles-15/source/prompts/${p}`),
   };
   const lock = Object.fromEntries(Object.entries(files).map(([key, paths]) => [key, { revision: REVISIONS[key], ...fingerprint(paths) }]));
   fs.writeFileSync(LOCK, JSON.stringify(lock, null, 2) + '\n');

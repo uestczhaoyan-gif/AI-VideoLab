@@ -20,15 +20,15 @@
 | O 影片画风 | 98 | 电影视觉参考，不是完整制片流水线 |
 
 - [固定版完整索引](https://github.com/XiaoyeCodes/code-animation-prompts/blob/69ccbeaf0b821591a40936572c2f559d8f4cfb68/docs/STYLES.md)可定位所有条目；不要把 B6 独立示例误记为索引项。
-- 本机可打开 [341 风格离线挑选器](../theory/_sources/code-animation-prompts/skills/code-animation-prompts/assets/library/风格挑选.html)，需要保持它和相邻提示词／图片文件夹的相对位置；本轮未做交互验收。
-- 轻量索引位于本地 `docs/theory/_sources/code-animation-prompts/skills/code-animation-prompts/references/catalog.json`，适合将来按编号／标签检索后组装输入。
+- 本机可打开 [341 风格离线挑选器](../../resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/assets/library/风格挑选.html)，需要保持它和相邻提示词／图片文件夹的相对位置；本轮未做交互验收。
+- 轻量索引位于本地 `resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/references/catalog.json`，适合将来按编号／标签检索后组装输入。
 - 合集不是统一 MIT。免费使用／分享约定与第三方原许可见 P09；当前只保存本地缓存与原创摘要，未并入根 MIT 素材发布。
 
 跨库的重叠条目按来源、编号与版本分别保存，不计算为 `341 + 51 + 15` 个独立方法，也不默认 L 系列 59 项与旧快照 51 项一一相同。
 
 ## lemo-opuscar：51 个索引条目
 
-固定来源：[styles/ 索引](https://github.com/lemomo-ai/lemo-opuscar/tree/b5e8ef93930b6d828f352055a689320f138237b1/styles)，本地快照位于 `resources/lemo-opuscar/source/styles/`。按表中的 slug 打开 `<slug>/STYLE.md` 看风格约束、`<slug>/DEMO.md` 看案例说明、`<slug>/demo/` 看实现；资产许可按具体案例的 `CREDITS` 核对。
+固定来源：[styles/ 索引](https://github.com/lemomo-ai/lemo-opuscar/tree/b5e8ef93930b6d828f352055a689320f138237b1/styles)，本地快照位于 `resources/styles/lemo-opuscar/source/styles/`。按表中的 slug 打开 `<slug>/STYLE.md` 看风格约束、`<slug>/DEMO.md` 看案例说明、`<slug>/demo/` 看实现；资产许可按具体案例的 `CREDITS` 核对。
 
 本轮读取了索引并确认 51 个目录的 `STYLE.md` 与 `DEMO.md` 都存在；另一个 `_template` 目录不计入风格数。没有在本轮逐份读取风格文件或播放 51 支影片。下表沿用上游分组与名称，保证线索可定位。
 
@@ -86,7 +86,7 @@
 | 材质与 3D | 低多边形等距 | `lowpoly-island` | 几何、空间 |
 | 材质与 3D | 玻璃质感产品 | `glass-product` | 材质、产品 |
 
-已有相关产物摘要见[白板试片案例](cases/lemo-whiteboard-trial.md)，未完整实现上游默认特征。上游对模型适配的声明见[项目记录](../../resources/lemo-opuscar/README.md)，不直接作为其他模型无法使用的结论。
+已有相关产物摘要见[白板试片案例](cases/lemo-whiteboard-trial.md)，未完整实现上游默认特征。上游对模型适配的声明见[项目记录](../../resources/styles/lemo-opuscar/README.md)，不直接作为其他模型无法使用的结论。
 
 ## mg-styles-15：另一组 15 风格资料
 

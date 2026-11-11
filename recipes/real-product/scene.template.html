@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>VideoLab real-product</title>
+<style>
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #07090a; }
+  body { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; color: #eef2f1; }
+  #stage { position: relative; overflow: hidden; background: #07090a; }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .backdrop { position: absolute; inset: -5rem; background-size: cover; background-position: center;
+    filter: blur(3.2rem) brightness(.30) saturate(.85); transform: scale(1.12); }
+  .frame { position: absolute; inset: 0; }
+  .shot { position: absolute; overflow: hidden; border-radius: .55rem; background: #0b0e10;
+    box-shadow: 0 2.2rem 5.5rem #000000b8, 0 0 0 0.0625rem #ffffff1c; }
+  .mover { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+  .mover img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; }
+  .hl { position: absolute; border: 0.14rem solid #ffc458f2; border-radius: .35rem; opacity: 0;
+    box-shadow: 0 0 0 0.1rem #ffc4582e, 0 0 2rem #ffc45833; }
+  .caption { position: absolute; opacity: 0; }
+  .caption .idx { font: 600 .78rem/1 Consolas, monospace; letter-spacing: .3em; color: #7fd0b0; }
+  .caption .eyebrow { margin-top: .9rem; font: 500 .74rem/1 Consolas, monospace; letter-spacing: .22em; color: #8ba095; }
+  .caption h2 { margin: .55rem 0 0; font-size: 1.95rem; line-height: 1.2; font-weight: 650; letter-spacing: .01em; }
+  .caption p { margin: .7rem 0 0; font-size: .98rem; line-height: 1.65; color: #a9b8b2; }
+  .brand { position: absolute; font: 600 .7rem/1 Consolas, monospace; letter-spacing: .34em; color: #8fb5a5; }
+  .foot { position: absolute; font: .66rem/1.5 Consolas, monospace; color: #6c7f77; text-align: right; }
+  .meter { position: absolute; height: .16rem; background: #ffffff1a; overflow: hidden; }
+  .meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #3fae86, #9fe3c4); }
+  .vignette { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 92% at 50% 44%, #00000000 52%, #000000a8 100%); }
+  .fade { position: absolute; inset: 0; background: #07090a; opacity: 1; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="scenes"></div>
+  <div class="vignette"></div>
+  <div class="brand" id="brand"></div>
+  <div class="foot" id="foot"></div>
+  <div class="meter" id="meter"><i id="progress"></i></div>
+  <div class="fade" id="fade"></div>
+</div>
+<script>
+  const CONTENT = __CONTENT_JSON__;
+  const W = CONTENT.width, H = CONTENT.height, FPS = CONTENT.fps, DURATION = CONTENT.duration;
+  const TOTAL = Math.round(DURATION * FPS);
+  const SCENES = Array.isArray(CONTENT.scenes) ? CONTENT.scenes : [];
+  const N = SCENES.length;
+  const SEG = N ? DURATION / N : DURATION;
+  const FADE = Math.min(0.6, Math.max(0.36, SEG * 0.24));
+  const MOTIONS = ['zoom-in', 'zoom-out', 'pan-left', 'pan-right'];
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const ramp = (t, start, len) => { if (len <= 0) return t >= start ? 1 : 0; return clamp01((t - start) / len); };
+  const smooth = (v) => v * v * (3 - 2 * v);
+  const el = (tag, cls) => { const node = document.createElement(tag); if (cls) node.className = cls; return node; };
+
+  const stage = document.getElementById('stage');
+  stage.style.width = W + 'px';
+  stage.style.height = H + 'px';
+  document.documentElement.style.fontSize = (W / 1280) * 16 + 'px';
+
+  const SHOT_W = Math.round(W * 0.82);
+  const SHOT_H = Math.round(H * 0.62);
+  const SHOT_LEFT = Math.round((W - SHOT_W) / 2);
+  const SHOT_TOP = Math.round(H * 0.435 - SHOT_H / 2);
+  const CAP_LEFT = SHOT_LEFT;
+  const CAP_BOTTOM = Math.round(H * 0.055);
+  const CAP_WIDTH = SHOT_W;
+
+  document.getElementById('brand').textContent = CONTENT.kicker || 'VIDEOLAB / REAL-PRODUCT';
+  document.getElementById('brand').style.left = Math.round(W * 0.055) + 'px';
+  document.getElementById('brand').style.top = Math.round(H * 0.045) + 'px';
+  const foot = document.getElementById('foot');
+  foot.textContent = CONTENT.footer || '真实截图 · 本地确定性渲染 · chromium + ffmpeg';
+  foot.style.right = Math.round(W * 0.055) + 'px';
+  foot.style.bottom = Math.round(H * 0.042) + 'px';
+  const meter = document.getElementById('meter');
+  meter.style.left = SHOT_LEFT + 'px';
+  meter.style.right = SHOT_LEFT + 'px';
+  meter.style.bottom = Math.round(H * 0.022) + 'px';
+
+  const layers = [];
+  const host = document.getElementById('scenes');
+  SCENES.forEach((scene, i) => {
+    const layer = el('div', 'scene');
+    const backdrop = el('div', 'backdrop');
+    backdrop.style.backgroundImage = `url("${scene.image}")`;
+    const frame = el('div', 'frame');
+    const shot = el('div', 'shot');
+    shot.style.left = SHOT_LEFT + 'px';
+    shot.style.top = SHOT_TOP + 'px';
+    shot.style.width = SHOT_W + 'px';
+    shot.style.height = SHOT_H + 'px';
+    const mover = el('div', 'mover');
+    const img = el('img');
+    img.alt = scene.alt || scene.title || `截图 ${i + 1}`;
+    img.src = scene.image;
+    const hl = el('div', 'hl');
+    mover.appendChild(img);
+    mover.appendChild(hl);
+    shot.appendChild(mover);
+    frame.appendChild(shot);
+    const caption = el('div', 'caption');
+    caption.style.left = CAP_LEFT + 'px';
+    caption.style.bottom = CAP_BOTTOM + 'px';
+    caption.style.width = CAP_WIDTH + 'px';
+    const idx = el('div', 'idx');
+    idx.textContent = `${String(i + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`;
+    const eyebrow = el('div', 'eyebrow');
+    eyebrow.textContent = scene.label || '';
+    eyebrow.style.display = scene.label ? '' : 'none';
+    const h2 = el('h2');
+    h2.textContent = scene.title || '';
+    const p = el('p');
+    p.textContent = scene.desc || '';
+    p.style.display = scene.desc ? '' : 'none';
+    caption.appendChild(idx);
+    caption.appendChild(eyebrow);
+    caption.appendChild(h2);
+    caption.appendChild(p);
+    layer.appendChild(backdrop);
+    layer.appendChild(frame);
+    layer.appendChild(caption);
+    host.appendChild(layer);
+    layers.push({ layer, mover, img, hl, caption, scene, highlight: scene.highlight || null });
+  });
+
+  function imageRect(layer) {
+    const nw = layer.img.naturalWidth, nh = layer.img.naturalHeight;
+    if (!nw || !nh) return null;
+    const fit = Math.min(SHOT_W / nw, SHOT_H / nh);
+    const dw = nw * fit, dh = nh * fit;
+    return { ox: (SHOT_W - dw) / 2, oy: (SHOT_H - dh) / 2, dw, dh };
+  }
+
+  function layout() {
+    layers.forEach((layer) => {
+      const box = imageRect(layer);
+      const h = layer.highlight;
+      if (!box || !h) { layer.hl.style.display = 'none'; return; }
+      layer.hl.style.display = '';
+      layer.hl.style.left = Math.round(box.ox + h.x * box.dw) + 'px';
+      layer.hl.style.top = Math.round(box.oy + h.y * box.dh) + 'px';
+      layer.hl.style.width = Math.round(h.w * box.dw) + 'px';
+      layer.hl.style.height = Math.round(h.h * box.dh) + 'px';
+    });
+    render(0);
+  }
+
+  function envelope(t, i) {
+    const start = i * SEG, end = (i + 1) * SEG;
+    const half = FADE / 2;
+    // 顺序淡出→淡入：上一场景先淡出到背景，下一场景再淡入，避免两张截图叠加成重影。
+    const inStart = i === 0 ? 0 : start - half;
+    const inLen = i === 0 ? FADE : half;
+    const outStart = i === N - 1 ? DURATION - FADE : end - FADE;
+    const outLen = i === N - 1 ? FADE : half;
+    return Math.min(ramp(t, inStart, inLen), 1 - ramp(t, outStart, outLen));
+  }
+
+  function render(t) {
+    const time = Math.max(0, Math.min(DURATION, t));
+    layers.forEach((layer, i) => {
+      const op = envelope(time, i);
+      layer.layer.style.opacity = op.toFixed(4);
+      layer.layer.style.visibility = op > 0.002 ? 'visible' : 'hidden';
+      if (op <= 0.002) return;
+      const start = i * SEG, p = clamp01((time - start) / Math.max(0.001, SEG));
+      const motion = MOTIONS.includes(layer.scene.motion) ? layer.scene.motion : MOTIONS[i % MOTIONS.length];
+      let scale = 1.05, dx = 0, dy = 0;
+      if (motion === 'zoom-in') { scale = 1.045 + 0.065 * p; }
+      else if (motion === 'zoom-out') { scale = 1.11 - 0.065 * p; }
+      else if (motion === 'pan-left') { scale = 1.075; dx = 1.5 - 3 * p; }
+      else { scale = 1.075; dx = -1.5 + 3 * p; }
+      layer.mover.style.transform = `translate3d(${dx.toFixed(3)}%, ${dy.toFixed(3)}%, 0) scale(${scale.toFixed(4)})`;
+      const capOp = smooth(op);
+      layer.caption.style.opacity = capOp.toFixed(4);
+      layer.caption.style.transform = `translate3d(0, ${((1 - capOp) * 0.9).toFixed(3)}rem, 0)`;
+      if (layer.highlight) {
+        const hlOp = clamp01(ramp(time, start + FADE * 0.45, FADE * 0.8));
+        layer.hl.style.opacity = (hlOp * op).toFixed(4);
+      }
+    });
+    const frame = Math.round(time * FPS);
+    const opening = 1 - ramp(time, 0, 0.5);
+    const closing = ramp(time, DURATION - 0.6, 0.6);
+    document.getElementById('fade').style.opacity = Math.max(opening, closing).toFixed(4);
+    document.getElementById('progress').style.width = ((time / DURATION) * 100).toFixed(3) + '%';
+    return { t: time, frame };
+  }
+
+  window.render = render;
+  window.__ready = false;
+  document.getElementById('progress').style.width = '0%';
+  Promise.all(layers.map((layer) => (layer.img.decode ? layer.img.decode().catch(() => null) : Promise.resolve(null))))
+    .then(() => { layout(); render(0); window.__ready = true; });
+</script>
+</body>
+</html>

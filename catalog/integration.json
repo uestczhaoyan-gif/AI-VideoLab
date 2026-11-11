@@ -1,0 +1,706 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-09",
+  "note": "资源访问等级不是执行承诺：direct/verified 只有三条本地 recipe；prompt 需要当前模型写代码；install_required 需安装验证；index_only/reference 不能直接出片。",
+  "pipeline": [
+    {
+      "id": "brief",
+      "name": "想法 / Brief",
+      "human": true,
+      "output": "一句话想法、受众、目标、时长、画幅、声音"
+    },
+    {
+      "id": "route",
+      "name": "路由",
+      "human": false,
+      "output": "recipe + 资源清单 + 可执行状态"
+    },
+    {
+      "id": "style_frames",
+      "name": "风格帧",
+      "human": true,
+      "output": "三张代表帧，人确认"
+    },
+    {
+      "id": "produce",
+      "name": "制作",
+      "human": false,
+      "output": "本地执行器或外部工具产物"
+    },
+    {
+      "id": "qa",
+      "name": "质检",
+      "human": true,
+      "output": "机械 QA + 人工内容/声音/完整观看"
+    },
+    {
+      "id": "export",
+      "name": "导出",
+      "human": true,
+      "output": "成片、项目 JSON、确认门记录"
+    }
+  ],
+  "routes": [
+    {
+      "id": "code-motion",
+      "recipe_id": "code-motion",
+      "purposes": [
+        "motion",
+        "story"
+      ],
+      "signals": [
+        "动效",
+        "片头",
+        "转场",
+        "代码动画",
+        "风格"
+      ],
+      "executor": {
+        "kind": "local_cli",
+        "status": "verified",
+        "verified_at": "2026-11-08",
+        "evidence": ".tmp/recipe-runs/example-code-motion/report.json",
+        "example": "examples/code-motion/README.md",
+        "entry": "recipes/code-motion/run.mjs"
+      },
+      "resources": [
+        {
+          "source_id": "P09",
+          "role": "prompt",
+          "access": "prompt"
+        },
+        {
+          "source_id": "P02",
+          "role": "prompt",
+          "access": "prompt"
+        },
+        {
+          "source_id": "P03",
+          "role": "prompt",
+          "access": "prompt"
+        },
+        {
+          "source_id": "V06",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V10",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V11",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V14",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "P22",
+          "role": "install_required",
+          "access": "install_required"
+        }
+      ],
+      "limits": [
+        "文字/图形卡点短动效；无生成式素材、角色或真人",
+        "导演内容由当前 CLI 模型写；执行器不调用模型 API"
+      ],
+      "recipe": {
+        "revision": "local-1",
+        "runnable": true,
+        "entry": "recipes/code-motion/run.mjs"
+      }
+    },
+    {
+      "id": "explain-data",
+      "recipe_id": "explain-data",
+      "purposes": [
+        "education",
+        "data"
+      ],
+      "signals": [
+        "数据",
+        "图表",
+        "统计",
+        "指标",
+        "科普",
+        "机制"
+      ],
+      "executor": {
+        "kind": "local_cli",
+        "status": "verified",
+        "verified_at": "2026-11-08",
+        "evidence": ".tmp/explain-data/example-explain-data/qa.json",
+        "example": "examples/explain-data/README.md",
+        "entry": "recipes/explain-data/run.mjs"
+      },
+      "resources": [
+        {
+          "source_id": "V04",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V12",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "P05",
+          "role": "install_required",
+          "access": "install_required"
+        },
+        {
+          "source_id": "P06",
+          "role": "install_required",
+          "access": "install_required"
+        },
+        {
+          "source_id": "P07",
+          "role": "install_required",
+          "access": "install_required"
+        },
+        {
+          "source_id": "P23",
+          "role": "index_only",
+          "access": "index_only"
+        }
+      ],
+      "limits": [
+        "固定横向条形图版式；不支持折线图/多图联动/自定义布局",
+        "不验证数据真实性；示例数据必须标注，真实统计人工核对"
+      ],
+      "recipe": {
+        "revision": "local-1",
+        "runnable": true,
+        "entry": "recipes/explain-data/run.mjs"
+      }
+    },
+    {
+      "id": "real-product",
+      "recipe_id": "real-product",
+      "purposes": [
+        "product"
+      ],
+      "signals": [
+        "产品",
+        "截图",
+        "界面",
+        "功能",
+        "演示",
+        "落地页"
+      ],
+      "executor": {
+        "kind": "local_cli",
+        "status": "verified",
+        "verified_at": "2026-11-08",
+        "evidence": ".tmp/real-product/run/report.json",
+        "example": "examples/real-product/README.md",
+        "entry": "recipes/real-product/run.mjs"
+      },
+      "resources": [
+        {
+          "source_id": "P22",
+          "role": "install_required",
+          "access": "install_required"
+        },
+        {
+          "source_id": "V05",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V08",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "V14",
+          "role": "reference",
+          "access": "reference"
+        },
+        {
+          "source_id": "P16",
+          "role": "install_required",
+          "access": "install_required"
+        },
+        {
+          "source_id": "P08",
+          "role": "install_required",
+          "access": "install_required"
+        }
+      ],
+      "limits": [
+        "只包装真实截图；不生成 UI、不录屏、不验证功能真实性",
+        "2–6 场景；图片须在仓库工作区内"
+      ],
+      "recipe": {
+        "revision": "local-1",
+        "runnable": true,
+        "entry": "recipes/real-product/run.mjs"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "source_id": "LEMO",
+      "title": "lemo-opuscar 风格工程",
+      "url": "https://github.com/lemomo-ai/lemo-opuscar/tree/b5e8ef93930b6d828f352055a689320f138237b1",
+      "license": "MIT / 素材另计",
+      "access": "install_required",
+      "note": "风格工程快照；未运行",
+      "prompt_entries": 0,
+      "templates": 51,
+      "routes": []
+    },
+    {
+      "source_id": "P01",
+      "title": "ai-promo-video-maker：产品宣传片工作流提取",
+      "url": "https://github.com/liyupi/ai-promo-video-maker",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "工作流/SOP 文档；未执行",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P02",
+      "title": "mg-styles-15：多风格代码动画方法提取",
+      "url": "https://github.com/Vincentwei1021/mg-styles-15",
+      "license": "待核查",
+      "access": "prompt",
+      "note": "15 条风格 Prompt；仅 5 条 demo 有本地视频",
+      "prompt_entries": 10,
+      "templates": 15,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "P03",
+      "title": "fifi-video-prompt：高度具体的代码动画 Prompt",
+      "url": "https://github.com/huiq777/fifi-video-prompt",
+      "license": "待核查",
+      "access": "prompt",
+      "note": "fifi 案例 Prompt；单案例",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "P04",
+      "title": "Table-VideoSOP：以配音为时基的人机制作流程",
+      "url": "https://github.com/duoduoler-ops/Table-VideoSOP",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "Table-VideoSOP 文档与模板",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P05",
+      "title": "3b1b/manim：程序化解释动画的工具边界",
+      "url": "https://github.com/3b1b/manim",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Manim 相关引擎；未安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "P06",
+      "title": "Manim Community：对象、动画与场景",
+      "url": "https://docs.manim.community/en/stable/tutorials/building_blocks.html",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Manim 相关引擎；未安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "P07",
+      "title": "Remotion：把视频表示为逐帧组件",
+      "url": "https://www.remotion.dev/docs/idea",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "绘图/动画引擎；未安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "P08",
+      "title": "Anatomy：把概念做成可工作的物体",
+      "url": "https://github.com/wheresryan22/anatomy",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Anatomy 交互图解；未安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "real-product"
+      ]
+    },
+    {
+      "source_id": "P09",
+      "title": "Code Animation Prompts：341 条风格素材与代码动画工具包",
+      "url": "https://github.com/XiaoyeCodes/code-animation-prompts",
+      "license": "混合来源 / 免费分享约定",
+      "access": "prompt",
+      "note": "341 条风格 Prompt 与索引；可喂给 code-motion 的导演步骤",
+      "prompt_entries": 341,
+      "templates": 341,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "P10",
+      "title": "Ploto：我是如何借助 AI 制作一支长视频的",
+      "url": "https://ploto.me/posts/how-i-made-a-long-video-with-ai/",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "Ploto 长片文章；方法参考",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P11",
+      "title": "auto-motion：字幕驱动的导演与单镜头执行模板",
+      "url": "https://github.com/vibe-motion/auto-motion",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "auto-motion 模板；需安装/运行",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P12",
+      "title": "Open Design：Agent 适配、按需 Skill 与设计工作台",
+      "url": "https://github.com/nexu-io/open-design",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Open Design Skill；需安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P13",
+      "title": "Manim Skill：旁白计时与代码动画",
+      "url": "https://github.com/Yusuke710/manim-skill",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Skill 资源；需安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P14",
+      "title": "Remotion Agent Skills：按工序加载的官方指导",
+      "url": "https://github.com/remotion-dev/skills",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Skill 资源；需安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P15",
+      "title": "HyperFrames：可寻址 HTML 动画与 MP4 导出",
+      "url": "https://github.com/heygen-com/hyperframes",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "HyperFrames 引擎；需 Node/ffmpeg，未安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P16",
+      "title": "Onetake：设计相邻段之间的承接",
+      "url": "https://github.com/feitangyuan/onetake",
+      "license": "PolyForm Noncommercial 1.0.0",
+      "access": "install_required",
+      "note": "Onetake 工具链；非商业许可",
+      "prompt_entries": 0,
+      "templates": 1,
+      "routes": [
+        "real-product"
+      ]
+    },
+    {
+      "source_id": "P17",
+      "title": "Anidoodle：逐笔构建的程序化绘画与动画",
+      "url": "https://github.com/alexgreensh/anidoodle",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Anidoodle 插件；需安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P18",
+      "title": "Claudian：在文件工作台中调用已有 Agent",
+      "url": "https://github.com/YishenTu/claudian",
+      "license": "待核查",
+      "access": "install_required",
+      "note": "Claudian 工具；需安装",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P19",
+      "title": "Awesome AI Motion：按题材发现参考与制作线索",
+      "url": "https://github.com/guanmo-ai/awesome-ai-motion",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "索引/外链；未取得工程",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P20",
+      "title": "Awesome Opus 5.5 Videos：原帖与 Prompt 集合",
+      "url": "https://github.com/yihui-dev/awesome-opus5-5-videos",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "索引/外链；未取得工程",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P21",
+      "title": "Awesome Claude 5.5 Videos：带来源与覆盖标记的流程集合",
+      "url": "https://github.com/athemeroy/awesome-claude-5-5-videos",
+      "license": "待核查",
+      "access": "index_only",
+      "note": "索引/外链；未取得工程",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "P22",
+      "title": "video-shotcraft：镜头配方卡 + Remotion 产品宣传片",
+      "url": "https://github.com/Vincentwei1021/video-shotcraft",
+      "license": "Apache License 2.0（代码；素材另计）",
+      "access": "install_required",
+      "note": "video-shotcraft 镜头库；约 201 MB，Apache-2.0 代码，未安装未渲染",
+      "prompt_entries": 0,
+      "templates": 1,
+      "routes": [
+        "code-motion",
+        "real-product"
+      ]
+    },
+    {
+      "source_id": "P23",
+      "title": "Awesome AI Motion：上千条 AI 动效作品索引",
+      "url": "https://guanmo-ai.github.io/awesome-ai-motion/",
+      "license": "NOASSERTION / 条目许可各异",
+      "access": "index_only",
+      "note": "Awesome AI Motion 作品索引；许可逐条核对",
+      "prompt_entries": 0,
+      "templates": 1,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "V01",
+      "title": "0 基础，带你做出你人生第一个 AI 视频",
+      "url": "https://www.bilibili.com/video/BV1Z28P6HEGa/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "角色资产锚定链；核心 Skill 未公开",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V02",
+      "title": "Opus 5.5 与 G*T 6 Astra 的视频比较",
+      "url": "https://www.bilibili.com/video/BV1Haaq6ZEei/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "模型比较展示；无可复现流程",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V03",
+      "title": "GPT6 直出的视频是什么效果",
+      "url": "https://www.bilibili.com/video/BV1E2t26vEVx/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "成片展示；无公开制作链",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V04",
+      "title": "Opus5.5 为啥审美这么好？我研究了下发现…",
+      "url": "https://www.bilibili.com/video/BV1wqpi6PE19/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "确定性 render(t) + 逐帧 + 指标检查",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "V05",
+      "title": "用 Agent 做讲解视频：我的 AI 视频制作流程和开源 SOP",
+      "url": "https://www.bilibili.com/video/BV1xGah67E1j/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "Agent 协作 SOP 与配音锁时基",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "real-product"
+      ]
+    },
+    {
+      "source_id": "V06",
+      "title": "341 种风格提示词：Opus 代码动画，DeepSeek 也能做",
+      "url": "https://www.bilibili.com/video/BV1bqx76wEUM/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "341 风格 Prompt 的原始来源",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "V07",
+      "title": "Vibe 科普动画的拆解：任务、受众、内容、风格与规格",
+      "url": "https://www.bilibili.com/video/BV1ALnw6YEM7/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "Prompt 分层与六个步骤",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V08",
+      "title": "全网 150 万播放的 AI 动画：短片尝试与长片制作全流程",
+      "url": "https://www.bilibili.com/video/BV1xFnt6zE3K/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "长片全流程与确认点",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "real-product"
+      ]
+    },
+    {
+      "source_id": "V09",
+      "title": "如何构建个人 harness？从 vibe 动画到 auto 动画",
+      "url": "https://www.bilibili.com/video/BV1Gg3E6BEbn/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "个人 harness 与多模型分工",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V10",
+      "title": "DSH + V4.1F + Remotion：46 秒全代码逐帧生成的展示片",
+      "url": "https://www.bilibili.com/video/BV1ztH96uE1Z/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "46 秒全代码展示片；时间基与卡点",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "V11",
+      "title": "代码动画加强版：fy-code-animation v1.0.0（俯仰观照）",
+      "url": "https://www.bilibili.com/video/BV1vsx66BE4p/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "fy-code-animation v1.0.0 十步流程",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "code-motion"
+      ]
+    },
+    {
+      "source_id": "V12",
+      "title": "AI 做动画视频完全指南：原理、技巧、Skill 一次给全",
+      "url": "https://www.bilibili.com/video/BV1f94c6uEr3/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "motion-showreel 原理/技巧/QA",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "explain-data"
+      ]
+    },
+    {
+      "source_id": "V13",
+      "title": "Harness 实践：让 Agent 全自动制作知识讲解视频",
+      "url": "https://www.bilibili.com/video/BV1ypdgBCE9B/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "web-video-presentation + Harness",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": []
+    },
+    {
+      "source_id": "V14",
+      "title": "所有 Agent 都能用的 Opus5.5 水准镜头动效",
+      "url": "https://www.bilibili.com/video/BV16Axw6gEc5/",
+      "license": "待核查",
+      "access": "reference",
+      "note": "video-shotcraft 介绍；仓库见 P22",
+      "prompt_entries": 0,
+      "templates": 0,
+      "routes": [
+        "code-motion",
+        "real-product"
+      ]
+    }
+  ]
+}

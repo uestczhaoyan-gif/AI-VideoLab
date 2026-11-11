@@ -1,15 +1,16 @@
 # VideoLab 持续集成
 #
-# 只运行不需要浏览器、不需要本机上游快照、不访问外部服务的检查：
-#   1. 依赖安装（--ignore-scripts：不执行生命周期脚本，也不会下载 Playwright 浏览器）
-#   2. catalog 结构、Schema、引用与安全路径校验
-#   3. 项目 JSON Schema 生成物是否最新
-#   4. Node 单元测试与服务测试（缺失本机缓存时会显式跳过依赖缓存的用例）
-#   5. Markdown 相对链接检查
+# 只运行不需要浏览器、不需要本机资源快照、不访问外部服务的检查：
+#   1. 依赖安装（--ignore-scripts）
+#   2. catalog 结构、Schema、引用与安全路径
+#   3. 项目 JSON Schema 生成物
+#   4. 三条 recipe 执行器与示例语法
+#   5. 单元测试（目录/契约/执行器结构/路由）
+#   6. 整合 registry 是否最新、来源覆盖是否完整
+#   7. Markdown 相对链接
 #
-# 不在 CI 运行 `npm run test:ui`：浏览器回归需要本机已安装的 Edge/Chrome 或已有的
-# Playwright Chromium。也不运行 `npm run loop:smoke`：它需要浏览器与 ffmpeg 才能
-# 真实渲染并编码。CI 明确不下载浏览器与媒体；界面／闭环改动请在本机运行并记录结果。
+# 不运行 `npm run make` / `loop:smoke`：真实渲染需要本机 Chrome/Edge 与 ffmpeg，
+# 由维护者在本机执行并记录；CI 不下载浏览器与媒体。
 name: CI
 
 on:
@@ -33,7 +34,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 22 = 仓库声明的最低版本（package.json engines），24 = 当前主线版本
         node-version: ['22', '24']
     steps:
       - name: Checkout
@@ -51,19 +51,20 @@ jobs:
       - name: Validate catalog schema, references and safe paths
         run: npm run catalog:check
 
+      - name: Check recipe and renderer syntax
+        run: npm run recipe:check
+
       - name: Verify generated project validator is current
         run: node tools/project/build-validator.mjs --check
 
-      - name: Run unit, catalog and local server tests
-        run: npm test
+      - name: Verify integration registry and resource coverage
+        run: npm run integration:check
 
-      # 说明：UI 回归与最小闭环需要已安装浏览器／ffmpeg，CI 不安装、不执行：
-      #   npm run test:ui
-      #   npm run loop:smoke
-      - name: Note skipped browser checks
-        run: >-
-          echo "UI regression and loop:smoke need a local browser and ffmpeg;
-          they are run locally, not in CI."
+      - name: Verify template → prompt → workflow map is current
+        run: npm run catalog:map:check
+
+      - name: Run unit, catalog and contract tests
+        run: npm test
 
       - name: Check Markdown relative file links
         run: npm run docs:check

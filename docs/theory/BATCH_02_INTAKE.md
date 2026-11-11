@@ -21,7 +21,7 @@
 
 ## 已保存的开源文件
 
-仓库：`XiaoyeCodes/code-animation-prompts`，固定为 `69ccbeaf0b821591a40936572c2f559d8f4cfb68`。本地完整快照在 `docs/theory/_sources/code-animation-prompts/`，不纳入提交。
+仓库：`XiaoyeCodes/code-animation-prompts`，固定为 `69ccbeaf0b821591a40936572c2f559d8f4cfb68`。本地完整快照在 `resources/prompt-libraries/code-animation-prompts/source/`，不纳入提交。
 
 - 341 个唯一风格编号与 Prompt，193 张参考静帧、148 个文字条目，引用文件路径全部存在。
 - 原素材清单中 555 个文件的 SHA-256 全部通过。
@@ -29,7 +29,7 @@
 - 已阅读检索代码后运行 `search 水墨` 和 `show B3`，只读测试成功；没有执行安装脚本、调用模型或渲染。
 - 合集按免费分享约定分发，第三方文件保留各自许可，不是统一 MIT。素材包不并入 VideoLab 根 MIT 范围。
 
-本机可打开：[341 风格离线挑选器](_sources/code-animation-prompts/skills/code-animation-prompts/assets/library/风格挑选.html)。这个链接依赖本地忽略提交的快照；公开使用者从 [固定仓库版本](https://github.com/XiaoyeCodes/code-animation-prompts/tree/69ccbeaf0b821591a40936572c2f559d8f4cfb68) 获取后打开同一路径。
+本机可打开：[341 风格离线挑选器](../../resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/assets/library/风格挑选.html)。这个链接依赖本地忽略提交的快照；公开使用者从 [固定仓库版本](https://github.com/XiaoyeCodes/code-animation-prompts/tree/69ccbeaf0b821591a40936572c2f559d8f4cfb68) 获取后打开同一路径。
 
 ## 当前可用的综合认识
 

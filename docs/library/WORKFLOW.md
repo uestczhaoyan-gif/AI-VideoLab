@@ -1,6 +1,6 @@
 # 从资料收集到可选择的工作流
 
-状态：本文保存流程知识与候选契约；已有 Web 浏览／导出和复用当前助手的 CLI 启动入口，尚未实现统一执行器。当前方向与实际进度以 [PROJECT.md](../../PROJECT.md) 为准。开始新创作可直接使用 [CREATE_VIDEO.md](CREATE_VIDEO.md)，不必先导出网页方案。
+状态：本文保存流程知识与候选契约；已有 CLI 制作入口与三条本地执行器，当前是 CLI-only 0.2。当前方向与实际进度以 [PROJECT.md](../../PROJECT.md) 为准。开始新创作可直接使用 [CREATE_VIDEO.md](CREATE_VIDEO.md)，不必先导出网页方案。
 
 ## 当前工作：收集、分类、组合
 
@@ -121,11 +121,11 @@
 
 ## 第三批资料对流程的补充
 
-2026-11-06 的四条视频（V10–V13，见 [BATCH_03_INTAKE](../theory/BATCH_03_INTAKE.md)）给出一套可检查的流程骨架，已进入项目契约与工作台：
+2026-11-06 的四条视频（V10–V13，见 [BATCH_03_INTAKE](../theory/BATCH_03_INTAKE.md)）给出一套可检查的流程骨架，已进入项目契约与 CLI 流程：
 
 | 机制 | 对应来源 | 落地位置与边界 |
 | --- | --- | --- |
-| 三处人工确认：需求 / 风格帧 / 导出前 | V12（三处停点）、V13（两检查点 + 首章基准） | 项目 `gates`（pending / confirmed / waived，确认需写依据）；工作台只展示，不代签 |
+| 三处人工确认：需求 / 风格帧 / 导出前 | V12（三处停点）、V13（两检查点 + 首章基准） | 项目 `gates`（pending / confirmed / waived，确认需写依据）；CLI 只记录用户确认，不代签 |
 | Brief、口播稿、大纲／分镜、来源四类文档 | V12 Brief 模板、V13 的 Outline 与按阶段分发 | 项目 `documents`；允许显式 null，路径统一校验 |
 | 单一时间表驱动画面、口播、配乐、音效 | V10（BPM→帧）、V12（同一张时间表） | recipe 的时基要求；`catalog.sources[].timing` 可记录已公布规格 |
 | 确定性 `render(t)` + 逐帧截图 + 编码 | V12、V13 的网页方案 | 渲染后端选项，不合并录屏式与逐帧式两条路线 |
@@ -137,3 +137,20 @@
 `npm run loop:smoke` 用一条 8 秒、完全本地、零付费调用的确定性代码动画，把「Brief → 大纲 → 渲染 → 编码 → QA → 项目记录」跑通一遍。它不是风格 demo，也不证明成片质量，只验证契约字段、确认门与 QA 规则在本机可用。
 
 实测结果（本机 Chrome + imageio-ffmpeg）：240 帧全部唯一；输出 8.000 s / 1280×720 / 30 fps / H.264 + AAC；对 t=0、2.5、5 三个时刻重复渲染，两处字节一致、一处 PSNR 112.55 dB（亚像素字形差异）；项目记录到 v13，`brief`／`style_frame` 两处确认门已确认并带依据，`export` 保持待确认；QA 为 3 passed（规格、解码、视觉抽检）／2 waived（无对白时基、无事实内容）／3 not_checked（主观声音、完整观看、用户采用），状态保持 `draft`。细节与复现命令见 [tools/loop/README.md](../../tools/loop/README.md)。
+
+## 第一条可执行 recipe：code-motion（2026-11-06）
+
+catalog 顺序第一的 `code-motion` 已从草案变为**本地可执行（半自动）**，适配器 `recipes/code-motion/run.mjs`。流程固定为「Brief 门 → 风格帧门 → 全片渲染 → 编码 → 机械 QA → 新项目版本（export 门仍待确认）」：
+
+```text
+examples/code-motion/make-project.mjs        生成项目（三个确认门均 pending）
+tools/project/cli.mjs gate --id brief         人确认 Brief（必须写依据）
+recipes/code-motion/run.mjs --stage stills    出三张风格帧 + 联系表（不自动确认）
+tools/project/cli.mjs gate --id style_frame   人确认风格帧
+recipes/code-motion/run.mjs --stage render    全片渲染、编码、QA、写回项目
+```
+
+- **导演内容**由当前 CLI 模型（用户指定的 DeepSeek V4.1 Flash，未核实官方 ID／价格）写成 brief 与 `content.json`；执行器**不调用模型 API**，只做确定性 `render(t)` 逐帧、ffmpeg 编码与机械检查。
+- **2026-11-06 实测**：示例 10.0 秒／1280×720／30 fps／300 帧全唯一／H.264+AAC；brief 与 style_frame 两门确认，export 待确认；QA 3 passed（规格、解码、视觉抽检）／1 waived（无对白时基）／4 not_checked（内容、主观声音、完整观看、用户采用），项目 `draft`。产物在 `.tmp/recipe-runs/example-code-motion/`。
+- **边界**：只覆盖文字／图形卡点短动效；没有生成式素材、角色、真人、字幕对齐、配音、BGM、自动剪辑、后台队列或发布。风格帧与成片仍要人看；内容事实与声音仍要人核对。
+- 示例与命令见 [examples/code-motion](../../examples/code-motion/README.md)，适配器说明见 [recipes/code-motion](../../recipes/code-motion/README.md)。

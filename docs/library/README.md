@@ -1,6 +1,6 @@
 # AI 视频方法库
 
-本目录是 CLI 与 Web 共用的人工可读知识层：整合已有方法、Prompt、流程与来源，为按内容／类型选择流程、模板预览和可选模型策略提供背景。**当前愿景、阶段与下一步统一见 [PROJECT.md](../../PROJECT.md)**；本页只负责资料导航。
+本目录是 CLI 与 Agent 共用的人工可读知识层：整合已有方法、Prompt、流程与来源，为按内容／类型选择流程、模板预览和可选模型策略提供背景。**当前愿景、阶段与下一步统一见 [PROJECT.md](../../PROJECT.md)**；本页只负责资料导航。
 
 已有案例知识保存在 [cases/](cases/README.md)：2026-10 的逐风格复现与独立验证工程、渲染产物与代码已于 2026-11 按用户要求清理，只保留总结的要点、Workflow、检查数字与用户反馈。资料可先收录；需判断兼容、质量或费用时，再选择代表难点验证。
 
@@ -10,13 +10,16 @@
 
 | 入口 | 解决什么问题 |
 | --- | --- |
-| [CREATE_VIDEO.md](CREATE_VIDEO.md) | 直接交给当前 CLI 助手开始需求对话、选型与制作；不要求先开 Web 或配置额外 API |
-| [工作台](../../apps/workbench/README.md) | 可选的视觉浏览、预览、收藏／对比与引用型任务包 |
+| [TEMPLATE_MAP.md](TEMPLATE_MAP.md) | **模板 → Prompt → Workflow 完整对照**：每个模板的提示词路径、建议 V 章节、执行状态 |
+| [VIDEO_WORKFLOWS.md](VIDEO_WORKFLOWS.md) | **按视频整理的 Workflow 总表**：一视频一节，按复杂度 1–5 从简到繁；全部方案保留，用“先简单后复杂”选择 |
+| [INTEGRATION.md](INTEGRATION.md) | **统一制作规范与资源路由**：资源访问等级、三条已验证执行器、路由命令与验证口径 |
+| [USAGE.md](../USAGE.md) | CLI 安装、制作、产物、排错与验证 |
+| [CREATE_VIDEO.md](CREATE_VIDEO.md) | 交给已有 Agent（Pi/Codex/Claude Code/DSH）的制作启动提示 |
 | [catalog](../../catalog/README.md) | 结构化来源／模板／候选流程、校验与缓存恢复 |
 | [METHODS.md](METHODS.md) | 视频怎么分类；16 个候选方法标签分别适合什么、已有多少证据 |
 | [SOURCES.md](SOURCES.md) | 已有视频、项目、Prompt、源码与环境文件在哪里；哪些来源尚不完整 |
 | [STYLES.md](STYLES.md) | 341 条风格素材与离线挑选器，以及已有 51／15 风格资料；跨库重叠分别保留 |
-| [WORKFLOW.md](WORKFLOW.md) | 怎样收集、怎样组合制作步骤，以及未来界面的输入输出草案 |
+| [WORKFLOW.md](WORKFLOW.md) | 怎样收集、怎样组合制作步骤，以及 CLI 的输入输出 |
 | [ROUTING.md](ROUTING.md) | 按任务／风格分配模型、Skill 与工具；怎样以短对照验证而非逐个做 demo |
 | [REPOSITORIES.md](REPOSITORIES.md) | 关联仓库固定版本、下载范围、阅读、哈希、许可与缺口 |
 | [PROMPTS.md](PROMPTS.md) | 怎样从主题和方法生成 Prompt；怎样保存完整输入与返修要求 |
@@ -39,7 +42,7 @@
 
 - 首轮 [V06–V09 与 P09–P10](../theory/BATCH_02_INTAKE.md) 六份之外，补入 P11–P21 十一份仓库笔记，累计三十份。四条视频均有全片时间范围的两秒文字采样；长视频 965 个时间点文字已读，仍不是完整视听。
 - 已保存 [code-animation-prompts](../theory/extractions/projects/P09-code-animation-prompts.md) 固定快照，核对 341 个 Prompt、193 张图、原素材 555 个文件哈希，并只读测试检索。
-- 本机可打开 [341 风格离线挑选器](../theory/_sources/code-animation-prompts/skills/code-animation-prompts/assets/library/风格挑选.html)；该链接依赖本地来源缓存，公开使用者按 [固定版本](https://github.com/XiaoyeCodes/code-animation-prompts/tree/69ccbeaf0b821591a40936572c2f559d8f4cfb68) 获取。
+- 本机可打开 [341 风格离线挑选器](../../resources/prompt-libraries/code-animation-prompts/source/skills/code-animation-prompts/assets/library/风格挑选.html)；该链接依赖本地来源缓存，公开使用者按 [固定版本](https://github.com/XiaoyeCodes/code-animation-prompts/tree/69ccbeaf0b821591a40936572c2f559d8f4cfb68) 获取。
 - 补存十个完整仓库 ZIP，另取 Open Design 的 49 份核心文件，见 [仓库清单](REPOSITORIES.md)；后者不是完整软件。auto-motion 当前源码与视频的渲染路线不同，Onetake 当前仅允许相应非商业用途。
 - 长片确认、局部重渲、费用口径，以及多模型分工、风格适配与 A/B 已分别记录，并整理成 [路由草案](ROUTING.md)。它们仍是待验证的建议，不是已实现选模器。
 - 合集和相关仓库分别遵守自身许可，第三方部分另计，不整体归入 VideoLab 根 MIT；未安装为全局 Skill、未启动制片。
