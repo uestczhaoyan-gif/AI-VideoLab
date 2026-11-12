@@ -95,8 +95,10 @@ async function main() {
   if (briefGate?.status !== 'confirmed') fail(`brief 确认门尚未确认（当前 ${briefGate?.status ?? '缺失'}）。先运行 tools/project/cli.mjs gate --id brief --basis "…"`);
 
   const style = typeof content.style === 'string' && /^[a-z0-9-]{1,24}$/.test(content.style) ? content.style : null;
+  const customFile = content.style_file ? path.resolve(outDir, content.style_file) : null;
+  if (customFile && (!fs.existsSync(customFile) || path.extname(customFile).toLowerCase() !== '.html')) fail(`自定义风格文件不存在或不是 HTML：${content.style_file}`);
   const styleFile = style ? path.join(ROOT, 'recipes/code-motion/styles', `${style}.html`) : null;
-  const templateFile = styleFile && fs.existsSync(styleFile) ? styleFile : path.join(ROOT, 'recipes/code-motion/scene.template.html');
+  const templateFile = customFile ?? (styleFile && fs.existsSync(styleFile) ? styleFile : path.join(ROOT, 'recipes/code-motion/scene.template.html'));
   const template = fs.readFileSync(templateFile, 'utf8');
   const sceneFile = path.join(outDir, 'scene.html');
   fs.writeFileSync(sceneFile, template.replace('__CONTENT_JSON__', JSON.stringify(content)));

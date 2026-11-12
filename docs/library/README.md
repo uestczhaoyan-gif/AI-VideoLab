@@ -11,6 +11,7 @@
 | 入口 | 解决什么问题 |
 | --- | --- |
 | [TEMPLATE_MAP.md](TEMPLATE_MAP.md) | **模板 → Prompt → Workflow 完整对照**：每个模板的提示词路径、建议 V 章节、执行状态 |
+| [STYLE_GENERATION.md](STYLE_GENERATION.md) | 用 Agent 读资源 Prompt、即时生成 HTML 风格，再用 `--style-file` 渲染；不必为每个风格预写适配器 |
 | [VIDEO_WORKFLOWS.md](VIDEO_WORKFLOWS.md) | **按视频整理的 Workflow 总表**：一视频一节，按复杂度 1–5 从简到繁；全部方案保留，用“先简单后复杂”选择 |
 | [INTEGRATION.md](INTEGRATION.md) | **统一制作规范与资源路由**：资源访问等级、三条已验证执行器、路由命令与验证口径 |
 | [USAGE.md](../USAGE.md) | CLI 安装、制作、产物、排错与验证 |

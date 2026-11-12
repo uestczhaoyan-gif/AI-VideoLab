@@ -56,7 +56,7 @@ npm run make -- --topic "产品演示" --screens ./screenshots --yes
 
 每条都走同一项目契约：Brief 确认 → 风格帧确认 → 渲染 → 机械 QA（内容/主观声音/完整观看/采用永远保留给人）。
 
-> 这里的“三条”指三种**可执行渲染器**，不是资源库只有三个模板。资源库有 51 个 LEMO 风格、15 个 MG 风格、341 条 CAP Prompt、125 张镜头卡等；已把其中 3 个风格模板真正接进 `code-motion` 的执行链，见下文 Demo。其余资源可通过 Agent 读取/改写，或按 `resources/PROMPTS.md` 使用。
+> 这里的“三条”指三种**可执行渲染器**，不是资源库只有三个模板。资源库有 51 个 LEMO 风格、15 个 MG 风格、341 条 CAP Prompt、125 张镜头卡等；已把其中 3 个风格模板真正接进 `code-motion` 的执行链，见下文风格模板。其余资源可通过 Agent 读取/改写，或按 `resources/PROMPTS.md` 使用。
 
 ## 三个可执行风格模板
 
@@ -64,7 +64,7 @@ npm run make -- --topic "产品演示" --screens ./screenshots --yes
 
 | CLI 风格 | 来源 | 适合 |
 | --- | --- | --- |
-| `blueprint` | LEMO `blueprint` | 光路、结构、工程解释 |
+| `blueprint` | LEMO `blueprint` | 光路、结构、工程解释；非线性主题会自动切到非线性介质视觉 |
 | `bauhaus` | MG `09-bauhaus` | 概念、对比、几何/色彩 |
 | `ink-wash` | LEMO `ink-wash` | 波/场、时间、东方视觉 |
 
@@ -72,7 +72,15 @@ npm run make -- --topic "产品演示" --screens ./screenshots --yes
 npm run make -- --topic "透镜如何改写一束光" --style blueprint --duration 20 --yes
 ```
 
-模板在 `recipes/code-motion/styles/`，是按上游视觉语言改写的确定性 HTML，不是直接运行上游工程。模板 → Prompt → Workflow 的对应见 [TEMPLATE_MAP](docs/library/TEMPLATE_MAP.md)。
+**主题不需要和模板同名。** 先让 CLI 在资源库里给建议：
+
+```sh
+npm run make -- --topic "做一个非线性光学的视频" --suggest
+```
+
+它会列出 LEMO/MG/CAP 的视觉候选、可执行风格和 Prompt 路径；没有同名模板时选最接近的视觉语言（科学/工程类推荐 `blueprint`），再用主题内容生成，不会反问“模板不匹配怎么办”。`--style auto` 也会自动推荐；默认交互时直接回车即可。
+
+模板在 `recipes/code-motion/styles/`，是按上游视觉语言改写的确定性 HTML，不是直接运行上游工程。模板 → Prompt → Workflow 的对应见 [TEMPLATE_MAP](docs/library/TEMPLATE_MAP.md)。如果要用任意资源风格，可由 Agent 读 Prompt 现写 HTML，再用 `--style-file` 渲染，见 [STYLE_GENERATION](docs/library/STYLE_GENERATION.md)。
 
 ## 让已有 Agent 接手
 

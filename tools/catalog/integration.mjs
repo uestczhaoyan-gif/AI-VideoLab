@@ -121,10 +121,13 @@ export function recommendRoute(catalog, { topic = '', purpose = '' } = {}) {
   const routes = buildIntegration(catalog).routes;
   const byId = Object.fromEntries(routes.map((r) => [r.id, r]));
   let id = 'code-motion';
-  if (/数据|图表|统计|指标|机制|科普/.test(text) || ['data', 'education'].includes(purpose)) {
-    id = /产品|截图|界面|功能|演示|落地页/.test(text) ? 'real-product' : 'explain-data';
-  } else if (/产品|截图|界面|功能|演示|落地页/.test(text) || purpose === 'product') {
+  if (/产品|截图|界面|功能|演示|落地页/.test(text) || purpose === 'product') {
     id = 'real-product';
+  } else if (/光学|物理|激光|量子|非线性|化学|生物|天文|材料/.test(topic)) {
+    // Science explainers need code motion, not the fixed data-chart recipe.
+    id = 'code-motion';
+  } else if (/数据|图表|统计|指标|机制|科普/.test(text) || ['data', 'education'].includes(purpose)) {
+    id = 'explain-data';
   }
   return { route: byId[id], alternatives: routes.filter((r) => r.id !== id).map((r) => r.id) };
 }

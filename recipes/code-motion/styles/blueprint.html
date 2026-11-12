@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
@@ -46,23 +46,39 @@
   <svg viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <line x1="80" y1="390" x2="1200" y2="390" stroke="#2a628c" stroke-width="1" stroke-dasharray="4 8"/>
     <text x="86" y="378" class="lbl">OPTICAL AXIS</text>
-    <g id="rays" stroke="#8fe0ff" stroke-width="2" fill="none">
-      <line id="ray1" x1="300" y1="230" x2="760" y2="390" stroke-dasharray="0 1200"/>
-      <line id="ray2" x1="300" y1="230" x2="760" y2="230" stroke-dasharray="0 1200"/>
-      <line id="ray3" x1="760" y1="390" x2="1050" y2="550" stroke-dasharray="0 1200"/>
-      <line id="ray4" x1="760" y1="230" x2="1050" y2="550" stroke-dasharray="0 1200"/>
-      <line id="ray5" x1="760" y1="230" x2="1050" y2="300" stroke-dasharray="0 1200"/>
+    <g id="lensMode">
+      <g id="rays" stroke="#8fe0ff" stroke-width="2" fill="none">
+        <line id="ray1" x1="300" y1="230" x2="760" y2="390" stroke-dasharray="0 1200"/>
+        <line id="ray2" x1="300" y1="230" x2="760" y2="230" stroke-dasharray="0 1200"/>
+        <line id="ray3" x1="760" y1="390" x2="1050" y2="550" stroke-dasharray="0 1200"/>
+        <line id="ray4" x1="760" y1="230" x2="1050" y2="550" stroke-dasharray="0 1200"/>
+        <line id="ray5" x1="760" y1="230" x2="1050" y2="300" stroke-dasharray="0 1200"/>
+      </g>
+      <ellipse id="lens" cx="760" cy="390" rx="54" ry="190" fill="#12395e66" stroke="#8fe0ff" stroke-width="2.2"/>
+      <line id="object" x1="300" y1="390" x2="300" y2="230" stroke="#ffcf6b" stroke-width="3"/>
+      <polygon id="objectHead" points="300,230 292,248 308,248" fill="#ffcf6b"/>
+      <line id="image" x1="1050" y1="390" x2="1050" y2="550" stroke="#ffcf6b" stroke-width="3" opacity="0"/>
+      <polygon id="imageHead" points="1050,550 1042,532 1058,532" fill="#ffcf6b" opacity="0"/>
+      <circle id="focus" cx="912" cy="390" r="4" fill="#ffcf6b" opacity="0"/>
+      <text id="focusLbl" x="902" y="420" class="lbl bright" opacity="0">F</text>
+      <text x="296" y="218" class="lbl">OBJECT</text>
+      <text id="imageLbl" x="1036" y="575" class="lbl" opacity="0">IMAGE</text>
+      <text x="730" y="620" class="lbl">LENS · f = 152 mm</text>
     </g>
-    <ellipse id="lens" cx="760" cy="390" rx="54" ry="190" fill="#12395e66" stroke="#8fe0ff" stroke-width="2.2"/>
-    <line id="object" x1="300" y1="390" x2="300" y2="230" stroke="#ffcf6b" stroke-width="3"/>
-    <polygon id="objectHead" points="300,230 292,248 308,248" fill="#ffcf6b"/>
-    <line id="image" x1="1050" y1="390" x2="1050" y2="550" stroke="#ffcf6b" stroke-width="3" opacity="0"/>
-    <polygon id="imageHead" points="1050,550 1042,532 1058,532" fill="#ffcf6b" opacity="0"/>
-    <circle id="focus" cx="912" cy="390" r="4" fill="#ffcf6b" opacity="0"/>
-    <text id="focusLbl" x="902" y="420" class="lbl bright" opacity="0">F</text>
-    <text x="296" y="218" class="lbl">OBJECT</text>
-    <text id="imageLbl" x="1036" y="575" class="lbl" opacity="0">IMAGE</text>
-    <text x="730" y="620" class="lbl">LENS · f = 152 mm</text>
+    <g id="nonlinearMode" opacity="0">
+      <rect x="610" y="250" width="150" height="300" fill="#12395e88" stroke="#62c7ff" stroke-width="1.6"/>
+      <text x="622" y="238" class="lbl bright">χ(2) / χ(3) MEDIUM</text>
+      <path id="pumpWave" d="" fill="none" stroke="#8fe0ff" stroke-width="2" opacity="0"/>
+      <line id="omegaIn" x1="120" y1="400" x2="610" y2="400" stroke="#8fe0ff" stroke-width="2" stroke-dasharray="0 600"/>
+      <line id="shgRay" x1="760" y1="400" x2="1140" y2="190" stroke="#ffcf6b" stroke-width="2.4" stroke-dasharray="0 500"/>
+      <line id="dfRay" x1="760" y1="400" x2="1140" y2="520" stroke="#ff8a5c" stroke-width="2.4" stroke-dasharray="0 500"/>
+      <line id="sfRay" x1="760" y1="400" x2="1140" y2="330" stroke="#8fe0ff" stroke-width="2.4" stroke-dasharray="0 500"/>
+      <text x="980" y="174" class="lbl bright">2ω · SHG</text>
+      <text x="980" y="558" class="lbl">ω1 / ω2 · DFG</text>
+      <text x="980" y="318" class="lbl">ω · SFM</text>
+      <text x="120" y="374" class="lbl">PUMP ω</text>
+      <text x="610" y="620" class="lbl">NONLINEAR RESPONSE · INTENSITY-DEPENDENT</text>
+    </g>
     <line x1="80" y1="640" x2="1200" y2="640" class="titleline"/>
   </svg>
   <div class="steps" id="steps"></div>
@@ -81,6 +97,11 @@
   $('hspec').textContent = (C.specTitle || '').replace(' / ', ' · ');
   $('steps').innerHTML = (C.steps || []).map((s, i) => `<div class="step" id="step${i}"><div class="n">${s.label || '0' + (i + 1)}</div><div class="t">${s.title || ''}</div><div class="d">${s.desc || ''}</div></div>`).join('');
   const TOTAL = Math.round(C.duration * C.fps);
+  const nonlinear = C.visual === 'nonlinear';
+  $('lensMode').style.display = nonlinear ? 'none' : '';
+  $('nonlinearMode').style.display = nonlinear ? '' : 'none';
+  $('nonlinearMode').setAttribute('opacity', nonlinear ? '1' : '0');
+  $('pumpWave').setAttribute('d', 'M120 400 Q150 365 180 400 T240 400 T300 400 T360 400 T420 400 T480 400 T540 400 T600 400');
   function drawLine(id, p, length) { const el = $(id); el.setAttribute('stroke-dasharray', `${(length * p).toFixed(2)} 1200`); }
   function render(t) {
     const time = Math.max(0, Math.min(C.duration, t));
@@ -88,13 +109,21 @@
     $('hf').textContent = `${Math.round(time * C.fps)} / ${TOTAL}`;
     $('title').style.opacity = ramp(time, 0, 1.4).toFixed(3);
     $('sub').style.opacity = ramp(time, .7, 1.6).toFixed(3);
-    const p1 = ramp(time, 2, 3.2), p2 = ramp(time, 5, 3.2), p3 = ramp(time, 9, 2.4);
-    drawLine('ray1', p1, 500); drawLine('ray2', p1, 460);
-    drawLine('ray3', p2, 380); drawLine('ray4', p2, 430);
-    drawLine('ray5', p2, 320);
-    $('lens').style.opacity = ramp(time, 1.2, 1.2).toFixed(3);
-    $('image').style.opacity = p2.toFixed(3); $('imageHead').style.opacity = p2.toFixed(3); $('imageLbl').style.opacity = p2.toFixed(3);
-    $('focus').style.opacity = p2.toFixed(3); $('focusLbl').style.opacity = p2.toFixed(3);
+    const p1 = ramp(time, 2, 3.2), p2 = ramp(time, 5, 3.2);
+    if (nonlinear) {
+      drawLine('omegaIn', p1, 500);
+      drawLine('shgRay', ramp(time, 4, 2.4), 420);
+      drawLine('dfRay', ramp(time, 5.5, 2.4), 420);
+      drawLine('sfRay', ramp(time, 7, 2.4), 420);
+      $('pumpWave').style.opacity = p1.toFixed(3);
+    } else {
+      drawLine('ray1', p1, 500); drawLine('ray2', p1, 460);
+      drawLine('ray3', p2, 380); drawLine('ray4', p2, 430);
+      drawLine('ray5', p2, 320);
+      $('lens').style.opacity = ramp(time, 1.2, 1.2).toFixed(3);
+      $('image').style.opacity = p2.toFixed(3); $('imageHead').style.opacity = p2.toFixed(3); $('imageLbl').style.opacity = p2.toFixed(3);
+      $('focus').style.opacity = p2.toFixed(3); $('focusLbl').style.opacity = p2.toFixed(3);
+    }
     for (let i = 0; i < 3; i++) { const el = document.getElementById('step' + i); if (el) el.style.opacity = (.35 + .65 * ramp(time, 2 + i * 3.2, 1.4)).toFixed(3); }
     $('spec').style.opacity = ramp(time, C.duration * .82, 1.2).toFixed(3);
   }

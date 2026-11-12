@@ -17,6 +17,8 @@ export function recommendIntent(text) {
   let reason = '默认按短动效/代码动画处理';
   if (has(/产品|功能|界面|演示|截图|录屏|落地页|发布|宣传片/)) {
     purpose = 'product'; recipe = 'real-product'; reason = '包含产品/界面/演示信号，适合真实截图包装';
+  } else if (has(/光学|物理|激光|量子|非线性|化学|生物|天文|材料/)) {
+    purpose = 'education'; recipe = 'code-motion'; reason = '科学解释，用代码动画比固定数据图更合适';
   } else if (has(/数据|图表|统计|指标|机制|科普|解释|原理|公式/)) {
     purpose = 'education'; recipe = 'explain-data'; reason = '包含数据/机制/科普信号，适合固定数据图解';
   } else if (has(/故事|叙事|讲解|剧情/)) {

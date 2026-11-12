@@ -51,10 +51,19 @@ npm run make -- --topic "产品演示" --screens ./screenshots --yes
 
 无需额外文件；平台根据主题/受众/目标生成标题、副标题与三张步骤卡。内容可由 CLI 模型或用户改写后再跑。
 
-可选风格模板（`--style`）：`blueprint`（技术蓝图）、`bauhaus`（包豪斯几何）、`ink-wash`（水墨）；不传则用通用模板。
+主题和模板不需要同名。先看资源库建议：
+
+```sh
+npm run make -- --topic "做一个非线性光学的视频" --suggest
+```
+
+会列出 LEMO/MG/CAP 的视觉候选、可执行风格与 Prompt 路径；没有同名模板时选最接近的视觉语言（科学/工程类默认 `blueprint`），不会停下来问“用哪个模板”。
+
+可选可执行风格（`--style`）：`blueprint`（技术蓝图；非线性主题自动切换非线性介质视觉）、`bauhaus`（包豪斯几何）、`ink-wash`（水墨）；`--style auto` 自动推荐，不传则交互时直接回车用推荐。
 
 ```sh
 npm run make -- --topic "透镜如何改写一束光" --style blueprint --duration 20 --yes
+npm run make -- --topic "做一个非线性光学的视频" --style auto --yes
 ```
 
 模板复刻 Prompt 见 `recipes/code-motion/styles/README.md`。

@@ -21,11 +21,12 @@ import { stdin as input, stdout as output } from 'node:process';
 import { ROOT, loadCatalog } from '../catalog/validate.mjs';
 import { recommendRoute } from '../catalog/integration.mjs';
 import { buildPlan, emptyForm, recommendIntent } from '../../shared/planning.mjs';
+import { EXECUTABLE_STYLES, recommendResourceTemplates, recommendStyle } from '../../shared/styles.mjs';
 import { confirmGate, qaSummary, validateProject } from '../../shared/project.mjs';
 
 const { values } = parseArgs({ options: {
   topic: { type: 'string' }, purpose: { type: 'string' }, duration: { type: 'string' },
-  aspect: { type: 'string' }, data: { type: 'string' }, screens: { type: 'string' }, style: { type: 'string' },
+  aspect: { type: 'string' }, data: { type: 'string' }, screens: { type: 'string' }, style: { type: 'string' }, 'style-file': { type: 'string' }, suggest: { type: 'boolean', default: false },
   out: { type: 'string' }, yes: { type: 'boolean', default: false }, help: { type: 'boolean', default: false },
 } });
 
@@ -36,9 +37,11 @@ npm run make -- --topic "主题" [--purpose education|product|data|story|motion]
 npm run make -- --topic "光学演示" --style blueprint --duration 20 --yes
 npm run make -- --topic "数据解释" --data data.json --yes
 npm run make -- --topic "产品演示" --screens ./screenshots --yes
+npm run make -- --topic "非线性光学" --suggest
+npm run make -- --topic "任意主题" --style-file .\my-style.html --yes
 
-code-motion 可选风格：default / blueprint / bauhaus / ink-wash（模板在 recipes/code-motion/styles/）。
-不提供网页预览；风格帧与成片都写成文件，终端只打印路径。`);
+code-motion 可执行风格：default / blueprint / bauhaus / ink-wash；--style auto 自动按主题推荐；
+--style-file 使用 Agent 即时生成的确定性 HTML 模板。不提供网页预览；风格帧与成片都写成文件，终端只打印路径。`);
   process.exit(0);
 }
 
@@ -56,6 +59,51 @@ const ask = async (text, fallback = '') => {
 const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, typeof data === 'string' ? data : JSON.stringify(data, null, 2) + '\n'); };
 const rel = (file) => path.relative(ROOT, file).replaceAll('\\', '/');
 
+function buildNarrative(topic, purpose) {
+  const text = String(topic);
+  if (/非线性光学|倍频|混频|自相位|四波混频|非线性/i.test(text)) {
+    return {
+      title: '非线性光学：光如何改写介质',
+      subtitle: '从线性响应到倍频、混频与自相位调制',
+      steps: [
+        { label: '01', title: '线性区', desc: '低强度下，介质极化与光场近似成正比' },
+        { label: '02', title: '二阶效应', desc: '倍频、和频、差频：两个光子合成一个新频率' },
+        { label: '03', title: '三阶效应', desc: '自相位调制、四波混频：光强改变折射率' },
+      ],
+    };
+  }
+  if (/光学|透镜|棱镜|干涉|折射|激光|物理/i.test(text)) {
+    return {
+      title: text.slice(0, 60),
+      subtitle: '从现象、机制到可核对的结论',
+      steps: [
+        { label: '01', title: '现象', desc: `先看“${text.slice(0, 28)}”里发生了什么` },
+        { label: '02', title: '机制', desc: '用光路/波形/公式解释关键关系' },
+        { label: '03', title: '结论', desc: '给出可复述的结论与成立边界' },
+      ],
+    };
+  }
+  if (purpose === 'product') {
+    return { title: text.slice(0, 60), subtitle: '问题、功能、结果', steps: [
+      { label: '01', title: '问题', desc: '先说清用户在什么场景卡住' },
+      { label: '02', title: '功能', desc: '用真实界面/截图展示关键动作' },
+      { label: '03', title: '结果', desc: '给出可核对的前后变化' },
+    ] };
+  }
+  if (purpose === 'story') {
+    return { title: text.slice(0, 60), subtitle: '开始、变化、落点', steps: [
+      { label: '01', title: '开始', desc: '建立人物/问题与观看动机' },
+      { label: '02', title: '变化', desc: '让冲突或发现推动下一步' },
+      { label: '03', title: '落点', desc: '收束到一个可记住的结论' },
+    ] };
+  }
+  return { title: text.slice(0, 60), subtitle: '现象、机制、结论', steps: [
+    { label: '01', title: '现象', desc: `先说明“${text.slice(0, 26)}”要解决的问题` },
+    { label: '02', title: '机制', desc: '用一张图或一条时间线解释关键关系' },
+    { label: '03', title: '结论', desc: '给出可复述的结论与适用边界' },
+  ] };
+}
+
 function buildContent(recipeId, project, extra) {
   const b = project.brief;
   const base = {
@@ -68,12 +116,14 @@ function buildContent(recipeId, project, extra) {
     return {
       ...base,
       ...(extra.style ? { style: extra.style } : {}),
-      title: extra.title || String(b.topic).slice(0, 60),
-      subtitle: extra.subtitle || (b.learning_goal || '一条时间表，驱动画面与声音'),
-      steps: [
-        { label: '01', title: '先写清目标', desc: (b.audience || '受众与目标').slice(0, 44) },
-        { label: '02', title: '一条时间表', desc: (b.prerequisites || '画面、字幕、声音共用同一时基').slice(0, 44) },
-        { label: '03', title: '检查后交付', desc: (b.learning_goal || '规格、帧数与确定性可机械核对').slice(0, 44) },
+      ...(extra.styleFile ? { style_file: extra.styleFile } : {}),
+      ...(extra.visual ? { visual: extra.visual } : {}),
+      title: extra.title || extra.narrative?.title || String(b.topic).slice(0, 60),
+      subtitle: extra.subtitle || extra.narrative?.subtitle || (b.learning_goal || '一条时间线，驱动画面与声音'),
+      steps: extra.narrative?.steps || [
+        { label: '01', title: '现象', desc: `先说明“${String(b.topic).slice(0, 26)}”要解决的问题` },
+        { label: '02', title: '机制', desc: '用一张图或一条时间线解释关键关系' },
+        { label: '03', title: '结论', desc: '给出可复述的结论与适用边界' },
       ],
       specTitle: `${Number(b.duration_seconds).toFixed(1)} s / ${Math.round(b.duration_seconds * b.fps)} frames / ${b.fps} fps`,
       specSubtitle: `${b.resolution} · H.264 + AAC · deterministic render(t)`,
@@ -139,6 +189,24 @@ async function main() {
     if (map[answer]) { purpose = map[answer]; route = recommendRoute(catalog, { topic, purpose }).route; }
   }
 
+  if (values['style-file'] && !values.data && !values.screens) {
+    purpose = 'motion';
+    route = recommendRoute(catalog, { topic: '', purpose }).route;
+  }
+
+  const styleAdvice = route.id === 'code-motion' ? recommendStyle(topic, purpose, EXECUTABLE_STYLES) : null;
+  const referenceCandidates = route.id === 'code-motion' ? recommendResourceTemplates(catalog, topic, 3) : [];
+  if (route.id === 'code-motion') {
+    console.log(`\n资源库视觉候选：`);
+    for (const item of referenceCandidates) console.log(`  - ${item.name}（${item.source_id}）：${item.reason}；${item.prompt_path}`);
+    console.log(`可执行风格建议：${styleAdvice.id}（${styleAdvice.label}，${styleAdvice.reason}）`);
+  }
+  if (values.suggest) {
+    console.log('\n--suggest：只给建议，不渲染。');
+    rl?.close();
+    return;
+  }
+
   const duration = Number(values.duration ?? await ask('目标时长（秒）', '10'));
   if (!Number.isFinite(duration) || duration < 5 || duration > 3600) throw new Error('时长需 5–3600 秒');
   const aspect = String(values.aspect ?? await ask('画幅 16:9 / 9:16 / 1:1 / 3:4', '16:9'));
@@ -152,11 +220,22 @@ async function main() {
 
   let extra = {};
   if (route.id === 'code-motion') {
-    const style = values.style ?? await ask('风格模板（回车=default；可选 blueprint / bauhaus / ink-wash）', '');
-    if (style && !fs.existsSync(path.join(ROOT, 'recipes/code-motion/styles', `${style}.html`))) throw new Error(`未知风格模板：${style}`);
-    extra.style = style;
-    extra.title = await ask('主标题（回车用主题）', String(topic).slice(0, 60));
-    extra.subtitle = await ask('副标题（回车自动）', project.brief.learning_goal || '一条时间表，驱动画面与声音');
+    let style = '';
+    if (values['style-file']) {
+      const sourceFile = path.resolve(values['style-file']);
+      if (!fs.existsSync(sourceFile) || path.extname(sourceFile).toLowerCase() !== '.html') throw new Error(`--style-file 不存在或不是 HTML：${values['style-file']}`);
+      fs.copyFileSync(sourceFile, path.join(outDir, 'custom-style.html'));
+      extra.styleFile = 'custom-style.html';
+      console.log(`自定义风格：${rel(path.join(outDir, 'custom-style.html'))}（来自 ${values['style-file']}）`);
+    } else {
+      style = values.style === 'auto' ? styleAdvice.id : (values.style ?? await ask(`风格模板（回车=${styleAdvice.id}；可选 default / blueprint / bauhaus / ink-wash）`, styleAdvice.id));
+      if (style && style !== 'default' && !fs.existsSync(path.join(ROOT, 'recipes/code-motion/styles', `${style}.html`))) throw new Error(`未知风格模板：${style}`);
+    }
+    extra.style = style === 'default' ? '' : style;
+    extra.visual = /非线性光学|倍频|混频|自相位|四波混频|非线性/.test(topic) ? 'nonlinear' : 'lens';
+    extra.narrative = buildNarrative(topic, purpose);
+    extra.title = await ask('主标题（回车用建议）', extra.narrative.title);
+    extra.subtitle = await ask('副标题（回车用建议）', extra.narrative.subtitle);
   } else if (route.id === 'explain-data') {
     let data;
     if (values.data) data = loadData(path.resolve(values.data));
