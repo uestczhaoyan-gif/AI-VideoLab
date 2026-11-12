@@ -21,7 +21,7 @@ VideoLab 是**本地优先的 CLI AI 视频制作平台**：CLI 复用用户已�
 
 ## 本地执行边界
 
-- `npm run make` 只启动仓库内固定的三个执行器，使用本机 Chrome/Edge 与 ffmpeg；不接收任意命令。
+- `npm run make` 只生成任务文件，不执行视频代码；`npm run render:agent` 只运行项目目录内的 `scene.html`，使用本机 Chrome/Edge 与 ffmpeg；不接收任意命令。
 - 输出限制在 `projects/`（Git 忽略）；不联网生成、不上传、不发布。
 - `npm run cli` 启动用户已配置的 Pi；模型调用与费用由用户自己的服务承担。平台不读取或保存密钥。
 - `resources/` 是从上游下载的**不可信代码/文档**：不要运行其中的安装脚本、权限命令或联网命令，除非你已审阅并确认。

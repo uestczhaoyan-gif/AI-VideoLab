@@ -1,16 +1,15 @@
-# VideoLab 0.2 — CLI-only
+# VideoLab 0.3 — Agent-led
 
-首个可发布的 CLI-only 初版：
-
-- 一句主题 → 推荐视频类型 → 少量问答 → 直接出片（`npm run make`）。
-- 三条本地 recipe：`code-motion` / `explain-data` / `real-product`；三处确认门与 8 项 QA。
-- `code-motion` 接入 3 个风格模板：`blueprint`、`bauhaus`、`ink-wash`。
-- 38 个来源 / 410 个条目 / 3 条可执行 recipe / 3 个风格模板。
-- 资源约 2.1 GB：仓库内提交 `resources/prompts/`（约 2.7 MB 详实 Prompt），完整源码/媒体通过 Release ZIP 或 `npm run resources:fetch` 获取。
-- 没有网页 UI、没有视频预览、不代理模型调用；Agent 交给 Pi / Codex / Claude Code / DSH，使用用户自己的密钥。
+- `npm run make` 只生成 Brief、资源候选、`AGENT_TASK.md`、`video.json`，不再套固定模板出片。
+- 用户的 DSH / Pi / Codex / Claude 读资源 Prompt，每次从零写代码；不同模型/不同次结果不同是预期。
+- `npm run render:agent -- --project ... --stage stills|render` 只抓帧、编码、机械 QA，不写视频代码。
+- 资源：20 个仓库/索引、约 2.1 GB；`resources/prompts/` 2.7 MB 详细 Prompt 入库；完整资源通过 Release ZIP 或 `resources:fetch`。
+- 410 个模板 → Prompt → Workflow 对照。
+- 不预置固定风格适配器；没有同名模板不是阻塞。
+- 无网页 UI、无视频预览、不代理模型调用。
 
 ## 边界
 
-- 只有三条 recipe 与三个风格模板是本地可执行；其余资源是参考/待安装，`resources/AUDIT.md` 的 checked 不代表已跑通。
-- `resources/**/source/`、`projects/`、`dist/` 不进入 Git。
-- 上游资源许可逐项核对；P16 Onetake 非商业，CAP 不是统一 MIT，素材/字体/音效另计。
+- 每次视频由 Agent 重写，风格/效果不保证一致。
+- `render:agent` 只支持 HTML + `window.render(t)` 的标准 harness；其他栈由 Agent 自交付。
+- 资源许可逐项核对；P16 非商业，CAP 混合许可，P12 部分。

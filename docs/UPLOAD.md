@@ -60,8 +60,8 @@ git push -u origin main
 ## 4. 打标签与 Release
 
 ```sh
-git tag -a v0.2.0 -m "VideoLab 0.2: CLI-only publishable preview"
-git push origin v0.2.0
+git tag -a v0.3.0 -m "VideoLab 0.3: Agent-led publishable preview"
+git push origin v0.3.0
 ```
 
 在 GitHub → Releases → Draft a new release：
@@ -80,16 +80,16 @@ ls dist/resources/*.zip
 可以用 GitHub CLI 一次上传：
 
 ```sh
-gh release create v0.2.0 --title "VideoLab 0.2 — CLI-only" --notes-file docs/RELEASE_NOTES.md
-gh release upload v0.2.0 dist/resources/*.zip
+gh release create v0.3.0 --title "VideoLab 0.3 — Agent-led" --notes-file docs/RELEASE_NOTES.md
+gh release upload v0.3.0 dist/resources/*.zip
 ```
 
 或在网页编辑 Release，把 `dist/resources/videolab-resources-<category>-*.zip` 逐个上传为附件。用户下载后解压到 `resources/`，即可获得模板、Prompt、引擎与演示媒体。仓库内的 `resources/MANIFEST.md` / `resources/PACKS.md` 记录了固定版本、大小与恢复命令。
 
 Release 说明还应写：
 
-- 选择 `v0.2.0`；
-- 标题：`VideoLab 0.2 — CLI-only`；
+- 选择 `v0.3.0`；
+- 标题：`VideoLab 0.3 — Agent-led`；
 - 说明写清：三条本地 recipe、无网页 UI、资源需按 `resources/README.md` 恢复、`resources/AUDIT.md` 的 checked 不代表已跑通；
 - 不把 `resources/**/source/` 直接 `git add`；通过 Release assets 上传分类 ZIP。
 - `resources/prompts/`（文本）可直接提交；`resources/**/source/`（媒体/源码）不提交。

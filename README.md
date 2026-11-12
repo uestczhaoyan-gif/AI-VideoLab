@@ -1,136 +1,121 @@
 # VideoLab
 
-**本地优先的 CLI AI 视频制作平台：给一句想法，平台推荐视频类型、问几个必要问题，然后直接出片。**
+**Agent-led local AI video project：CLI 负责 Brief、资源选择与渲染/QA；视频代码由你的 AI Agent 从零写。**
 
-不提供网页工作台，不提供视频预览。风格帧、成片、项目记录都写成文件路径；需要 Agent 辅助时，把仓库交给 Pi、Codex、Claude Code、DSH 等已有 Agent 打开即可，不需要平台再提供模型 API。
+不提供固定风格模板、不提供网页 UI、不在平台内调用模型 API。每次视频由 DSH / Pi / Codex / Claude 等 Agent 根据 Brief 和资源库重新设计、重新写代码，因此不同模型会得到不同结果。CLI 只做机械部分：选题、整理资源、抓帧、编码、机械 QA。
 
-## 快速开始
+## 第一次使用
 
-要求：Node.js 22+、本机已安装 Chrome 或 Edge、ffmpeg（`FFMPEG` 可指定路径；也支持 imageio-ffmpeg）。首次安装：
+要求：Node.js 22+、本机 Chrome/Edge、ffmpeg；GitHub Release 资源可选。
 
 ```sh
+git clone https://github.com/uestczhaoyan-gif/AI-VideoLab.git
+cd AI-VideoLab
 npm ci --ignore-scripts
-npm run catalog:check
-npm run resources:fetch -- --dry-run   # 先看会下载什么（约 2.1 GB）
-npm run resources:fetch                # 首次：按固定 commit 恢复全部开源资源
+
+# 资源库（约 2.1 GB；也可只取需要的）
+npm run resources:fetch -- --dry-run
+npm run resources:fetch
 ```
 
-`resources:fetch` 是下载仓库后必须配套执行的脚本；它从上游恢复 19 个仓库/索引到 `resources/**/source/`（P12 默认跳过）。只想要 Prompt/风格可先：
+`resources/prompts/` 已随仓库提交（约 2.7 MB），即使不下载完整资源也能读到 LEMO/MG/shotcraft 的详细 Prompt。
+
+## 制作流程
 
 ```sh
-npm run resources:fetch -- --only P09,P02,LEMO
+npm run make -- --topic "做一个非线性光学的视频"
 ```
 
-不想逐仓库下载时，下载 Release 里的分类 ZIP 解压到 `resources/` 即可。完整说明见 [resources/PACKS.md](resources/PACKS.md)。
+它**不会生成固定模板视频**，只创建：
 
-制作一条视频：
+```text
+projects/<日期>-<主题>/
+  BRIEF.md          # 主题、时长、画幅、受众与边界
+  RESOURCES.md      # 从资源库选出的视觉候选与 Prompt 路径
+  AGENT_TASK.md     # 给 Agent 的完整任务契约
+  video.json        # duration / fps / width / height
+  project.json
+```
+
+然后把项目交给你的 Agent（任选其一）：
+
+- 在 DSH / Codex / Claude Code / Pi 中打开本仓库，指向 `projects/<目录>/AGENT_TASK.md`
+- Agent 读资源 Prompt，**从零写** `scene.html`（或自选本地工程），必须实现确定性 `window.render(t)`
+- 不套用仓库里的固定 scene，不复制旧 recipe；每次都是新尝试
+
+Agent 写完风格帧后：
 
 ```sh
-npm run make -- --topic "用三个指标解释缓存为什么快"
+npm run render:agent -- --project projects/<目录> --stage stills
 ```
 
-交互流程只有几步：
-
-1. 平台按主题推荐类型与 recipe（知识讲解/产品介绍/数据解释/短动效），可改。
-2. 询问时长、画幅；数据解释会要数据点/单位/来源，产品片会要真实截图文件夹。
-3. 生成 3 张风格帧并打印路径；确认后渲染成片。
-4. 终端打印 mp4、联系表、QA 与项目版本路径。
-
-非交互/演示：
+看 `stills/` 与 `style-frames.jpg`，确认后：
 
 ```sh
-npm run make -- --topic "一段片头动效" --yes
-npm run make -- --topic "三个指标解释缓存" --data data.json --yes
-npm run make -- --topic "产品演示" --screens ./screenshots --yes
+npm run render:agent -- --project projects/<目录> --stage render
 ```
 
-产物在 `projects/<日期>-<主题>/`（已被 Git 忽略）。不调用模型 API，不联网生成，不上传。
+产物：`code-motion.mp4`、`storyboard.jpg`、`report.json`、`qa.json`。
 
-## 三条本地 recipe
+`render:agent` 只抓帧/编码/机械检查，不写视频代码、不调用模型；内容、事实、观看与采用仍由用户和 Agent 负责。
 
-| recipe | 输入 | 输出 | 边界 |
-| --- | --- | --- | --- |
-| `code-motion` | 主题、时长、画幅；平台生成文案与三张卡 | 文字/图形卡点动效 | 不做生成式素材、角色、真人 |
-| `explain-data` | 主题 + 2–6 条数据、单位、来源 | 固定横向条形图数据解释 | 不验证数据真实性；示例数据必须标注 |
-| `real-product` | 主题 + 2–6 张真实截图 | 截图包装产品片 | 不生成 UI、不录屏、不验证产品事实 |
-
-每条都走同一项目契约：Brief 确认 → 风格帧确认 → 渲染 → 机械 QA（内容/主观声音/完整观看/采用永远保留给人）。
-
-> 这里的“三条”指三种**可执行渲染器**，不是资源库只有三个模板。资源库有 51 个 LEMO 风格、15 个 MG 风格、341 条 CAP Prompt、125 张镜头卡等；已把其中 3 个风格模板真正接进 `code-motion` 的执行链，见下文风格模板。其余资源可通过 Agent 读取/改写，或按 `resources/PROMPTS.md` 使用。
-
-## 三个可执行风格模板
-
-`code-motion` 已接入 3 个风格模板（可执行渲染，不是只写文档）：
-
-| CLI 风格 | 来源 | 适合 |
-| --- | --- | --- |
-| `blueprint` | LEMO `blueprint` | 光路、结构、工程解释；非线性主题会自动切到非线性介质视觉 |
-| `bauhaus` | MG `09-bauhaus` | 概念、对比、几何/色彩 |
-| `ink-wash` | LEMO `ink-wash` | 波/场、时间、东方视觉 |
-
-```sh
-npm run make -- --topic "透镜如何改写一束光" --style blueprint --duration 20 --yes
-```
-
-**主题不需要和模板同名。** 先让 CLI 在资源库里给建议：
+## 只想要建议
 
 ```sh
 npm run make -- --topic "做一个非线性光学的视频" --suggest
 ```
 
-它会列出 LEMO/MG/CAP 的视觉候选、可执行风格和 Prompt 路径；没有同名模板时选最接近的视觉语言（科学/工程类推荐 `blueprint`），再用主题内容生成，不会反问“模板不匹配怎么办”。`--style auto` 也会自动推荐；默认交互时直接回车即可。
+输出资源库视觉候选、Prompt 路径和用途建议，不建项目、不渲染。
 
-模板在 `recipes/code-motion/styles/`，是按上游视觉语言改写的确定性 HTML，不是直接运行上游工程。模板 → Prompt → Workflow 的对应见 [TEMPLATE_MAP](docs/library/TEMPLATE_MAP.md)。如果要用任意资源风格，可由 Agent 读 Prompt 现写 HTML，再用 `--style-file` 渲染，见 [STYLE_GENERATION](docs/library/STYLE_GENERATION.md)。
+## 资源库
 
-## 让已有 Agent 接手
+`resources/` 是 2.1 GB 的参考库，不是固定执行器：
 
-```sh
-npm run cli
-```
+- `styles/`：51 个 LEMO 风格 + 15 个 MG 风格
+- `prompt-libraries/`：341 条 CAP Prompt + fifi
+- `engines/`：manim、hyperframes、anidoodle、onetake、video-shotcraft
+- `skills/`、`workflows/`、`collections/`、`studies/`
+- `prompts/`：已入库的可读 Prompt/STYLE/镜头卡文本
+- `catalog/template-map.json` + `docs/library/TEMPLATE_MAP.md`：410 个模板 → Prompt 路径 → Workflow 对照
 
-用已安装的 Pi 加载 `docs/library/CREATE_VIDEO.md`（系统提示），等用户说明需求后再开始；也可把整个仓库交给 DSH、Codex、Claude Code 等 Agent，让它读 [AGENTS.md](AGENTS.md) 与 [CREATE_VIDEO.md](docs/library/CREATE_VIDEO.md)。Agent 使用你自己的 API 密钥，平台不代管密钥。
+`resources/**/source/` 不进入 Git；用 `npm run resources:fetch` 或 Release ZIP 恢复。说明见 [resources/PACKS.md](resources/PACKS.md)。
 
 ## 仓库结构
 
 ```text
-catalog/         410 条引用、38 条来源、3 条可执行 recipe、统一整合 registry
-recipes/         三个本地执行器（code-motion / explain-data / real-product）
-examples/        可跑通的输入示例
-shared/          项目契约、QA、规划与路由函数
-resources/       分类资源库（styles / prompt-libraries / engines / skills / workflows / collections）
-docs/            来源笔记、Workflow、整合规范与使用手册
-tools/           CLI studio、catalog 校验、路由、资源抽检、渲染与最小闭环
-projects/        本机生成的项目与成片（Git 忽略）
+catalog/        410 条引用、38 来源、模板→Prompt→Workflow 映射
+tools/agent/    Agent 任务生成 + 通用渲染/QA（不写固定视频代码）
+tools/render/   通用 Chrome/ffmpeg 渲染工具
+resources/      分类资源库 + 入库 Prompt 文本
+shared/         项目契约、QA、资源推荐函数
+docs/           Agent 交接、模板映射、Workflow、来源笔记
+projects/       本机 Agent 任务与成片（Git 忽略）
 ```
-
-资源共 20 个仓库/索引、约 2.1 GB；详细 Prompt 的读取路径见 [resources/PROMPTS.md](resources/PROMPTS.md)。GitHub 普通仓库放不下，所以 `source/` 不进 Git：用 `npm run resources:fetch` 从固定版本恢复，或下载 Release 里的分类 ZIP（见 [resources/PACKS.md](resources/PACKS.md)）。仓库内提交 [resources/MANIFEST.md](resources/MANIFEST.md)、[resources/README.md](resources/README.md) 与 [resources/AUDIT.md](resources/AUDIT.md)，用户拿到的是可恢复的完整资源，不是空 Workflow。视频 Workflow 总表在 [docs/library/VIDEO_WORKFLOWS.md](docs/library/VIDEO_WORKFLOWS.md)，统一路由规范在 [docs/library/INTEGRATION.md](docs/library/INTEGRATION.md)。
 
 ## 验证
 
 ```sh
-npm test                 # 目录、契约、执行器、路由
+npm test
 npm run catalog:check
-npm run integration:check
 npm run catalog:map:check
-npm run recipe:check
+npm run integration:check
 npm run docs:check
-npm run resources:audit
 ```
 
-`npm run loop:smoke` 会跑一次 8 秒本地最小闭环；`npm run make -- --yes` 是真制作，不是 demo。
+资源抽检：`npm run resources:audit`。
 
 ## 边界
 
-- 除三条 recipe 与三个已接入的风格模板外，其余上游资源只作参考/待安装；`resources/AUDIT.md` 的 checked 不等于已安装、已运行或效果已验证。
-- 只有三条本地 recipe 能直接出片；其他引擎/仓库需要安装、许可核对与人工确认。
-- 不生成真人/短剧，不训练模型，不提供公网生成 API。
-- 许可：代码与内容许可见各上游 LICENSE；Apache/MIT 不自动覆盖素材、字体、音效与品牌资产。
+- 不预置固定风格/模板；Agent 每次从零写代码，不保证与上次效果一致。
+- `render:agent` 只支持本地 HTML + `window.render(t)`；Agent 也可以选择 Remotion/Manim 等自建工程，但需自己交付 mp4。
+- 不调用付费模型/API；Agent 使用用户自己的密钥与服务。
+- 不生成真人/短剧；不训练模型；不上传/发布素材。
+- 资源仅作参考，许可见 [resources/AUDIT.md](resources/AUDIT.md)；`checked` 不代表已跑通。
 
 ## 文档
 
 - [使用手册](docs/USAGE.md)
+- [Agent 交接](docs/library/CREATE_VIDEO.md)
+- [模板映射](docs/library/TEMPLATE_MAP.md)
+- [资源恢复](resources/PACKS.md)
 - [项目计划](PROJECT.md)
-- [AI 交接](AGENTS.md)
-- [贡献指南](CONTRIBUTING.md)
-- [上传到 GitHub](docs/UPLOAD.md)
-- [安全](SECURITY.md)

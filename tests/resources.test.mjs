@@ -33,7 +33,7 @@ test('style -> prompt -> workflow map covers all templates', () => {
   assert.equal(map.templates.length, 410);
   assert.equal(map.sources.length, 38);
   const auto = map.templates.filter((t) => t.execution === 'auto_style');
-  assert.deepEqual(auto.map((t) => t.cli_style).sort(), ['bauhaus', 'blueprint', 'ink-wash']);
+  assert.equal(auto.length, 0);
   for (const t of map.templates) {
     assert.ok(t.prompt_path, `${t.id} has no prompt path`);
     assert.ok(Array.isArray(t.workflow_ids), `${t.id} has no workflow mapping`);

@@ -6,22 +6,22 @@
 npm run catalog:map
 ```
 
-机器可读版本：[catalog/template-map.json](../../catalog/template-map.json)。这是**路由辅助**，不是执行证明：只有 `execution=auto_style` 且 `cli_style` 非空的模板已被 `code-motion` 真正接进渲染链路。
+机器可读版本：[catalog/template-map.json](../../catalog/template-map.json)。这是**路由辅助**，不是执行证明：Agent-led 主流程不预置固定风格，所有模板由 Agent 读 Prompt 后重新实现。
 
 ## 来源总览
 
 | 来源 | 名称 | 模板数 | 建议 Workflow | 说明 |
 | --- | --- | ---: | --- | --- |
-| LEMO | lemo-opuscar 风格工程 | 51 | V04 / V06 | 51 个风格 STYLE/DEMO；当前只把 blueprint、ink-wash 接成可执行模板。 |
+| LEMO | lemo-opuscar 风格工程 | 51 | V04 / V06 | 51 个风格 STYLE/DEMO；Agent 按 Brief 读取，不预置固定适配器。 |
 | P01 | ai-promo-video-maker：产品宣传片工作流提取 | 0 | V01 / V05 | — |
-| P02 | mg-styles-15：多风格代码动画方法提取 | 15 | V06 / V11 | 15 条 MG 风格 Prompt + demo；当前只把 09-bauhaus 接成可执行模板。 |
+| P02 | mg-styles-15：多风格代码动画方法提取 | 15 | V06 / V11 | 15 条 MG 风格 Prompt + demo；Agent 按 Brief 读取，不预置固定适配器。 |
 | P03 | fifi-video-prompt：高度具体的代码动画 Prompt | 0 | V06 / V11 | — |
 | P04 | Table-VideoSOP：以配音为时基的人机制作流程 | 0 | V05 | — |
 | P05 | 3b1b/manim：程序化解释动画的工具边界 | 0 | V07 / V10 | — |
 | P06 | Manim Community：对象、动画与场景 | 0 | V07 | — |
 | P07 | Remotion：把视频表示为逐帧组件 | 0 | V10 | — |
 | P08 | Anatomy：把概念做成可工作的物体 | 0 | V03 / V07 | — |
-| P09 | Code Animation Prompts：341 条风格素材与代码动画工具包 | 341 | V06 / V11 | 341 条风格 Prompt；先选 1–3 条，再由 code-motion/Agent 改写，不一次性全读。 |
+| P09 | Code Animation Prompts：341 条风格素材与代码动画工具包 | 341 | V06 / V11 | 341 条风格 Prompt；Agent 先选 1–3 条读，再为本次视频重写代码，不一次性全读。 |
 | P10 | Ploto：我是如何借助 AI 制作一支长视频的 | 0 | V08 | — |
 | P11 | auto-motion：字幕驱动的导演与单镜头执行模板 | 0 | V09 / V12 | — |
 | P12 | Open Design：Agent 适配、按需 Skill 与设计工作台 | 0 | V09 / V13 | — |
@@ -51,17 +51,13 @@ npm run catalog:map
 | V13 | Harness 实践：让 Agent 全自动制作知识讲解视频 | 0 | — | — |
 | V14 | 所有 Agent 都能用的 Opus5.5 水准镜头动效 | 0 | — | — |
 
-## 已接入执行链的 3 个风格
+## 固定执行风格（已取消）
 
-| 模板 ID | CLI 风格 | Prompt/规格 |
-| --- | --- | --- |
-| lemo-blueprint | `blueprint` | `resources/prompts/lemo/blueprint/STYLE.md` |
-| lemo-ink-wash | `ink-wash` | `resources/prompts/lemo/ink-wash/STYLE.md` |
-| mg-09-bauhaus | `bauhaus` | `resources/prompts/mg/09-bauhaus.md` |
+无。主流程由 Agent 从零写代码，不预置风格。
 
 ## 全部模板
 
-> 410 行。`执行` 为 `auto_style` 才是已接入；其余是 `prompt_reference` / `resource_reference`，用 Agent 读取后改写，或先安装对应上游引擎。
+> 410 行。所有模板都是 prompt_reference / resource_reference：Agent 读取后重新写代码；不存在“固定适配器”。
 
 | ID | 名称 | 来源 | Prompt/规格 | Workflow | 执行 | recipe |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -410,7 +406,7 @@ npm run catalog:map
 | lemo-art-deco | 装饰艺术 | LEMO | `resources/prompts/lemo/art-deco/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-ascii-crt | ASCII / CRT 终端 | LEMO | `resources/prompts/lemo/ascii-crt/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-backrooms | 后室 / 新怪谈 | LEMO | `resources/prompts/lemo/backrooms/STYLE.md` | V04 / V06 | resource_reference | code-motion |
-| lemo-blueprint | 蓝图 / 工程制图 | LEMO | `resources/prompts/lemo/blueprint/STYLE.md` | V04 / V06 | auto_style (`blueprint`) | code-motion |
+| lemo-blueprint | 蓝图 / 工程制图 | LEMO | `resources/prompts/lemo/blueprint/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-brick-toy | 积木玩具 | LEMO | `resources/prompts/lemo/brick-toy/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-briefing-board | 工程简报板 | LEMO | `resources/prompts/lemo/briefing-board/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-cel-anime-80s | 80 年代赛璐璐动画 | LEMO | `resources/prompts/lemo/cel-anime-80s/STYLE.md` | V04 / V06 | resource_reference | code-motion |
@@ -425,7 +421,7 @@ npm run catalog:map
 | lemo-hd-2d | HD-2D | LEMO | `resources/prompts/lemo/hd-2d/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-hologram-hud | 科幻全息界面 | LEMO | `resources/prompts/lemo/hologram-hud/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-impasto | 油画厚涂 | LEMO | `resources/prompts/lemo/impasto/STYLE.md` | V04 / V06 | resource_reference | code-motion |
-| lemo-ink-wash | 中国水墨 | LEMO | `resources/prompts/lemo/ink-wash/STYLE.md` | V04 / V06 | auto_style (`ink-wash`) | code-motion |
+| lemo-ink-wash | 中国水墨 | LEMO | `resources/prompts/lemo/ink-wash/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-iso-infographic | 等距信息图 | LEMO | `resources/prompts/lemo/iso-infographic/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-lidar-survey | 点云测绘 | LEMO | `resources/prompts/lemo/lidar-survey/STYLE.md` | V04 / V06 | resource_reference | code-motion |
 | lemo-living-screencast | 活体实机录屏 | LEMO | `resources/prompts/lemo/living-screencast/STYLE.md` | V04 / V06 | resource_reference | code-motion |
@@ -465,7 +461,7 @@ npm run catalog:map
 | mg-06-collage | 拼贴 | P02 | `resources/prompts/mg/06-collage.md` | V06 / V11 | prompt_reference | code-motion |
 | mg-07-liquid | 液态 | P02 | `resources/prompts/mg/07-liquid.md` | V06 / V11 | prompt_reference | code-motion |
 | mg-08-morph | 连续形变 | P02 | `resources/prompts/mg/08-morph.md` | V06 / V11 | resource_reference | code-motion |
-| mg-09-bauhaus | 包豪斯 | P02 | `resources/prompts/mg/09-bauhaus.md` | V06 / V11 | auto_style (`bauhaus`) | code-motion |
+| mg-09-bauhaus | 包豪斯 | P02 | `resources/prompts/mg/09-bauhaus.md` | V06 / V11 | prompt_reference | code-motion |
 | mg-10-synthwave | 合成波 | P02 | `resources/prompts/mg/10-synthwave.md` | V06 / V11 | prompt_reference | code-motion |
 | mg-12-aurora-glass | 极光玻璃 | P02 | `resources/prompts/mg/12-aurora-glass.md` | V06 / V11 | prompt_reference | code-motion |
 | mg-18-hanazi | 综艺花字 | P02 | `resources/prompts/mg/18-hanazi.md` | V06 / V11 | prompt_reference | code-motion |

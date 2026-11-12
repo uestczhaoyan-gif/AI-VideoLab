@@ -1,13 +1,13 @@
 {
   "name": "videolab",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "make": "node tools/studio/create.mjs",
+    "make": "node tools/agent/plan.mjs",
     "cli": "pi --append-system-prompt docs/library/CREATE_VIDEO.md",
     "catalog:import": "node tools/catalog/import.mjs",
     "catalog:check": "node tools/catalog/validate.mjs",
@@ -18,7 +18,7 @@
     "docs:check": "node tools/check-docs.mjs",
     "test": "node --test tests/*.test.mjs",
     "loop:smoke": "node tools/loop/run.mjs",
-    "recipe:check": "node --check recipes/code-motion/run.mjs && node --check recipes/explain-data/run.mjs && node --check recipes/real-product/run.mjs && node --check tools/render/local-render.mjs && node --check examples/code-motion/make-project.mjs && node --check examples/explain-data/make-project.mjs && node --check examples/real-product/make-project.mjs && node --check tools/studio/create.mjs && node --check tools/resources/fetch.mjs && node --check tools/resources/pack.mjs && node --check tools/catalog/style-map.mjs",
+    "recipe:check": "node --check recipes/code-motion/run.mjs && node --check recipes/explain-data/run.mjs && node --check recipes/real-product/run.mjs && node --check tools/render/local-render.mjs && node --check examples/code-motion/make-project.mjs && node --check examples/explain-data/make-project.mjs && node --check examples/real-product/make-project.mjs && node --check tools/studio/create.mjs && node --check tools/resources/fetch.mjs && node --check tools/resources/pack.mjs && node --check tools/catalog/style-map.mjs && node --check tools/agent/plan.mjs && node --check tools/agent/render.mjs",
     "integration:build": "node tools/catalog/integration.mjs --build",
     "integration:check": "node tools/catalog/integration.mjs --check && node tools/catalog/route.mjs --check",
     "route": "node tools/catalog/route.mjs",
@@ -26,7 +26,8 @@
     "resources:fetch": "node tools/resources/fetch.mjs",
     "resources:pack": "node tools/resources/pack.mjs",
     "catalog:map": "node tools/catalog/style-map.mjs --build",
-    "catalog:map:check": "node tools/catalog/style-map.mjs --check"
+    "catalog:map:check": "node tools/catalog/style-map.mjs --check",
+    "render:agent": "node tools/agent/render.mjs"
   },
   "dependencies": {
     "ajv": "8.17.1",

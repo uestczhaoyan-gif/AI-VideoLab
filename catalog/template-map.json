@@ -1,12 +1,8 @@
 {
   "schema_version": 1,
   "generated_at": "2026-11-11",
-  "note": "路由辅助，不是执行证明。workflow_ids 是建议的 VIDEO_WORKFLOWS 章节；只有 execution=auto_style 且 cli_style 非空的 3 条模板已被 code-motion 真正接入。",
-  "auto_styles": {
-    "lemo-blueprint": "blueprint",
-    "lemo-ink-wash": "ink-wash",
-    "mg-09-bauhaus": "bauhaus"
-  },
+  "note": "路由辅助，不是执行证明。Agent-led：所有模板都是参考资料，由 Agent 读 Prompt 后从零写代码，没有固定执行风格。",
+  "auto_styles": {},
   "sources": [
     {
       "id": "LEMO",
@@ -17,7 +13,7 @@
         "V04",
         "V06"
       ],
-      "note": "51 个风格 STYLE/DEMO；当前只把 blueprint、ink-wash 接成可执行模板。"
+      "note": "51 个风格 STYLE/DEMO；Agent 按 Brief 读取，不预置固定适配器。"
     },
     {
       "id": "P01",
@@ -39,7 +35,7 @@
         "V06",
         "V11"
       ],
-      "note": "15 条 MG 风格 Prompt + demo；当前只把 09-bauhaus 接成可执行模板。"
+      "note": "15 条 MG 风格 Prompt + demo；Agent 按 Brief 读取，不预置固定适配器。"
     },
     {
       "id": "P03",
@@ -113,7 +109,7 @@
         "V06",
         "V11"
       ],
-      "note": "341 条风格 Prompt；先选 1–3 条，再由 code-motion/Agent 改写，不一次性全读。"
+      "note": "341 条风格 Prompt；Agent 先选 1–3 条读，再为本次视频重写代码，不一次性全读。"
     },
     {
       "id": "P10",
@@ -7985,8 +7981,8 @@
         "code-motion"
       ],
       "runnable": false,
-      "execution": "auto_style",
-      "cli_style": "blueprint",
+      "execution": "resource_reference",
+      "cli_style": null,
       "license": "MIT / 素材另计"
     },
     {
@@ -8315,8 +8311,8 @@
         "code-motion"
       ],
       "runnable": false,
-      "execution": "auto_style",
-      "cli_style": "ink-wash",
+      "execution": "resource_reference",
+      "cli_style": null,
       "license": "MIT / 素材另计"
     },
     {
@@ -9195,8 +9191,8 @@
         "code-motion"
       ],
       "runnable": false,
-      "execution": "auto_style",
-      "cli_style": "bauhaus",
+      "execution": "prompt_reference",
+      "cli_style": null,
       "license": "MIT / 资产另计"
     },
     {

@@ -1,114 +1,86 @@
-# PROJECT：VideoLab CLI 版
+# PROJECT：VideoLab Agent-led 版
 
-状态：**0.2 可发布初版。** 2026-11-10 按用户要求移除可视化工作台，改为 CLI 单入口：用户给主题 → 平台推荐视频类型 → 少量必要问答 → 直接生成视频。不提供网页预览；需要 Agent 辅助时，把仓库交给已有 Agent（Pi / Codex / Claude Code / DSH 等）打开。
+状态：**0.3 Agent-led。** CLI 不再直接套模板出片；每次视频由用户的 AI Agent（DSH / Pi / Codex / Claude）读取 Brief 与资源库后，从零写代码；VideoLab 只负责资源、渲染与机械 QA。
 
 ## 1. 产品定义
 
-一句话：**本地优先、可追溯、能直接出片的 AI 视频 CLI 平台。**
+一句话：**本地优先的 Agent-led AI 视频项目：资源库负责参考，Agent 负责创作，CLI 负责渲染。**
 
-目标用户流程：
+目标流程：
 
 ```text
-npm run make
-  → 输入一句话主题
-  → 平台推荐类型/recipe 与资源路由（可改）
-  → 询问 2–5 个真正影响方案的问题（时长/画幅/声音；数据或截图）
-  → 生成 3 张风格帧（文件）
-  → 用户确认
-  → 渲染成片
-  → 输出 mp4、联系表、QA、项目 JSON
+npm run make -- --topic "..."
+  → 生成 Brief、资源候选、AGENT_TASK.md、video.json
+  → 用户把项目交给自己的 Agent
+  → Agent 从零写 scene.html（或自选本地工程）
+  → npm run render:agent -- --stage stills
+  → 用户看风格帧
+  → npm run render:agent -- --stage render
+  → mp4 + storyboard + report/qa
 ```
 
-不做：网页工作台、视频预览播放器、账号系统、云队列、公网生成 API、真人/短剧、模型训练。
+不做：固定风格适配器、模板填空视频、网页工作台、视频预览 UI、平台内模型调用/API 代理、真人短剧、模型训练。
 
-## 2. 当前发布范围（0.2）
+## 2. 当前范围
 
 ### 已有
 
-- 三条本地可执行 recipe：`code-motion`、`explain-data`、`real-product`，共享项目契约与确认门。
-- `code-motion` 已接入三个风格模板（blueprint / bauhaus / ink-wash），可用 `npm run make -- --style ...` 选择。
-- `npm run make` 交互式 CLI：类型推荐、必要问答、风格帧、渲染、路径输出。
-- `npm run cli`：把仓库交给已有 Agent 的启动入口（Pi 系统提示）。
-- 410 条引用 / 38 条来源 / 3 条 recipe 的 catalog。
-- 统一资源路由：`catalog/integration.json`、`npm run route`、`npm run integration:check`。
-- 分类资源库：styles / prompt-libraries / engines / skills / workflows / collections，共 20 个仓库/索引、约 2.1 GB；`resources/prompts/` 入库约 2.7 MB 详实 Prompt 文本，`resources/MANIFEST.md` 固定版本，`resources/AUDIT.md` 抽检，`resources/PACKS.md` 记录 Git 之外的分发方式。
-- 项目契约 v2：三处确认门、文档槽、8 项 QA；`not_checked` 不是通过。
-- 测试：目录、契约、执行器、路由；最小闭环 `loop:smoke`。
+- `npm run make`：只生成 **Agent 任务**，不渲染。
+- `npm run render:agent`：通用 Chrome 逐帧抓取 + ffmpeg 编码 + 机械 QA；不写视频代码。
+- 资源库 20 个仓库/索引、约 2.1 GB；仓库内提交 `resources/prompts/` 详实 Prompt 文本。
+- 410 个模板 → Prompt → Workflow 映射；38 个来源。
+- 机械测试与契约检查随代码变化。
+- 通过 GitHub Release 分发 2.1 GB 资源；`resources:fetch` 从固定 commit 恢复。
 
-### 不在本版
+### 不再作为主路径
 
-- 视频预览/网页选型/可视化编辑。
-- 自动安装上游依赖或自动调用全部资源；只验证数据与入口，未安装的明确标注。
-- 自动配音/BGM/字幕烧录；三条 recipe 目前使用点击音轨或静音画面。
-- 自动质检多 Agent、自动剪辑、后台队列、对外 API。
-- 模型/价格对比：当前只记录用户指定模型，不做能力或费用声明。
+- 旧的固定 recipe / 固定 HTML 风格 / `--style` 选择器：仅保留为回归测试或历史代码，不再由 `npm run make` 使用。**不要继续给它们做新适配器。**
+- 不再以“逐条做 demo 视频”验证资源；资源可用性靠映射与 Audit。
 
-## 3. 用户流程与实现
+## 3. 用户与 Agent 的分工
 
-### 3.1 交互次数
+| 角色 | 负责 |
+| --- | --- |
+| 用户 | 主题、受众、事实边界、风格偏好、看风格帧、完整观看、采用 |
+| Agent | 读懂 Brief、选资源 Prompt、写代码、出风格帧、按反馈重写 |
+| VideoLab CLI | 生成任务、资源候选、抓帧、编码、机械 QA；不决定创意 |
 
-| 步骤 | 是否必问 | 默认 |
-| --- | --- | --- |
-| 主题 | 是（除非 `--topic`） | — |
-| 类型/recipe | 可改 | 关键词推荐 |
-| 时长 | 是 | 10 秒 |
-| 画幅 | 是 | 16:9 |
-| 数据/截图 | 仅对应 recipe | 示例数据/必须提供截图 |
-| Brief 确认 | 是 | `--yes` 自动确认 |
-| 风格帧确认 | 是 | `--yes` 自动确认 |
+不同 Agent/模型会产生不同实现，这是预期结果，不是缺陷。
 
-### 3.2 技术路径
-
-- `tools/studio/create.mjs`：CLI 编排、问答、内容生成、调用执行器。
-- `shared/planning.mjs`：项目构建、类型推荐、模板/recipe 候选。
-- `shared/project.mjs`：确认门、QA、导出与校验。
-- `recipes/<id>/run.mjs`：确定性渲染 + Chrome/ffmpeg + QA + 项目写回。
-- `catalog/integration.mjs` / `route.mjs`：资源→recipe→执行器路由与验证。
-- `resources/`：本地快照，`source/` 不入库；`AUDIT.md` 记录抽检。
-
-## 4. 阶段与状态
+## 4. 阶段
 
 | 阶段 | 内容 | 状态 |
 | --- | --- | --- |
-| 0 | 方向、清理、来源证据 | 完成 |
-| 1 | catalog、来源笔记、Workflow | 完成；持续补充 |
-| 2 | 三条本地执行器与 CLI 制作流程 | 完成 |
-| 2.5 | 移除 Web 工作台，CLI-only 精简 | 完成（本版） |
-| 3 | 资源库下载、分类、抽检、Release 打包/恢复 | 完成初版（20 个仓库/索引；`resources:fetch` / `resources:pack`） |
-| 4 | 统一路由、资源访问等级、模板接入 | 完成初版（3 routes / 38 sources / 3 风格模板） |
-| 5 | 质量与体验：更多 recipe、声音、自动 QA | 后续 |
-| 6 | 对外发布/API/队列 | 不做或远期 |
+| 0 | 来源、catalog、资源恢复 | 完成 |
+| 1 | 固定 recipe 验证渲染链 | 历史；保留测试 |
+| 2 | CLI-only 发布 | 完成（0.2） |
+| 3 | Agent-led 任务与通用渲染 | **当前 0.3** |
+| 4 | 资源 Release、Prompt 入库、模板映射 | 完成 |
+| 5 | 多个 Agent/模型的效果对照与反馈 | 后续 |
+| 6 | 自动选择/调用 Agent | 有 API 与用户授权后再做 |
 
-## 5. 验证口径
+## 5. 验证
 
-- 代码：`npm test`（项目契约、catalog、执行器结构、路由）。
-- 目录：`npm run catalog:check`。
-- 整合：`npm run integration:check`（来源覆盖、路由、适配器文件、JSON 是否为最新）。
-- 语法：`npm run recipe:check`。
-- 文档：`npm run docs:check`。
-- 真实制作：`npm run make -- --topic ... --yes`（会调用本机 Chrome/ffmpeg）。
-- 抽检：`node tools/catalog/audit-resources.mjs` → `resources/AUDIT.md`。
+```sh
+npm test
+npm run catalog:check
+npm run catalog:map:check
+npm run integration:check
+npm run docs:check
+npm run resources:audit
+```
+
+Agent 流程至少验证：`make` 生成的 `AGENT_TASK.md`/`video.json` 完整；`render:agent --stage stills` 可出风格帧；`render:agent --stage render` 可出 mp4 与 QA。不要求每个模板都做视频。
 
 ## 6. 资源与许可
 
-- 资源按类别放在 `resources/`，`source/` 被 Git 忽略；新机器按上游 URL 恢复。
-- 抽检只证明“目录/入口/文档存在且相关”，不证明安装、运行、效果或商用许可。
-- Apache/MIT 只覆盖代码；素材、字体、音效、品牌资产逐项核对。
-- P16 Onetake 非商业；P12 Open Design 因体积过大只保存可读部分；P22 video-shotcraft 已下载完整源码但未安装。
+- `resources/**/source/` 不入 Git；Release ZIP 或 `resources:fetch`。
+- 资源是参考，不是平台可执行承诺；P16 非商业，CAP 混合许可，P12 部分，P22 素材另计。
+- 不把下载资源重新分发为“平台能力”；Agent 使用前核对许可。
 
-## 7. 下一步（按优先级）
+## 7. 下一步
 
-1. 让 `npm run make` 支持更多风格模板与 `--recipe` 强制选择，减少交互。
-2. 为 explain-data 增加折线图/多图；为 real-product 支持录屏片段。
-3. 增加配音/BGM 的本地可插拔路径（先文件，后 TTS）。
-4. 把 `resources/AUDIT.md` 的“checked”逐项升级为“安装并跑通”的证据。
-5. 如需发布：提交当前树、推送 GitHub、打 tag（步骤见交付说明）。
-
-## 8. 决策记录
-
-- 2026-11-10：用户要求删除所有可视化界面；保留视频制作资源与知识，改为 CLI-only。
-- 2026-11-10：不引入平台内置模型/API；Agent 使用用户自己的密钥。
-- 2026-11-10：资源分级而非“假装全部可执行”；`install_required/index_only/reference` 明确。
-- 2026-11-09：新增 V14/P22/P23，建立统一整合层。
-- 2026-11-08：三条本地执行器完成并实测。
-- 2026-11-06：历史重写与 demo 清理（历史保留在本地备份中）。
+1. 增加 `--agent` 任务启动适配（DSH/Pi/Codex/Claude 各自命令由用户配置；CLI 不内置密钥）。
+2. 让 `render:agent` 支持 Agent 自选 Remotion/Manim 产物并统一 QA。
+3. 收集不同模型对同一 Brief 的结果差异，作为效果对照（不预设“最优风格”）。
+4. 不再新增固定风格适配器；如确实需要，作为独立插件，不进入主 `make`。

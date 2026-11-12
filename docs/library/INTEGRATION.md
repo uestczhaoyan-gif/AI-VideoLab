@@ -17,15 +17,15 @@
 
 六个阶段共用同一份项目契约（`shared/project.schema.json`）：三处确认门（Brief / 风格帧 / 导出）、四类文档引用、8 项 QA。无论走哪条 recipe，都不允许跳过确认门或把 `not_checked` 当通过。
 
-## 三条已接线的 recipe
+## 历史三条 recipe（0.2 回归夹具）
+
+0.3 Agent-led 主流程不再使用这些固定执行器；仅保留为回归测试和旧项目兼容。新的 `npm run make` 生成 Agent 任务，视频代码由 Agent 从零编写。
 
 | 路由 | 适用 | 本地执行器 | 已验证产物 | 主要限制 |
 | --- | --- | --- | --- | --- |
-| `code-motion` | 文字/图形卡点动效、片头、风格片段 | `recipes/code-motion/run.mjs` | 10 s / 1280×720 / 30 fps / 300 帧全唯一 / H.264+AAC | 无生成式素材、角色、真人；CLI 可直接生成 |
+| `code-motion` | 文字/图形卡点动效、片头、风格片段 | `recipes/code-motion/run.mjs` | 10 s / 1280×720 / 30 fps / 300 帧全唯一 / H.264+AAC | 固定 scene 模板；不是 0.3 主路径 |
 | `explain-data` | 固定横向条形图的数据解释 | `recipes/explain-data/run.mjs` | 10 s / 1280×720 / 30 fps / 300 帧全唯一 / H.264+AAC | 仅固定图表版式；不验证数据真实性 |
 | `real-product` | 真实产品截图包装 | `recipes/real-product/run.mjs` | 10 s / 1280×720 / 30 fps / 300 帧全唯一 / H.264+AAC | 只包装真实截图；不生成 UI、不录屏 |
-
-`code-motion` 还接入了三个风格模板（`--style blueprint|bauhaus|ink-wash`），分别改写自 LEMO blueprint、MG 09-bauhaus、LEMO ink-wash；这是把资源模板变成**可执行视觉语言**的第一层适配，不是全部 408 条模板的一键执行。三个 20 秒光学 demo 见 `demos/optics-2026-11-11/`。
 
 三条执行器接口一致：
 

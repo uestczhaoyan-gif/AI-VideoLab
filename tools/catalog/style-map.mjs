@@ -28,11 +28,11 @@ const SOURCE_WORKFLOWS = {
   P17: ['V03'], P18: ['V08', 'V13'], P19: ['V02', 'V03'], P20: ['V02', 'V03'],
   P21: ['V02', 'V03'], P22: ['V14'], P23: ['V14'], LEMO: ['V04', 'V06'],
 };
-const AUTO_STYLES = { 'lemo-blueprint': 'blueprint', 'lemo-ink-wash': 'ink-wash', 'mg-09-bauhaus': 'bauhaus' };
+const AUTO_STYLES = {}; // Agent-led: no fixed executable styles.
 const NOTES = {
-  P09: '341 条风格 Prompt；先选 1–3 条，再由 code-motion/Agent 改写，不一次性全读。',
-  P02: '15 条 MG 风格 Prompt + demo；当前只把 09-bauhaus 接成可执行模板。',
-  LEMO: '51 个风格 STYLE/DEMO；当前只把 blueprint、ink-wash 接成可执行模板。',
+  P09: '341 条风格 Prompt；Agent 先选 1–3 条读，再为本次视频重写代码，不一次性全读。',
+  P02: '15 条 MG 风格 Prompt + demo；Agent 按 Brief 读取，不预置固定适配器。',
+  LEMO: '51 个风格 STYLE/DEMO；Agent 按 Brief 读取，不预置固定适配器。',
   P22: '125 张镜头卡 + Remotion 实现；作为镜头语言参考，不是 124 个自动执行器。',
 };
 
@@ -57,7 +57,7 @@ const templates = catalog.templates.map((t) => ({
   workflow_ids: SOURCE_WORKFLOWS[t.source_id] ?? [],
   recipe_ids: t.recipe_ids,
   runnable: t.runnable,
-  execution: AUTO_STYLES[t.id] ? 'auto_style' : (t.kind === 'prompt' ? 'prompt_reference' : 'resource_reference'),
+  execution: t.kind === 'prompt' ? 'prompt_reference' : 'resource_reference',
   cli_style: AUTO_STYLES[t.id] ?? null,
   license: t.license?.label ?? 'unknown',
 }));
@@ -69,7 +69,7 @@ const sources = catalog.sources.map((s) => {
 const map = {
   schema_version: 1,
   generated_at: '2026-11-11',
-  note: '路由辅助，不是执行证明。workflow_ids 是建议的 VIDEO_WORKFLOWS 章节；只有 execution=auto_style 且 cli_style 非空的 3 条模板已被 code-motion 真正接入。',
+  note: '路由辅助，不是执行证明。Agent-led：所有模板都是参考资料，由 Agent 读 Prompt 后从零写代码，没有固定执行风格。',
   auto_styles: AUTO_STYLES,
   sources,
   templates,
@@ -88,7 +88,7 @@ let md = `# 模板 → Prompt → Workflow 对照表
 npm run catalog:map
 \`\`\`
 
-机器可读版本：[catalog/template-map.json](../../catalog/template-map.json)。这是**路由辅助**，不是执行证明：只有 \`execution=auto_style\` 且 \`cli_style\` 非空的模板已被 \`code-motion\` 真正接进渲染链路。
+机器可读版本：[catalog/template-map.json](../../catalog/template-map.json)。这是**路由辅助**，不是执行证明：Agent-led 主流程不预置固定风格，所有模板由 Agent 读 Prompt 后重新实现。
 
 ## 来源总览
 
@@ -96,15 +96,13 @@ npm run catalog:map
 | --- | --- | ---: | --- | --- |
 ${sourceRows.join('\n')}
 
-## 已接入执行链的 3 个风格
+## 固定执行风格（已取消）
 
-| 模板 ID | CLI 风格 | Prompt/规格 |
-| --- | --- | --- |
-${templates.filter((t) => t.execution === 'auto_style').map((t) => `| ${t.id} | \`${t.cli_style}\` | \`${t.prompt_path}\` |`).join('\n')}
+无。主流程由 Agent 从零写代码，不预置风格。
 
 ## 全部模板
 
-> 410 行。\`执行\` 为 \`auto_style\` 才是已接入；其余是 \`prompt_reference\` / \`resource_reference\`，用 Agent 读取后改写，或先安装对应上游引擎。
+> 410 行。所有模板都是 prompt_reference / resource_reference：Agent 读取后重新写代码；不存在“固定适配器”。
 
 | ID | 名称 | 来源 | Prompt/规格 | Workflow | 执行 | recipe |
 | --- | --- | --- | --- | --- | --- | --- |
