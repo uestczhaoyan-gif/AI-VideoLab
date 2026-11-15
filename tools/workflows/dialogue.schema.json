@@ -1,0 +1,218 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reply",
+    "changes"
+  ],
+  "properties": {
+    "reply": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "topic",
+        "purpose",
+        "audience",
+        "duration_seconds",
+        "aspect_ratio",
+        "tone",
+        "style_preferences",
+        "usage",
+        "deadline",
+        "budget",
+        "max_wait_minutes",
+        "depth",
+        "formula_policy",
+        "learning_goal",
+        "viewing_context"
+      ],
+      "properties": {
+        "topic": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "purpose": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "education",
+                "product",
+                "data",
+                "story",
+                "motion"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "audience": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duration_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "aspect_ratio": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "16:9",
+                "9:16",
+                "1:1",
+                "3:4"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tone": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "style_preferences": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "personal",
+                "commercial"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deadline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "budget": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_wait_minutes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "depth": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "unspecified",
+                "introductory",
+                "professional",
+                "derivation"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formula_policy": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "unspecified",
+                "none",
+                "core",
+                "derivation"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "viewing_context": {
+          "anyOf": [
+            { "type": "string", "maxLength": 500 },
+            { "type": "null" }
+          ]
+        },
+        "learning_goal": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

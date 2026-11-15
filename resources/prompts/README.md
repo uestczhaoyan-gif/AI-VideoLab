@@ -1,20 +1,21 @@
 # Prompt 文本包（入库）
 
-这里是从下载资源中**可再分发/许可允许**的文本复制出的 prompt/风格卡，随 Git 提交，解决“只有 Workflow、没有详实 Prompt”的问题。约 2.7 MB，不含图片/视频/字体。
+这里汇集许可允许再分发的 Prompt、风格卡与制作指南，供 Agent 按本次 Brief 选取。
 
 | 目录 | 来源 | 内容 | 许可 |
 | --- | --- | --- | --- |
-| `lemo/` | LEMO（`resources/styles/lemo-opuscar`） | 51 个风格的 `STYLE.md`、`DEMO.md`、`style.json` | MIT（工程）；素材另计 |
+| `lemo/` | LEMO（`resources/styles/lemo-opuscar`） | 51 个风格的 `STYLE.md`、`style.json` | MIT（工程）；素材另计 |
 | `mg/` | MG 15（`resources/styles/mg-styles-15`） | 15 条 Prompt Markdown | MIT（工程）；素材另计 |
 | `shotcraft/` | video-shotcraft（P22） | 125 张镜头卡 / 参考 Markdown | Apache-2.0（代码）；素材另计 |
 | `manim-skill/` | manim-skill（P13） | Skill 文档 | MIT |
 
 ## 怎么用
 
-- **直接选风格**：`resources/prompts/lemo/<style>/STYLE.md` 与 `style.json` 是 51 个风格的可读规格；CLI 已把 3 个（blueprint、ink-wash、bauhaus 来自 MG）做成可执行模板，其余可复制改写。
-- **写内容**：Agent 读 `resources/prompts/mg/*.md` 或 `shotcraft/shots/**`，选中 1–3 条，转成 `content.json` 的标题、步骤与画面规则，而不是把 341 条全部塞进上下文。
-- **复刻 Prompt**：`recipes/code-motion/styles/README.md` 里有 3 个已接入模板的详细复刻 Prompt。
+- 需要描述风格时，阅读 `resources/prompts/lemo/<style>/STYLE.md` 或 `resources/prompts/mg/*.md` 中相关条目。
+- 需要细化分镜时，在 `shotcraft/shots/` 选与当前场景匹配的镜头卡，把用途、画面变化和节奏写进任务包。
 - **CAP（P09）341 条**：仓库只保留 catalog 索引与摘要（完整 Prompt 受混合来源/免费分享约定限制，不直接再分发）；取得资源后读 `resources/prompt-libraries/.../source/`。
+
+LEMO 具体作品的制作说明可在 [固定上游版本](https://github.com/lemomo-ai/lemo-opuscar/tree/b5e8ef93930b6d828f352055a689320f138237b1/styles) 查阅。
 
 ## 不包含
 

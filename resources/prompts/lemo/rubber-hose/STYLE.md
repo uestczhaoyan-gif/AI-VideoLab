@@ -95,7 +95,7 @@ A menu: use the ones your story needs.
 
 ## 10. Engine
 
-In `demo/`: `toon.js` (constant-width ink, line boil, affine stack), `film.js` (gate and film damage, reusable as is), `chars.js` (rigs, pie eyes, gloves, shoes), `cast.js` (breathing props), `bg.js` (cached watercolour backgrounds), `ui.js` (title lettering, title-card subtitles), `mix.py` (foley, radio chain, optical ageing), `music/score.py` (big band via `core/audio/sampler.py`). File map and commands: [DEMO.md](DEMO.md#build-notes).
+In `demo/`: `toon.js` (constant-width ink, line boil, affine stack), `film.js` (gate and film damage, reusable as is), `chars.js` (rigs, pie eyes, gloves, shoes), `cast.js` (breathing props), `bg.js` (cached watercolour backgrounds), `ui.js` (title lettering, title-card subtitles), `mix.py` (foley, radio chain, optical ageing), `music/score.py` (big band via `core/audio/sampler.py`). File map and commands: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/rubber-hose/DEMO.md#build-notes).
 
 ## 11. Variation space
 
@@ -107,4 +107,4 @@ You decide the location (or several), the cast, the structure, the opening, the 
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/rubber-hose/DEMO.md). Read it after your treatment exists.

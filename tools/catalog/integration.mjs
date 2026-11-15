@@ -72,7 +72,7 @@ const ROUTES = [
     recipe_id: 'code-motion',
     purposes: ['motion', 'story'],
     signals: ['动效', '片头', '转场', '代码动画', '风格'],
-    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/recipe-runs/example-code-motion/report.json', example: 'examples/code-motion/README.md' },
+    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/recipe-runs/example-code-motion/report.json', example: 'recipes/code-motion/README.md' },
     resources: [
       ['P09', 'prompt'], ['P02', 'prompt'], ['P03', 'prompt'],
       ['V06', 'reference'], ['V10', 'reference'], ['V11', 'reference'], ['V14', 'reference'],
@@ -85,7 +85,7 @@ const ROUTES = [
     recipe_id: 'explain-data',
     purposes: ['education', 'data'],
     signals: ['数据', '图表', '统计', '指标', '科普', '机制'],
-    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/explain-data/example-explain-data/qa.json', example: 'examples/explain-data/README.md' },
+    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/explain-data/example-explain-data/qa.json', example: 'recipes/explain-data/README.md' },
     resources: [
       ['V04', 'reference'], ['V12', 'reference'],
       ['P05', 'install_required'], ['P06', 'install_required'], ['P07', 'install_required'],
@@ -98,7 +98,7 @@ const ROUTES = [
     recipe_id: 'real-product',
     purposes: ['product'],
     signals: ['产品', '截图', '界面', '功能', '演示', '落地页'],
-    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/real-product/run/report.json', example: 'examples/real-product/README.md' },
+    executor: { kind: 'local_cli', status: 'verified', verified_at: '2026-11-08', evidence: '.tmp/real-product/run/report.json', example: 'recipes/real-product/README.md' },
     resources: [
       ['P22', 'install_required'], ['V05', 'reference'], ['V08', 'reference'], ['V14', 'reference'],
       ['P16', 'install_required'], ['P08', 'install_required'],

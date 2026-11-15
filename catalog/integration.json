@@ -60,7 +60,7 @@
         "status": "verified",
         "verified_at": "2026-11-08",
         "evidence": ".tmp/recipe-runs/example-code-motion/report.json",
-        "example": "examples/code-motion/README.md",
+        "example": "recipes/code-motion/README.md",
         "entry": "recipes/code-motion/run.mjs"
       },
       "resources": [
@@ -135,7 +135,7 @@
         "status": "verified",
         "verified_at": "2026-11-08",
         "evidence": ".tmp/explain-data/example-explain-data/qa.json",
-        "example": "examples/explain-data/README.md",
+        "example": "recipes/explain-data/README.md",
         "entry": "recipes/explain-data/run.mjs"
       },
       "resources": [
@@ -199,7 +199,7 @@
         "status": "verified",
         "verified_at": "2026-11-08",
         "evidence": ".tmp/real-product/run/report.json",
-        "example": "examples/real-product/README.md",
+        "example": "recipes/real-product/README.md",
         "entry": "recipes/real-product/run.mjs"
       },
       "resources": [

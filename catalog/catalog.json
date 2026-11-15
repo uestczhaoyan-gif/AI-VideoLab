@@ -15730,7 +15730,7 @@
       "collection": "MG15",
       "category": "几何图形",
       "kind": "project",
-      "summary": "上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。",
+      "summary": "上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。",
       "purposes": [],
       "tags": [
         "平面矢量",
@@ -15771,7 +15771,7 @@
       "collection": "MG15",
       "category": "手绘与线条",
       "kind": "project",
-      "summary": "上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。",
+      "summary": "上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。",
       "purposes": [],
       "tags": [
         "线条动画",
@@ -15812,7 +15812,7 @@
       "collection": "MG15",
       "category": "空间与三维",
       "kind": "project",
-      "summary": "上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。",
+      "summary": "上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。",
       "purposes": [],
       "tags": [
         "等轴空间",
@@ -15853,7 +15853,7 @@
       "collection": "MG15",
       "category": "空间与三维",
       "kind": "project",
-      "summary": "上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。",
+      "summary": "上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。",
       "purposes": [],
       "tags": [
         "三维材质",
@@ -16017,7 +16017,7 @@
       "collection": "MG15",
       "category": "形变与运动",
       "kind": "project",
-      "summary": "上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。",
+      "summary": "上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。",
       "purposes": [],
       "tags": [
         "连续形变",
@@ -16621,7 +16621,7 @@
         "limits": [
           "只做 2–6 条横向条形图的固定版式；折线图、多图联动、自定义布局未支持",
           "数据真实性、单位与口径由人核对；示例数据必须标“示例数据，不是真实统计”",
-          "不调用模型 API；工作台暂不直接生成，需用 CLI 执行器与 examples/explain-data/"
+          "通过 CLI 执行，需要调用者提供项目 JSON 和 content.json。"
         ]
       }
     },
@@ -16708,7 +16708,7 @@
         "limits": [
           "输入真实截图（PNG/JPG，2–6 场景，单图 <3 MiB、总 <8 MiB），不生成 UI 或录屏",
           "产品事实、截图来源与素材版权由人核对；不验证截图真实性",
-          "不调用模型 API；工作台暂不直接生成，需用 CLI 执行器与 examples/real-product/"
+          "通过 CLI 执行，需要调用者提供项目 JSON 和 content.json。"
         ]
       }
     }

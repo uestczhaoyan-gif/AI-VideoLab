@@ -14,7 +14,6 @@
 | [library/INTEGRATION.md](library/INTEGRATION.md) | 资源访问等级与历史路由说明 |
 | [library/SOURCES.md](library/SOURCES.md) | 来源、Prompt、工程与缺口 |
 | [library/REPOSITORIES.md](library/REPOSITORIES.md) | 上游仓库固定版本与许可 |
-| [library/cases/README.md](library/cases/README.md) | 历史案例知识 |
 | [theory/README.md](theory/README.md) | Vxx/Pxx 逐来源证据 |
 | [UPLOAD.md](UPLOAD.md) | GitHub 上传与 Release 资源包 |
 

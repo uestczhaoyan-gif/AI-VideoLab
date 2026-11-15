@@ -94,7 +94,7 @@
     "cost_status": "unknown",
     "paid_execution_ready": false
   },
-  "references": ["docs/library/cases/deepseek-onetake.md"],
+  "references": ["resources/prompts/lemo/one-line/STYLE.md"],
   "steps": ["brief", "design", "prompts", "assets_or_code", "preview", "render", "qa"],
   "outputs": ["prompt", "editable_project", "video", "qa", "cost_record"]
 }
@@ -143,7 +143,7 @@
 catalog 顺序第一的 `code-motion` 已从草案变为**本地可执行（半自动）**，适配器 `recipes/code-motion/run.mjs`。流程固定为「Brief 门 → 风格帧门 → 全片渲染 → 编码 → 机械 QA → 新项目版本（export 门仍待确认）」：
 
 ```text
-examples/code-motion/make-project.mjs        生成项目（三个确认门均 pending）
+tools/project/cli.mjs init                  初始化项目（三个确认门均 pending）
 tools/project/cli.mjs gate --id brief         人确认 Brief（必须写依据）
 recipes/code-motion/run.mjs --stage stills    出三张风格帧 + 联系表（不自动确认）
 tools/project/cli.mjs gate --id style_frame   人确认风格帧
@@ -153,4 +153,4 @@ recipes/code-motion/run.mjs --stage render    全片渲染、编码、QA、写�
 - **导演内容**由当前 CLI 模型（用户指定的 DeepSeek V4.1 Flash，未核实官方 ID／价格）写成 brief 与 `content.json`；执行器**不调用模型 API**，只做确定性 `render(t)` 逐帧、ffmpeg 编码与机械检查。
 - **2026-11-06 实测**：示例 10.0 秒／1280×720／30 fps／300 帧全唯一／H.264+AAC；brief 与 style_frame 两门确认，export 待确认；QA 3 passed（规格、解码、视觉抽检）／1 waived（无对白时基）／4 not_checked（内容、主观声音、完整观看、用户采用），项目 `draft`。产物在 `.tmp/recipe-runs/example-code-motion/`。
 - **边界**：只覆盖文字／图形卡点短动效；没有生成式素材、角色、真人、字幕对齐、配音、BGM、自动剪辑、后台队列或发布。风格帧与成片仍要人看；内容事实与声音仍要人核对。
-- 示例与命令见 [examples/code-motion](../../examples/code-motion/README.md)，适配器说明见 [recipes/code-motion](../../recipes/code-motion/README.md)。
+- 输入契约和命令见 [code-motion 使用说明](../../recipes/code-motion/README.md)。

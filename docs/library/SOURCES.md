@@ -7,7 +7,7 @@
 | 来源 | 固定版本／入口 | 已保存什么 | 可执行性与缺口 |
 | --- | --- | --- | --- |
 | P01 ai-promo-video-maker | `279ba5178c3c80d472b84ac2efa36c6fca33bba2`；[提取笔记](../theory/extractions/projects/P01-ai-promo-video-maker.md) | 本地 `resources/workflows/ai-promo-video-maker/source/`；工作流、Skill、参考文档、脚本等；记录为 MIT | 未独立跑完整产品片；依赖真实产品素材和可选声音服务；完整案例工程覆盖范围见笔记 |
-| P02 mg-styles-15 | `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；[提取笔记](../theory/extractions/projects/P02-mg-styles-15.md) | 本地 `resources/styles/mg-styles-15/source/` 为选择性获取：15 份 Prompt、5 个上游 demo 源码目录、渲染器与音频库；[MIT 文本](../../resources/styles/mg-styles-15/UPSTREAM-LICENSE) | 本项目仅部分风格有对照案例（摘要见 [cases](cases/README.md)）；其他风格源码需补取；原 demo 环境说明已随清理删除，重跑需按上游 README 重建 |
+| P02 mg-styles-15 | `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；[提取笔记](../theory/extractions/projects/P02-mg-styles-15.md) | 本地 `resources/styles/mg-styles-15/source/` 为选择性获取：15 份 Prompt、5 个上游 demo 源码目录、渲染器与音频库；[MIT 文本](../../resources/styles/mg-styles-15/UPSTREAM-LICENSE) | 其余风格源码需按固定出处补取；运行要求见上游 README |
 | P03 fifi-video-prompt | `6b31ed2cefe610c164e2bd96da03e02e34103495`；[提取笔记](../theory/extractions/projects/P03-fifi-video-prompt.md) | 本地 `resources/prompt-libraries/fifi-video-prompt/source/`；README 与验证码案例完整 Prompt；记录为 MIT | 该版本没有完整已生成动画源码；可以研究 Prompt，不能称为直接可渲染工程 |
 | P04 Table-VideoSOP | `a51fea1c8a1e6b9b0a5d1d42491fd58978816dd0`；[提取笔记](../theory/extractions/projects/P04-Table-VideoSOP.md) | 本地 `resources/workflows/table-video-sop/source/`；SOP、设计、QA、协作与工具；正文 CC BY 4.0、工具 MIT | 不含完整制作项目、生成服务与角色素材；采用生成素材的环节包含人工操作 |
 | P05 ManimGL | [官方仓库](https://github.com/3b1b/manim)；[提取笔记](../theory/extractions/projects/P05-manim-gl.md) | 已有 README 摘要与使用边界 | 未保存本项目固定引擎版本或运行案例；使用前核对对应版本依赖和许可 |
@@ -20,7 +20,7 @@
 | P12 Open Design | `fa19ff40e34dd50a9b01888b0339a1b2e1e68cc7`；[核心提取](../theory/extractions/projects/P12-open-design.md) | 仅 49 份核心文档与 Skill 入口；适配、加载与设计初读 | 不是完整软件；根 Apache-2.0，例外与依赖未收齐 |
 | P13–P18 制作与工作台候选 | [逐仓库清单](REPOSITORIES.md)；各自固定 commit | Manim Skill、Remotion Skills、HyperFrames、Onetake、Anidoodle、Claudian 完整 ZIP；范围初读分别建档 | 未安装／运行；Onetake 非商业，Remotion Skills 根未见单独 LICENSE，其他条款分别记录 |
 | P19–P21 作品／Prompt 集合 | [逐仓库清单](REPOSITORIES.md)；各自固定 commit | 三个作品集完整 ZIP，README／权利范围初读 | 不含全部外链工程与视频；第三方媒体／Prompt 不继承根许可 |
-| lemo-opuscar | `b5e8ef93930b6d828f352055a689320f138237b1`；[本地记录](../../resources/styles/lemo-opuscar/README.md) | 本地 `resources/styles/lemo-opuscar/source/`；51 个风格目录、`STYLE.md`、`DEMO.md`、demo 与 `core/`；记录为 MIT，资产许可另计 | 本轮核对风格索引和文件数量，未逐份阅读；白板试片摘要见 [案例](cases/lemo-whiteboard-trial.md)，尚无正式原作复现 |
+| lemo-opuscar | `b5e8ef93930b6d828f352055a689320f138237b1`；[本地记录](../../resources/styles/lemo-opuscar/README.md) | 本地 `resources/styles/lemo-opuscar/source/`；51 个风格目录、`STYLE.md`、`DEMO.md`、demo 与 `core/`；记录为 MIT，资产许可另计 | 本轮核对风格索引和文件数量，未逐份阅读 |
 
 lemo-opuscar 中实际有 52 组 `STYLE.md`／`DEMO.md`，其中 `_template` 是模板；索引的 51 个风格目录全部存在。这里不把模板计为额外风格。
 
@@ -43,19 +43,6 @@ V01–V05 属于第一批，覆盖见 [BATCH_01_REVIEW.md](../theory/BATCH_01_RE
 | V11 | [俯仰代码动画加强版](../theory/extractions/videos/V11-BV1vsx66BE4p.md) | 技能包分层与按需加载、四阶段授权、任务卡／分镜表／音乐四案／返修表、质量底线；与 V06／P09 同源新版本 | 四组 A/B 无日志与评分标准；网盘资源未取；未安装运行 |
 | V12 | [AI 动画完全指南](../theory/extractions/videos/V12-BV1f94c6uEr3.md) | render(t) 确定性、单一时间表、三处确认门、QA 材料化、独立审片 | 43 风格未逐份读；未安装 Skill；费用与耗时未披露 |
 | V13 | [Harness 实践](../theory/extractions/videos/V13-BV1ypdgBCE9B.md) | 四阶段两检查点、按阶段分发文档、Outline 状态记忆、多 Agent 隔离、最小切片修复、Reviewer Agent | 讲的是较早的 web-video-presentation；未取得工程与账单；未完整视听 |
-
-## 案例知识（原工程已于 2026-11 清理）
-
-本地逐风格复现与独立验证的**工程、源码、媒体和检查 JSON 已按用户要求删除**；总结知识改由 [案例库](cases/README.md) 保存。原路径只用于追溯，不再作为可执行入口。
-
-| 原类型 | 案例文档 | 保留原因 |
-| --- | --- | --- |
-| 设计与代码对应 | [MG 平面矢量](cases/mg-01-flat-vector.md)、[线条](cases/mg-03-line-art.md) 等案例 | 从创作意图到几何、镜头与时间的推导；只留 Prompt 会丢失这部分知识 |
-| 方法说明 | [MG 案例](cases/README.md)、[一笔画案例](cases/deepseek-onetake.md) | 生成新 Prompt、挑选工具与定义检查的基础 |
-| 实际输入 | 案例文档中的 Prompt 结构与关键参数 | 区分作者输入、实际执行输入和事后归纳；上游 Prompt 原文在 `resources/*/source/prompts/` |
-| 实际结果与失败 | 各案例文档的验收、失败与用户反馈段 | 避免把技术通过或单次成功推广为稳定能力 |
-| 可编辑实现 | 已删除；结构与做法写入案例文档 | 需要重建时按上游固定版本与案例描述重做，不冒充现成工程 |
-| 执行依赖 | 已删除；保留上游快照与版本 | 原案例依赖本机虚拟环境、字体、音频库与 Chrome，不能仅靠根目录 `npm ci` 复原 |
 
 ## 怎样判断“开源文件够不够”
 

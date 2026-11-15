@@ -1,6 +1,6 @@
 # VideoLab 使用手册（Agent-led）
 
-适用于 0.3。没有网页界面、没有固定风格模板；`make` 只准备任务，视频由你的 Agent 从零写。
+本页介绍保留的 0.3 Agent-led CLI。对话创作、预览与多 Workflow 导出见 [本地创作台](STUDIO.md)。
 
 ## 1. 安装
 

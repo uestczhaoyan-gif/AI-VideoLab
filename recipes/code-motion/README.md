@@ -8,7 +8,7 @@ catalog 中第一条**本地可执行**的 recipe：导演（当前 CLI 模型�
 Brief（人确认） → 风格帧（人确认） → 全片渲染 → 编码 → QA → 新项目版本（export 门仍待确认）
 ```
 
-1. 用 `npm run make` 或 `examples/code-motion/make-project.mjs` 生成项目 JSON（确认门均为 pending）。
+1. 准备项目 JSON，可用 `npm run project:init -- --topic "<主题>" --out projects/<项目>/project.json` 初始化。将 `selection.recipe_id` 设为 `code-motion`，`selection.recipe_revision` 填目录中的对应版本。
 2. 导演写 `content.json`（标题、副标题、2–5 个步骤卡、页脚、规格），并让 `content.duration/fps` 与项目一致。
 3. 确认 Brief 门（必须写依据）：
    ```sh
@@ -16,7 +16,7 @@ Brief（人确认） → 风格帧（人确认） → 全片渲染 → 编码 �
    ```
 4. 出风格帧并查看：
    ```sh
-   node recipes/code-motion/run.mjs --project <项目-brief.json> --content examples/code-motion/content.json --stage stills
+   node recipes/code-motion/run.mjs --project <项目-brief.json> --content <content.json> --stage stills
    ```
 5. 看 `stills/still-1..3.png` 与 `style-frames.jpg`，确认后写 style_frame 门：
    ```sh
@@ -24,7 +24,7 @@ Brief（人确认） → 风格帧（人确认） → 全片渲染 → 编码 �
    ```
 6. 全片渲染：
    ```sh
-   node recipes/code-motion/run.mjs --project <项目-style.json> --content examples/code-motion/content.json --stage render
+   node recipes/code-motion/run.mjs --project <项目-style.json> --content <content.json> --stage render
    ```
 7. 产物在 `.tmp/recipe-runs/<project_id>/`：`code-motion.mp4`、`frames/`、`storyboard.jpg`、`qa.json`、`project-vN.json/.md`；`export` 门保持待确认。
 
@@ -52,4 +52,3 @@ npm run make -- --topic "透镜如何改写一束光" --style blueprint --durati
 | --- | --- |
 | `run.mjs` | 执行器（stills / render 两阶段，调用 `tools/render/local-render.mjs`） |
 | `scene.template.html` | 确定性场景模板；`render(t)` 只由时间与 content 决定 |
-| `examples/code-motion/` | 示例 brief／content／项目生成脚本 |

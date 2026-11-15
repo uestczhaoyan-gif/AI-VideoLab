@@ -18,7 +18,6 @@
 | [WORKFLOW.md](WORKFLOW.md) | 制作机制、阶段交接与人工确认 |
 | [ROUTING.md](ROUTING.md) | 模型/Skill/工具分工与验证方法 |
 | [PROMPTS.md](PROMPTS.md) | Prompt 的组织与保存 |
-| [cases/README.md](cases/README.md) | 历史案例知识 |
 | [../theory/README.md](../theory/README.md) | Vxx/Pxx 逐来源证据 |
 
 ## 使用原则

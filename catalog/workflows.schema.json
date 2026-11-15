@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflows",
+    "styles"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "workflows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "version",
+          "adapter",
+          "source_id",
+          "revision",
+          "purposes",
+          "steps",
+          "required_assets",
+          "capabilities",
+          "duration",
+          "verification",
+          "reference_ids"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "adapter": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "purposes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "education",
+                "product",
+                "data",
+                "story",
+                "motion"
+              ]
+            }
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_assets": {
+            "type": "array",
+            "minItems": 0,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "product_screenshot_or_recording"
+              ]
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "duration": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 3600
+            }
+          },
+          "verification": {
+            "enum": [
+              "unverified",
+              "probe_passed"
+            ]
+          },
+          "reference_ids": {
+            "type": "array",
+            "minItems": 0,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "styles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "template_id",
+          "workflows",
+          "audience",
+          "signals"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "template_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "workflows": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            }
+          },
+          "audience": {
+            "enum": [
+              "beginner",
+              "general",
+              "advanced"
+            ]
+          },
+          "signals": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

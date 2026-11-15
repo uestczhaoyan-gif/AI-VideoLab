@@ -20,6 +20,7 @@ test('every route points at a runnable recipe and a real adapter', () => {
   for (const route of integration.routes) {
     assert.ok(route.recipe?.runnable, route.id);
     assert.ok(route.executor.entry && fs.existsSync(route.executor.entry), route.id);
+    assert.ok(route.executor.example && fs.existsSync(route.executor.example), route.id);
     assert.equal(route.executor.status, 'verified', route.id);
     for (const resource of route.resources) assert.ok(catalog.sources.some((s) => s.id === resource.source_id), `${route.id}:${resource.source_id}`);
   }

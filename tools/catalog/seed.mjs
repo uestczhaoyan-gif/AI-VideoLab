@@ -87,7 +87,7 @@ export const RECIPES = [
       limits: [
         '只做 2–6 条横向条形图的固定版式；折线图、多图联动、自定义布局未支持',
         '数据真实性、单位与口径由人核对；示例数据必须标“示例数据，不是真实统计”',
-        '不调用模型 API；工作台暂不直接生成，需用 CLI 执行器与 examples/explain-data/',
+        '通过 CLI 执行，需要调用者提供项目 JSON 和 content.json。',
       ],
     },
   },
@@ -105,7 +105,7 @@ export const RECIPES = [
       limits: [
         '输入真实截图（PNG/JPG，2–6 场景，单图 <3 MiB、总 <8 MiB），不生成 UI 或录屏',
         '产品事实、截图来源与素材版权由人核对；不验证截图真实性',
-        '不调用模型 API；工作台暂不直接生成，需用 CLI 执行器与 examples/real-product/',
+        '通过 CLI 执行，需要调用者提供项目 JSON 和 content.json。',
       ],
     },
   },

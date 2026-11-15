@@ -86,28 +86,28 @@
 | 材质与 3D | 低多边形等距 | `lowpoly-island` | 几何、空间 |
 | 材质与 3D | 玻璃质感产品 | `glass-product` | 材质、产品 |
 
-已有相关产物摘要见[白板试片案例](cases/lemo-whiteboard-trial.md)，未完整实现上游默认特征。上游对模型适配的声明见[项目记录](../../resources/styles/lemo-opuscar/README.md)，不直接作为其他模型无法使用的结论。
+关于模型适配，见[上游来源记录](../../resources/styles/lemo-opuscar/README.md)。
 
 ## mg-styles-15：另一组 15 风格资料
 
 固定来源：[完整项目版本](https://github.com/Vincentwei1021/mg-styles-15/tree/49052d80bfaf9fa8412cc9710530e5e95a3b8d8c)。本地 `source/prompts/` 有 15 份 Markdown；`source/demos/` 仅获取了平面矢量、线条、等轴、三维、形变这 5 个上游案例目录，其他风格的完整工程需从固定版本补取。完整对应与技术线索见 [P02 第 5 节](../theory/extractions/projects/P02-mg-styles-15.md)。
 
-| 源码标识 | 风格 | 本项目覆盖 |
+| 源码标识 | 风格 | 可查资源 |
 | --- | --- | --- |
-| `01-flat-vector` | 平面矢量 | 有复现与花园拓展记录（见[案例](cases/mg-01-flat-vector.md)） |
-| `02-line-art` | 线条动画 | 有复现、《归途》与一笔画独立验证（见[案例](cases/mg-03-line-art.md)） |
-| `03-isometric` | 等轴 | 有复现、SUNGRID 与芯片迁移（见[案例](cases/mg-02-isometric.md)） |
-| `04-3d-render` | 三维材质 | 有 Soft Landing 复现、RIPPLE 迁移 |
-| `05-cel-boil` | 手绘沸腾线 | 资料线索，未本地复现 |
-| `06-collage` | 拼贴 | 资料线索，未本地复现 |
-| `07-liquid` | 液态 | 资料线索，未本地复现 |
-| `08-morph` | 形变 | 有复现、WANDER 多版与迁移局限 |
-| `09-bauhaus` | 包豪斯 | 资料线索，未本地复现 |
-| `10-synthwave` | 合成波 | 资料线索，未本地复现 |
-| `12-aurora-glass` | 极光玻璃 | 资料线索，未本地复现 |
-| `18-hanazi` | 综艺花字 | 资料线索，未本地复现 |
-| `19-paperclip` | 知识拼贴 | 资料线索，未本地复现 |
-| `20-pixel` | 像素 | 资料线索，未本地复现 |
-| `22-hud` | HUD | 资料线索，未本地复现 |
+| `01-flat-vector` | 平面矢量 | [Prompt](../../resources/prompts/mg/01-flat-vector.md)、上游工程 |
+| `02-line-art` | 线条动画 | [Prompt](../../resources/prompts/mg/02-line-art.md)、上游工程 |
+| `03-isometric` | 等轴 | [Prompt](../../resources/prompts/mg/03-isometric.md)、上游工程 |
+| `04-3d-render` | 三维材质 | [Prompt](../../resources/prompts/mg/04-3d-render.md)、上游工程 |
+| `05-cel-boil` | 手绘沸腾线 | [Prompt](../../resources/prompts/mg/05-cel-boil.md) |
+| `06-collage` | 拼贴 | [Prompt](../../resources/prompts/mg/06-collage.md) |
+| `07-liquid` | 液态 | [Prompt](../../resources/prompts/mg/07-liquid.md) |
+| `08-morph` | 形变 | [Prompt](../../resources/prompts/mg/08-morph.md)、上游工程 |
+| `09-bauhaus` | 包豪斯 | [Prompt](../../resources/prompts/mg/09-bauhaus.md) |
+| `10-synthwave` | 合成波 | [Prompt](../../resources/prompts/mg/10-synthwave.md) |
+| `12-aurora-glass` | 极光玻璃 | [Prompt](../../resources/prompts/mg/12-aurora-glass.md) |
+| `18-hanazi` | 综艺花字 | [Prompt](../../resources/prompts/mg/18-hanazi.md) |
+| `19-paperclip` | 知识拼贴 | [Prompt](../../resources/prompts/mg/19-paperclip.md) |
+| `20-pixel` | 像素 | [Prompt](../../resources/prompts/mg/20-pixel.md) |
+| `22-hud` | HUD | [Prompt](../../resources/prompts/mg/22-hud.md) |
 
-表中为检索标识，精确路径以固定版本文件为准；上游 Prompt 编号、展示序号与本地案例编号不完全一致。跨库相近风格保留各自来源，不把它们合成一份无出处的 Prompt。
+表中为检索标识，精确路径以固定版本文件为准；上游 Prompt 编号和展示序号可能不同。跨库相近风格保留各自来源，不把它们合成一份无出处的 Prompt。

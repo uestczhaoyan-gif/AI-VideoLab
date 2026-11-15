@@ -99,7 +99,7 @@ A menu: use the ones your story needs.
 
 ## 10. Engine
 
-In `demo/src/`: `paper.js` (`sheet()` = one lit paper layer; `skyPanel`, `moon`, `text`, `burst`), `stage.js` (scene, top spot, `aim()` camera), `post.js` (DoF, bloom, transitions, grade), `room.js` (the real box and table), `art.js` / `people.js` / `props.js` (motifs, jointed figures, props), `lib.js`. `src/main.js` schedules shots, each `build(E) → { S, update(t), post(t), grade(t) }`. API table and a minimal shot: [DEMO.md](DEMO.md) "Engine reference".
+In `demo/src/`: `paper.js` (`sheet()` = one lit paper layer; `skyPanel`, `moon`, `text`, `burst`), `stage.js` (scene, top spot, `aim()` camera), `post.js` (DoF, bloom, transitions, grade), `room.js` (the real box and table), `art.js` / `people.js` / `props.js` (motifs, jointed figures, props), `lib.js`. `src/main.js` schedules shots, each `build(E) → { S, update(t), post(t), grade(t) }`. API table and a minimal shot: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/paper-lantern/DEMO.md) "Engine reference".
 
 ## 11. Variation space
 
@@ -111,4 +111,4 @@ You decide the places, the figures (or none), the ladders, the light source, whe
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/paper-lantern/DEMO.md). Read it after your treatment exists.

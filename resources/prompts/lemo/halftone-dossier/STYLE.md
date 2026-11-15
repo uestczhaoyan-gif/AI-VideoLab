@@ -103,7 +103,7 @@ A menu: use the ones your story needs.
 
 ## 10. Engine
 
-Everything lives in `demo/index.html`: helpers (`el`, `txt`, `tf`, `seg`, easings, `measure`), per-character text (`chars` + `charsPop`), **halftone** (`halftone()` with `radial`/`edge` density fields), `caption()` bar, **stamp** (`stampEl` + `stampAnim`), a mascot rig with a `setFace` interface, `scene(t0, t1, build)`, HUD chips, dot wipe (`WIPES`), paper + grain (`buildPaper`, `drawFx`), `render(t)`. `demo/render.mjs` renders stills and video; `demo/music.py` synthesizes score and SFX. Line ranges and a minimal scene: [DEMO.md](DEMO.md#engine-reference).
+Everything lives in `demo/index.html`: helpers (`el`, `txt`, `tf`, `seg`, easings, `measure`), per-character text (`chars` + `charsPop`), **halftone** (`halftone()` with `radial`/`edge` density fields), `caption()` bar, **stamp** (`stampEl` + `stampAnim`), a mascot rig with a `setFace` interface, `scene(t0, t1, build)`, HUD chips, dot wipe (`WIPES`), paper + grain (`buildPaper`, `drawFx`), `render(t)`. `demo/render.mjs` renders stills and video; `demo/music.py` synthesizes score and SFX. Line ranges and a minimal scene: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/halftone-dossier/DEMO.md#engine-reference).
 
 ## 11. Variation space
 
@@ -117,4 +117,4 @@ All far from our demo:
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/halftone-dossier/DEMO.md). Read it after your treatment exists.

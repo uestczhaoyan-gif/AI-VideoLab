@@ -92,7 +92,7 @@ A menu: use the ones your story needs.
 
 ## 10. Engine
 
-In `demo/`: `gl.js` (WebGL2 compositor: paper, wax adhesion, knock-out, watercolour + resist, emboss/vignette/lamp), `crayon.js` (`line` ribbons with taper, streaks, boil; `fill` hatching with overshoot; `text`; shapes), `rig.js` (occlusion + knock-out parts, limb tubes), `sheet.js` (model sheets, `?test=model&page=…`), `end.js` (page on a desk, page turn). Draw your own character's model sheet with them before any shot. File map and commands: [DEMO.md](DEMO.md#build-notes).
+In `demo/`: `gl.js` (WebGL2 compositor: paper, wax adhesion, knock-out, watercolour + resist, emboss/vignette/lamp), `crayon.js` (`line` ribbons with taper, streaks, boil; `fill` hatching with overshoot; `text`; shapes), `rig.js` (occlusion + knock-out parts, limb tubes), `sheet.js` (model sheets, `?test=model&page=…`), `end.js` (page on a desk, page turn). Draw your own character's model sheet with them before any shot. File map and commands: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/crayon-book/DEMO.md#build-notes).
 
 ## 11. Variation space
 
@@ -104,4 +104,4 @@ You decide the structure, the characters (or none), the page, the opening, the e
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/crayon-book/DEMO.md). Read it after your treatment exists.

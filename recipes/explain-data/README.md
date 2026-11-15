@@ -10,7 +10,7 @@ catalog 中 `explain-data` recipe 的本地执行器：导演（当前 CLI 模�
 Brief（人确认） → 3 张风格帧（人确认） → 全片渲染 → 编码 → QA → 新项目版本（export 门仍待确认）
 ```
 
-1. 用工作台或 `examples/explain-data/make-project.mjs` 生成项目 JSON（确认门均为 pending，`selection.recipe_id = explain-data`）。
+1. 准备项目 JSON，可用 `npm run project:init -- --topic "<主题>" --out projects/<项目>/project.json` 初始化。将 `selection.recipe_id` 设为 `explain-data`，`selection.recipe_revision` 填目录中的对应版本。
 2. 导演写 `content.json`（标题／副标题／图表／单位／来源／结尾 takeaway／时长／帧率），并让 `content.duration`、`content.fps` 与项目 brief 一致。
 3. 确认 Brief 门（必须写依据）：
    ```sh
@@ -18,7 +18,7 @@ Brief（人确认） → 3 张风格帧（人确认） → 全片渲染 → 编�
    ```
 4. 出风格帧并查看（brief 门未确认会直接失败）：
    ```sh
-   node recipes/explain-data/run.mjs --project <项目-brief.json> --content examples/explain-data/content.json --stage stills
+   node recipes/explain-data/run.mjs --project <项目-brief.json> --content <content.json> --stage stills
    ```
 5. 看 `stills/still-1..3.png` 与 `style-frames.jpg`（开场／中段／结尾要点），确认后写 style_frame 门：
    ```sh
@@ -26,7 +26,7 @@ Brief（人确认） → 3 张风格帧（人确认） → 全片渲染 → 编�
    ```
 6. 全片渲染（缺任一确认门会失败）：
    ```sh
-   node recipes/explain-data/run.mjs --project <项目-style.json> --content examples/explain-data/content.json --stage render
+   node recipes/explain-data/run.mjs --project <项目-style.json> --content <content.json> --stage render
    ```
 7. 产物默认在 `.tmp/explain-data/<project_id>/`：`explain-data.mp4`、`frames/`、`storyboard.jpg`、`qa.json`、`content.json`、`brief.md`、`outline.md`、`project-vN.json/.md`、`report.json`；`export` 门保持待确认。
 
@@ -79,4 +79,3 @@ Brief（人确认） → 3 张风格帧（人确认） → 全片渲染 → 编�
 | --- | --- |
 | `run.mjs` | 执行器（stills / render 两阶段，调用 `tools/render/local-render.mjs`） |
 | `scene.template.html` | 确定性场景模板；`render(t)` 只由时间与 content 决定 |
-| `examples/explain-data/` | 示例 content（示例数据）、项目生成脚本与跑法 |

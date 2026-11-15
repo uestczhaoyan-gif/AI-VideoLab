@@ -1,8 +1,12 @@
 # VideoLab
 
-**Agent-led local AI video project：CLI 负责 Brief、资源选择与渲染/QA；视频代码由你的 AI Agent 从零写。**
+> **产品方向更新（2026-11-13）**：建设“开源视频资源聚合 + 对话式需求理解 + 风格与 Workflow 路由”平台。根据主题、受众、时长与偏好选择并编排已有工具。架构、迁移顺序和验收见 [项目计划](PROJECT.md)。
+>
+> 使用 `npm run studio` 启动创作台。描述主题、受众和使用场景，先看 Agent 根据资源库提出的风格、片长和话稿。确认方案后制作预览，再导出成片。见 [本地创作台使用说明](docs/STUDIO.md)。
 
-不提供固定风格模板、不提供网页 UI、不在平台内调用模型 API。每次视频由 DSH / Pi / Codex / Claude 等 Agent 根据 Brief 和资源库重新设计、重新写代码，因此不同模型会得到不同结果。CLI 只做机械部分：选题、整理资源、抓帧、编码、机械 QA。
+**VideoLab 将主题、受众和风格偏好整理成创作方案与制作 Prompt，交给 Agent 当场写代码并自选工具制作。**
+
+HyperFrames、Anidoodle 等已收录工具供 Agent 选择。以下 CLI 用法适合需要编辑工程、导入旧任务或使用自己编码 Agent 的用户。
 
 ## 第一次使用
 

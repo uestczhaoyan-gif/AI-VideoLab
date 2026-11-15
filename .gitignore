@@ -13,9 +13,21 @@ resources/**/preview/
 docs/theory/_sources/
 docs/theory/_evidence/
 
-# Local personal projects and produced media stay out of the public repo.
-projects/
+# Keep local plans, video demos, generated sources and QA under projects/.
+/projects/
+/examples/
+/docs/library/cases/
+/resources/prompts/lemo/*/DEMO.md
 *.mp4
+# Other rendered-video formats are local artifacts too.
+*.[mM][pP]4
+*.[wW][eE][bB][mM]
+*.[mM][oO][vV]
+*.[mM][kK][vV]
+*.[aA][vV][iI]
+*.[mM]4[vV]
+*.[mM][pP][eE][gG]
+*.[mM][pP][gG]
 
 output/playwright/
 .playwright-cli/

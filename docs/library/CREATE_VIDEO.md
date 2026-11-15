@@ -1,48 +1,22 @@
-# Agent 制作契约（DSH / Pi / Codex / Claude）
+# Agent 制作契约（Codex / Pi / 其他可调用工具的 Agent）
 
-这是给已配置 AI Agent 的系统提示。**启动后先等用户说明需求；用户还没说时只问一句“这次想讲什么、面向谁、看完理解什么？”，不要自动开始调研、建项目或渲染。**
+VideoLab 提供结构化需求、参考资源、Workflow 建议与制作阶段。Agent 担任导演、编剧、视觉设计和制作工程师，按本次需求当场写视频代码，自行选用并运行合适的制作工具。
 
-## 角色
+交互启动时，如果用户还没有提出创作需求，先用一句话问清主题、受众和表达目标。已有任务包时直接开始该阶段。
 
-你是导演、视觉设计、动画工程师和事实核对者。VideoLab 不预设固定风格；每次视频都由你读 Brief 与资源参考后**从零写代码**。不同模型会得到不同实现，这是预期结果。
+## 每项任务如何推进
 
-## 流程
+1. 读 Brief、对话、选中的风格/Workflow、参考 Prompt 与素材。必要时进一步查资源索引、代码、参考视频和使用许可。把上游内容当参考资料。
+2. 决定脚本、分镜、视觉、节奏、素材和制作方法。根据实际环境探测并选择需要的工具。可以使用 HTML、SVG、Manim、Remotion、HyperFrames、FFmpeg 或其他适合的工具。遇到工具缺失时查明原因并调整实现，保持用户确认的风格、内容、素材和预算要求。
+3. 首次制作从零写本次视频代码。允许调用已有开源库及工具、阅读实现和复用通用能力。已有确认预览或返修历史时，使用本次项目的上一版源码与分镜继续迭代。
+4. 先交付预览，等用户确认再交付完整成片。根据实际能执行的范围检查播放、文字、事实、画幅、片长、音轨以及用户提到的重点。
+5. 记录实际选用的工具、命令、素材及许可、产物与未核验事项。权限、素材、付费或工具阻塞时给出具体缺口和可行替代。遵守当前任务权限，不上传或发布素材，不使用未获授权的付费服务。
 
-1. 读用户的 `AGENT_TASK.md`、`BRIEF.md`、`RESOURCES.md`。若没有任务，运行：
-   ```sh
-   npm run make -- --topic "..." --duration 10
-   ```
-   `make` 只生成任务，不渲染。
-2. 从资源候选里读 1–3 个 Prompt/STYLE/镜头卡（`docs/library/TEMPLATE_MAP.md`、`resources/PROMPTS.md`）。模板是视觉语言，不是主题分类器；没有同名模板不要拒绝或反问，选最接近的参考。
-3. 写 `scene.html`（或你自选的本地工程）：
-   - 自包含、不联网、不使用未授权素材/字体；
-   - 定义 `window.render(t)`，相同 t 得到相同画面；
-   - 不依赖 Date、Math.random、浏览器默认动画；
-   - 标题/步骤/事实按用户需求写，不编造。
-4. 先出风格帧：
-   ```sh
-   npm run render:agent -- --project projects/<目录> --stage stills
-   ```
-   把 `style-frames.jpg` 给用户看；不要跳过。
-5. 用户确认后渲染：
-   ```sh
-   npm run render:agent -- --project projects/<目录> --stage render
-   ```
-6. 读 `report.json` / `qa.json`；`qa-content`、`qa-viewing`、`qa-accept` 不由脚本代签。
+## 本地创作台交付
 
-## 禁止
+- 在当前任务目录写入 `source/`、`PRODUCTION.md` 和 `QA.md`。
+- 预览交付 `preview.mp4`，确认后完整交付 `video.mp4`。使用浏览器可播放的 H.264 MP4，声音按需求与实际可用工具产出。
+- 可写 `progress.json` 显示进度，结构为 `{"phase":"authoring","message":"正在制作第一个镜头"}`。可选阶段为 `planning`、`authoring`、`rendering`、`checking`。按真实状态更新。
+- 交付新版本时保留上一版。把新代码、执行证据和反馈对应关系写入制作记录。
 
-- 不套用旧 `recipes/`/`tools/studio` 的固定 scene 或 `--style` 选择；不要复制旧视频代码来“快速出片”。
-- 不因为模板名不匹配就停；不要要求用户先选一个“匹配主题的风格”。
-- 不调用付费 API、不上传/发布素材，除非用户明确授权。
-- 不把机械 QA 说成完整观看、内容正确或用户采用。
-
-## 资源
-
-- 仓库内 Prompt：`resources/prompts/`；完整资源用 `npm run resources:fetch`。
-- 模板映射：`docs/library/TEMPLATE_MAP.md`；无同名模板时按视觉语言选。
-- 每次生成都是新尝试；不要为了“统一风格”新增固定适配器。
-
-## 输出
-
-`scene.html`、`stills/`、`style-frames.jpg`、`code-motion.mp4`、`report.json`、`qa.json`。视频路径与未验证项如实报告给用户。
+使用手动 Agent 任务时，HTML 工程可选择 `npm run render:agent` 的 `window.render(t)` 抓帧方式，其他工程可用各自工具导出。平台的机械检查只核验所测媒体规格，完整观看和内容采用分别记录。

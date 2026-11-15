@@ -115,4 +115,4 @@ You decide the structure, the characters (or none), the landscape, the opening, 
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/ink-wash/DEMO.md). Read it after your treatment exists.

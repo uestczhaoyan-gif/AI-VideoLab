@@ -103,4 +103,4 @@ The agent decides the specimen, the stain or modality, what is counted, the came
 
 ---
 
-How our demo was made (story, shots, score, title card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, title card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/microscope/DEMO.md). Read it after your treatment exists.

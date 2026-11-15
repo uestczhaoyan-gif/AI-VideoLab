@@ -93,7 +93,7 @@ A menu: use the ones your story needs.
 
 ## 10. Engine
 
-In `demo/`: `px.js` (pixel canvas, Bayer ramps, surfaces, lit billboards, glow), `kit.js` (world UVs, materials, houses, props, pixel fire), `fx.js` (sky, pixel sea, particles, rain, beam cards, `flick`), `chars.js` (pose-table pixel characters, `makeChar`), `post_ts.js` (`makePost`: DOF + tilt-shift + bloom + grade), `ui.js` (chapter card, dialogue box, subtitles, title), `main.js` (page contract, `?tilt=1`). Module table, parameters and a minimal new set (a lantern-lit alley): [DEMO.md § Engine reference](DEMO.md#engine-reference).
+In `demo/`: `px.js` (pixel canvas, Bayer ramps, surfaces, lit billboards, glow), `kit.js` (world UVs, materials, houses, props, pixel fire), `fx.js` (sky, pixel sea, particles, rain, beam cards, `flick`), `chars.js` (pose-table pixel characters, `makeChar`), `post_ts.js` (`makePost`: DOF + tilt-shift + bloom + grade), `ui.js` (chapter card, dialogue box, subtitles, title), `main.js` (page contract, `?tilt=1`). Module table, parameters and a minimal new set (a lantern-lit alley): [DEMO.md § Engine reference](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/hd-2d/DEMO.md#engine-reference).
 
 ## 11. Variation space
 
@@ -105,4 +105,4 @@ You decide the places, the characters, the light the story turns on, the chapter
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/hd-2d/DEMO.md). Read it after your treatment exists.

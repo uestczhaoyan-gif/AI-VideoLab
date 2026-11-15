@@ -18,7 +18,7 @@
     "docs:check": "node tools/check-docs.mjs",
     "test": "node --test tests/*.test.mjs",
     "loop:smoke": "node tools/loop/run.mjs",
-    "recipe:check": "node --check recipes/code-motion/run.mjs && node --check recipes/explain-data/run.mjs && node --check recipes/real-product/run.mjs && node --check tools/render/local-render.mjs && node --check examples/code-motion/make-project.mjs && node --check examples/explain-data/make-project.mjs && node --check examples/real-product/make-project.mjs && node --check tools/studio/create.mjs && node --check tools/resources/fetch.mjs && node --check tools/resources/pack.mjs && node --check tools/catalog/style-map.mjs && node --check tools/agent/plan.mjs && node --check tools/agent/render.mjs",
+    "recipe:check": "node --check recipes/code-motion/run.mjs && node --check recipes/explain-data/run.mjs && node --check recipes/real-product/run.mjs && node --check tools/render/local-render.mjs && node --check tools/studio/create.mjs && node --check tools/resources/fetch.mjs && node --check tools/resources/pack.mjs && node --check tools/catalog/style-map.mjs && node --check tools/agent/plan.mjs && node --check tools/agent/render.mjs",
     "integration:build": "node tools/catalog/integration.mjs --build",
     "integration:check": "node tools/catalog/integration.mjs --check && node tools/catalog/route.mjs --check",
     "route": "node tools/catalog/route.mjs",
@@ -27,7 +27,9 @@
     "resources:pack": "node tools/resources/pack.mjs",
     "catalog:map": "node tools/catalog/style-map.mjs --build",
     "catalog:map:check": "node tools/catalog/style-map.mjs --check",
-    "render:agent": "node tools/agent/render.mjs"
+    "render:agent": "node tools/agent/render.mjs",
+    "workflow:render": "node tools/workflows/run.mjs",
+    "studio": "node tools/workflows/studio.mjs"
   },
   "dependencies": {
     "ajv": "8.17.1",

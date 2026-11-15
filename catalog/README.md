@@ -13,7 +13,7 @@
 
 341 个 CAP、51 个 Lemo、15 个 MG、1 个工具参考是**引用条目数**，不能当作独立风格或成功实验数。CAP 有 8 个空名称条目，保留原编号并标记“未命名条目”；未补造内容。部分同名／同系列关联以 `related_ids` 登记，关系只表示相关版本，不表示 Prompt、资产、引擎完全等价；未完成所有条目的人工去重。
 
-2026-11 清理时删除了 4 条 VideoLab 自制案例条目（`local-*`）及其来源记录；案例知识改存 [docs/library/cases/](../docs/library/cases/README.md)，不再作为 catalog 模板。
+2026-11 清理时移除了 VideoLab 自制案例条目（`local-*`）。公开目录提供上游出处和通用制作资源，自制案例归入本地项目档案。
 
 ### 时间规格与谱系（2026-11 增补）
 
@@ -46,8 +46,6 @@ npm test
 | CAP | `resources/prompt-libraries/code-animation-prompts/source/` | [P09](../docs/theory/extractions/projects/P09-code-animation-prompts.md)；固定 `69ccbeaf0b821591a40936572c2f559d8f4cfb68` |
 | Lemo | `resources/styles/lemo-opuscar/source/` | [快照说明](../resources/styles/lemo-opuscar/README.md)；固定 `b5e8ef93930b6d828f352055a689320f138237b1` |
 | MG | `resources/styles/mg-styles-15/source/` | [P02](../docs/theory/extractions/projects/P02-mg-styles-15.md)、[快照说明](../resources/styles/mg-styles-15/README.md)；固定 `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c` |
-
-2026-11 清理前还有 4 条本地案例视频预览；案例工程与媒体已删除，知识摘要见 [cases](../docs/library/cases/README.md)。不再从 catalog 恢复这些媒体，也不要为缺失的旧预览制造占位文件。
 
 恢复后重跑导入与校验。指纹不符时检查是否拿错 commit 或修改了输入，不删除锁来强行通过；有意升级应同时审阅差异、版本、许可和已保存方案。
 

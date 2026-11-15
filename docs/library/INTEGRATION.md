@@ -82,7 +82,7 @@ npm run integration:build
 
 1. 新增来源：按 [来源模板](templates/SOURCE.md) 写笔记 → `tools/catalog/import.mjs` 自动生成 source。
 2. 在 `tools/catalog/integration.mjs` 的 `ACCESS` 里登记访问等级；在 `ROUTES` 里决定是否进入资源包。
-3. 若新增可执行 recipe：在 `catalog/seed.mjs` 写 `runnable` + `adapter`；在 `integration.mjs` 加 route；必须有 `examples/<id>/` 和实测证据。
+3. 若新增可执行 recipe：在 `tools/catalog/seed.mjs` 写 `runnable` + `adapter`；在 `integration.mjs` 加 route；附通用使用说明与实测证据路径。
 4. 运行 `npm run catalog:import`、`npm run integration:build`、`npm run integration:check`、`npm test`、`npm run docs:check`。
 
 ## 未完成与边界

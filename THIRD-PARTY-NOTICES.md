@@ -3,7 +3,7 @@
 根目录 [MIT License](LICENSE) 适用于本项目自行撰写的代码与文档，以及没有另行声明的原创内容。它不覆盖第三方源码、素材、字体或引用作品。
 
 - `resources/` 保存上游固定版本快照，分类见 [resources/README.md](resources/README.md)，抽检见 [resources/AUDIT.md](resources/AUDIT.md)。`source/` 被 Git 忽略，不随本仓库发布。
-- `resources/styles/mg-styles-15/`：上游固定版本 `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；上游动画、Prompt 与成片版权归原作者，MIT 文本保留在 UPSTREAM-LICENSE；本地复现工程已清理，总结见 [案例库](docs/library/cases/README.md)。
+- `resources/styles/mg-styles-15/`：上游固定版本 `49052d80bfaf9fa8412cc9710530e5e95a3b8d8c`；上游动画、Prompt 与成片版权归原作者，MIT 文本保留在 UPSTREAM-LICENSE。
 - `resources/styles/lemo-opuscar/`：[lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar)（MIT，© 2026 LemoLab）；各风格素材许可逐项见上游 `CREDITS`（CC0、CC BY 等），再分发须保留署名与条款。
 - `resources/prompt-libraries/code-animation-prompts/`：[P09](docs/theory/extractions/projects/P09-code-animation-prompts.md) 基于 [XiaoyeCodes/code-animation-prompts](https://github.com/XiaoyeCodes/code-animation-prompts) 固定版本 `69ccbeaf0b821591a40936572c2f559d8f4cfb68`；合集非统一 MIT，第三方部分按原许可。
 - `resources/prompt-libraries/fifi-video-prompt/`、`resources/workflows/`、`resources/skills/`、`resources/engines/`、`resources/collections/`：各自上游许可见 [resources/README.md](resources/README.md) 与来源笔记；P16 Onetake 为 PolyForm Noncommercial 1.0.0，不能默认商用；P12 Open Design 只保存可读部分；P22 video-shotcraft 为 Apache-2.0 代码、素材另计。

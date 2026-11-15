@@ -24,14 +24,14 @@
 
 | ID | 方法与适用任务 | 主要输入 → 产物 | 已有资料与实际边界 | 成本与主要限制 |
 | --- | --- | --- | --- | --- |
-| M01 | HTML／SVG／Canvas 动效：概念解释、片头、轻量广告 | Brief、形状／图标、事件表 → 页面源码与视频 | [平面矢量案例](cases/mg-01-flat-vector.md)；有本地复现与花园拓展记录 | 文本模型调用 + 浏览器渲染；复杂角色与叙事需要专门设计 |
-| M02 | 连续线条／一笔画：品牌、简洁叙事、对象关系 | 形体链、路径、时间表 → 连续绘制短片 | [一笔画案例](cases/deepseek-onetake.md)；多部片技术通过，主观验收范围不齐；引擎代码已清理，做法见案例 | 路径设计与可读性是主要工作；跨模型泛化未证实 |
-| M03 | 白板讲解：课程、操作原理、流程解释 | 解说稿、绘制顺序、板面布局 → 白板动画 | [白板试片案例](cases/lemo-whiteboard-trial.md)已输出；缺配音、真实逐笔字形等上游特征 | 字形、旁白和镜头配合；现有试片不可冒充完整风格复现 |
-| M04 | 等轴／WebGL 空间叙事：系统、生产线、芯片、设施 | 对象／状态／连接、空间布局 → 空间动画 | [等轴案例](cases/mg-02-isometric.md)、[芯片案例](cases/mg-02-isometric-chip.md)；已有迁移，芯片视觉偏简陋 | 几何遮挡、阴影和子采样可能增加渲染时间 |
-| M05 | 轮廓形变：标志、隐喻、对象接续 | 对应轮廓／部件、顺序与节拍 → 形变片 | [形变案例](cases/mg-05-shape-morph.md)；原版通过，WANDER v3 仅勉强接受 | 部件对应和形态辨识；平滑插值不保证自然 |
+| M01 | HTML／SVG／Canvas 动效：概念解释、片头、轻量广告 | Brief、形状／图标、事件表 → 页面源码与视频 | [平面矢量 Prompt](../../resources/prompts/mg/01-flat-vector.md)说明形状和运动约束 | 文本模型调用 + 浏览器渲染；复杂角色与叙事需要专门设计 |
+| M02 | 连续线条／一笔画：品牌、简洁叙事、对象关系 | 形体链、路径、时间表 → 连续绘制短片 | [一笔画风格卡](../../resources/prompts/lemo/one-line/STYLE.md)说明路径和镜头连续性 | 路径设计与可读性是主要工作；跨模型泛化未证实 |
+| M03 | 白板讲解：课程、操作原理、流程解释 | 解说稿、绘制顺序、板面布局 → 白板动画 | [白板风格卡](../../resources/prompts/lemo/whiteboard/STYLE.md)说明笔触、板面与绘制顺序 | 字形、旁白和镜头需要共用时间线 |
+| M04 | 等轴／WebGL 空间叙事：系统、生产线、芯片、设施 | 对象／状态／连接、空间布局 → 空间动画 | [等轴风格 Prompt](../../resources/prompts/mg/03-isometric.md)说明空间布局和视角 | 几何遮挡、阴影和子采样可能增加渲染时间 |
+| M05 | 轮廓形变：标志、隐喻、对象接续 | 对应轮廓／部件、顺序与节拍 → 形变片 | [形变 Prompt](../../resources/prompts/mg/08-morph.md)说明轮廓对应与过渡 | 部件对应和形态辨识；平滑插值不保证自然 |
 | M06 | Manim 数学／科学动画：精确几何、关系与推导 | 正确的对象／关系、解释顺序 → Python 场景与视频 | [ManimGL](../theory/extractions/projects/P05-manim-gl.md)、[Community](../theory/extractions/projects/P06-manim-community.md)；仅文档资料 | 环境与 API 差异；两种 Manim 分开固定版本 |
 | M07 | React／Remotion 组件视频：产品、图文、系列模板 | 组件、媒体、配置与帧时间 → 可编辑工程与视频 | [Remotion 笔记](../theory/extractions/projects/P07-remotion.md)、[产品片来源](../theory/extractions/projects/P01-ai-promo-video-maker.md)；未在本项目完整跑通该流程 | 前端工程与素材准备；许可及自动化场景条款另行核查 |
-| M08 | Blender 程序化三维：材质广告、接触与空间动作 | 场景、运动函数／模拟、材质灯光 → 三维工程与视频 | [三维案例](cases/mg-04-3d-render.md)；Soft Landing 与 RIPPLE 有结果及失败记录 | 原作 CPU 渲染历史记录约 9.93 小时；不能当作浏览器动效的成本 |
+| M08 | Blender 程序化三维：材质广告、接触与空间动作 | 场景、运动函数／模拟、材质灯光 → 三维工程与视频 | [三维材质 Prompt](../../resources/prompts/mg/04-3d-render.md)说明材质、接触与照明 | 材质、采样和分辨率影响渲染耗时 |
 | M09 | 真实录屏 + 代码标注：软件教程、产品证明 | 实际操作录像／截图、功能事实 → 标注与剪辑视频 | [P01](../theory/extractions/projects/P01-ai-promo-video-maker.md)、[V05](../theory/extractions/videos/V05-BV1xGah67E1j.md)；本项目尚无完整录屏流程实测 | 真实素材采集、遮挡与版本更新；需要实际产品可用 |
 | M10 | 数据／实证叙事：图表、地图、显微与档案 | 数据／真实图像、单位／出处、解释顺序 → 动态可视化 | lemo-opuscar 索引有数据、卫星、显微等风格；当前只核对索引，未逐风格提取 | 数据真实性、外部资产和图表设计；示例数据不能代替目标数据 |
 | M11 | 资产拼贴／剪纸／2D 角色：知识、广告、风格片 | 照片、分层剪影、关节／纸张语法 → 合成动画 | [P02 拼贴线索](../theory/extractions/projects/P02-mg-styles-15.md)、[风格库](STYLES.md)；未本地验证这些风格 | 素材与抠图、层次和授权；“纯代码”也可能依赖照片 |

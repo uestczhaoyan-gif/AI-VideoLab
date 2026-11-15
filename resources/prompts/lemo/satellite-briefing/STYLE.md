@@ -111,4 +111,4 @@ The agent decides the place or places, whether there is a claim layer, which dat
 
 ---
 
-How our demo was made (story, shots, score, end card, build): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/satellite-briefing/DEMO.md). Read it after your treatment exists.

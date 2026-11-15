@@ -58,6 +58,12 @@ for (const source of sources) {
   }
   if (extra.lineage) source.lineage = extra.lineage;
 }
+// Keep published source identities when the local evidence snapshot is absent.
+// Fresh source notes still replace older records when available.
+const importedSourceIds = new Set(sources.map((source) => source.id));
+for (const source of previous?.sources ?? []) {
+  if (!importedSourceIds.has(source.id) && !fs.existsSync(localPath(source.note_path))) sources.push(source);
+}
 function entry(data) {
   return { revision: '1', project_path: null, preview: null, validation: 'indexed', runnable: false, recipe_ids: ['code-motion'], related_ids: [], engine: null, parameters: [], requirements: ['采用前按原文件核对可改参数、资产与运行依赖。'], ...data };
 }
@@ -94,16 +100,19 @@ templates.push(...snapshot('LEMO', `${lemoRoot}/README.md`, () => {
   });
 }));
 const mgRoot = 'resources/styles/mg-styles-15';
-if (!process.argv.includes('--offline') && fs.existsSync(localPath(`${mgRoot}/source/prompts`))) verifySnapshot('MG15', MG_STYLES.map(([slug]) => `${mgRoot}/source/prompts/${slug}.md`));
+const hasMgSnapshot = !process.argv.includes('--offline') && fs.existsSync(localPath(`${mgRoot}/source/prompts`));
+if (hasMgSnapshot) verifySnapshot('MG15', MG_STYLES.map(([slug]) => `${mgRoot}/source/prompts/${slug}.md`));
 report.collections.push({ collection: 'MG15', status: 'curated_index', count: MG_STYLES.length });
 templates.push(...MG_STYLES.map(([slug, name, category]) => {
+  const retained = previous?.templates.find((item) => item.id === `mg-${slug}` && item.revision === REVISIONS.MG15);
+  if (!hasMgSnapshot && retained) return retained;
   const upstreamDemo = `${mgRoot}/source/demos/${slug}`;
   const upstreamVideo = `${mgRoot}/source/videos/${slug}.mp4`;
   const hasDemo = fs.existsSync(localPath(upstreamDemo));
   const hasVideo = fs.existsSync(localPath(upstreamVideo));
   const posterPath = `${mgRoot}/source/videos/${slug}.jpg`;
   const hasPoster = fs.existsSync(localPath(posterPath));
-  return entry({ id: `mg-${slug}`, name, source_id: 'P02', revision: REVISIONS.MG15, upstream_id: slug, collection: 'MG15', category, kind: hasDemo ? 'project' : 'prompt', summary: hasDemo ? '上游示例工程与演示视频保存在本地快照；本项目 2026-10 做过对照学习，摘要见 docs/library/cases/。不代表工作台已实现执行适配。' : '已保存风格 Prompt；本项目未取得或验证该风格的完整工程。', purposes: [], tags: [name, slug], reference_path: `${mgRoot}/source/prompts/${slug}.md`, project_path: hasDemo ? upstreamDemo : null, preview: hasVideo ? { kind: 'video', path: upstreamVideo, scope: 'local_only' } : hasPoster ? { kind: 'image', path: posterPath, scope: 'local_only' } : null, license: LICENCES.MG15 });
+  return entry({ id: `mg-${slug}`, name, source_id: 'P02', revision: REVISIONS.MG15, upstream_id: slug, collection: 'MG15', category, kind: hasDemo ? 'project' : 'prompt', summary: hasDemo ? '上游示例工程与演示视频可在固定版本的本地快照查阅。条目用于制作参考，工作台支持情况见 Workflow 目录。' : '已保存风格 Prompt；本项目未取得或验证该风格的完整工程。', purposes: [], tags: [name, slug], reference_path: `${mgRoot}/source/prompts/${slug}.md`, project_path: hasDemo ? upstreamDemo : null, preview: hasVideo ? { kind: 'video', path: upstreamVideo, scope: 'local_only' } : hasPoster ? { kind: 'image', path: posterPath, scope: 'local_only' } : null, license: LICENCES.MG15 });
 }));
 templates.push(entry({ id: 'tool-onetake', name: 'Onetake 连续镜头', source_id: 'P16', revision: '013a61ac8d98883c73733f59c06e49e9ba444f14', upstream_id: 'onetake', collection: 'TOOLS', category: '形变与运动', kind: 'reference', summary: '连续性方法与工具候选；案例不含影片源码。商业使用受限，尚无工作台适配。', purposes: ['product', 'motion'], tags: ['一镜到底', '连续性', '非商业'], reference_path: 'docs/theory/extractions/projects/P16-onetake.md', preview: fs.existsSync(localPath('resources/engines/onetake/preview/skill-demo.jpg')) ? { kind: 'image', path: 'resources/engines/onetake/preview/skill-demo.jpg', scope: 'local_only' } : null, license: LICENCES.noncommercial }));
 templates.push(entry({ id: 'tool-video-shotcraft', name: 'video-shotcraft 镜头库', source_id: 'P22', revision: '1266a3ec4831289c4d893d42dd5102723658039a', upstream_id: 'video-shotcraft', collection: 'TOOLS', category: '镜头与动效', kind: 'project', summary: '124 张镜头配方卡 / 150 个镜头 + Remotion 实现 + Ink Press 产品片模板；Apache-2.0 代码，素材另计。本机只读索引，未安装未渲染。', purposes: ['product', 'motion'], tags: ['镜头卡', 'Remotion', '产品宣传片', 'Apache-2.0'], reference_path: 'docs/theory/extractions/projects/P22-video-shotcraft.md', preview: fs.existsSync(localPath('resources/engines/video-shotcraft/source/assets/readme/examples/rhythm.webp')) ? { kind: 'image', path: 'resources/engines/video-shotcraft/source/assets/readme/examples/rhythm.webp', scope: 'local_only' } : null, license: LICENCES.APACHE }));
@@ -124,6 +133,10 @@ for (const t of templates.filter((t) => t.collection === 'LEMO')) {
   for (const cap of templates.filter((c) => c.collection === 'CAP' && c.tags.includes('L') && normalized(c.name) === normalized(t.name))) related(t.id, cap.id);
 }
 for (const t of templates) for (const id of [...t.related_ids]) related(t.id, id);
+for (const item of templates.filter((template) => template.collection === 'TOOLS' && !template.preview)) {
+  const previousEntry = previous?.templates.find((entry) => entry.id === item.id && entry.revision === item.revision);
+  if (previousEntry?.preview) item.preview = previousEntry.preview;
+}
 const data = { schema_version: 1, sources: sources.sort((a, b) => a.id.localeCompare(b.id, 'en')), templates, recipes: RECIPES, models: MODELS };
 const errors = validateCatalog(data);
 if (errors.length) throw new Error(errors.join('\n'));

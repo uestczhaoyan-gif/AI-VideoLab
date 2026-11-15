@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "workflows": [
+    {
+      "id": "motion",
+      "label": "几何动效",
+      "version": 1,
+      "adapter": "hyperframes",
+      "source_id": "P15",
+      "revision": "4e2a1c215a42c6d262b8c635df9d5edff80e8830",
+      "purposes": [
+        "motion",
+        "education",
+        "data",
+        "story"
+      ],
+      "steps": [
+        "标题节奏",
+        "编排时间线",
+        "HyperFrames 渲染",
+        "检查成片"
+      ],
+      "required_assets": [],
+      "capabilities": [
+        "图文排版"
+      ],
+      "duration": [
+        3,
+        120
+      ],
+      "verification": "probe_passed",
+      "reference_ids": [
+        "P02",
+        "V06"
+      ]
+    },
+    {
+      "id": "draw",
+      "label": "逐笔绘画",
+      "version": 1,
+      "adapter": "anidoodle",
+      "source_id": "P17",
+      "revision": "40d2c3e4debe351cc49716b09fac607dbd7a906b",
+      "purposes": [
+        "education",
+        "story",
+        "motion"
+      ],
+      "steps": [
+        "构图与笔触设计",
+        "安排绘画顺序",
+        "Anidoodle 渲染",
+        "检查成片"
+      ],
+      "required_assets": [],
+      "capabilities": [
+        "逐笔绘制"
+      ],
+      "duration": [
+        3,
+        90
+      ],
+      "verification": "probe_passed",
+      "reference_ids": []
+    },
+    {
+      "id": "product",
+      "label": "真实产品演示",
+      "version": 1,
+      "adapter": "shotcraft",
+      "source_id": "P22",
+      "revision": "3ac67b75dd0b3bc2fd807c17f6b7ce35373eef3d",
+      "purposes": [
+        "product"
+      ],
+      "steps": [
+        "导入真实素材",
+        "筛选镜头卡",
+        "编排卖点与音画",
+        "Remotion 渲染",
+        "检查成片"
+      ],
+      "required_assets": [
+        "product_screenshot_or_recording"
+      ],
+      "capabilities": [
+        "真实界面"
+      ],
+      "duration": [
+        5,
+        180
+      ],
+      "verification": "unverified",
+      "reference_ids": [
+        "P01",
+        "V14"
+      ]
+    },
+    {
+      "id": "math",
+      "label": "数学与科学图解",
+      "version": 1,
+      "adapter": "manim",
+      "source_id": "P13",
+      "revision": "a0048d9e265499038f34a9aa58ff16d306b5034c",
+      "purposes": [
+        "education",
+        "data"
+      ],
+      "steps": [
+        "核对公式与概念",
+        "构造数学对象和关系",
+        "Manim 场景渲染",
+        "检查成片"
+      ],
+      "required_assets": [],
+      "capabilities": [
+        "精确公式",
+        "几何关系"
+      ],
+      "duration": [
+        5,
+        300
+      ],
+      "verification": "unverified",
+      "reference_ids": [
+        "P08"
+      ]
+    },
+    {
+      "id": "generative",
+      "label": "生成式叙事",
+      "version": 1,
+      "adapter": "generative",
+      "source_id": null,
+      "revision": null,
+      "purposes": [
+        "story"
+      ],
+      "steps": [
+        "剧本与参考",
+        "生成镜头",
+        "筛选连续性",
+        "剪辑合成"
+      ],
+      "required_assets": [],
+      "capabilities": [
+        "写实人物",
+        "镜头生成"
+      ],
+      "duration": [
+        5,
+        180
+      ],
+      "verification": "unverified",
+      "reference_ids": []
+    }
+  ],
+  "styles": [
+    {
+      "id": "flat-vector",
+      "label": "扁平矢量",
+      "template_id": "mg-01-flat-vector",
+      "workflows": [
+        "motion"
+      ],
+      "audience": "general",
+      "signals": [
+        "矢量",
+        "简洁",
+        "活泼",
+        "几何",
+        "科技"
+      ]
+    },
+    {
+      "id": "bauhaus",
+      "label": "包豪斯排版",
+      "template_id": "mg-09-bauhaus",
+      "workflows": [
+        "motion"
+      ],
+      "audience": "general",
+      "signals": [
+        "排版",
+        "包豪斯",
+        "海报",
+        "几何"
+      ]
+    },
+    {
+      "id": "hud",
+      "label": "科技 HUD",
+      "template_id": "mg-22-hud",
+      "workflows": [
+        "motion"
+      ],
+      "audience": "advanced",
+      "signals": [
+        "hud",
+        "科技",
+        "冷峻",
+        "控制台",
+        "硬核"
+      ]
+    },
+    {
+      "id": "dataviz",
+      "label": "数据可视化",
+      "template_id": "lemo-dataviz",
+      "workflows": [
+        "motion",
+        "math"
+      ],
+      "audience": "advanced",
+      "signals": [
+        "数据",
+        "图表",
+        "报告",
+        "统计"
+      ]
+    },
+    {
+      "id": "pictogram",
+      "label": "轻量图标动画",
+      "template_id": "lemo-pictogram-motion",
+      "workflows": [
+        "motion"
+      ],
+      "audience": "beginner",
+      "signals": [
+        "图标",
+        "轻松",
+        "简洁",
+        "趣味"
+      ]
+    },
+    {
+      "id": "whiteboard",
+      "label": "手绘白板",
+      "template_id": "lemo-whiteboard",
+      "workflows": [
+        "draw"
+      ],
+      "audience": "beginner",
+      "signals": [
+        "手绘",
+        "逐笔",
+        "白板",
+        "讲解",
+        "直观"
+      ]
+    },
+    {
+      "id": "crayon",
+      "label": "蜡笔绘本",
+      "template_id": "lemo-crayon-book",
+      "workflows": [
+        "draw"
+      ],
+      "audience": "beginner",
+      "signals": [
+        "蜡笔",
+        "绘本",
+        "儿童",
+        "童趣",
+        "温暖"
+      ]
+    },
+    {
+      "id": "ink-wash",
+      "label": "水墨绘画",
+      "template_id": "lemo-ink-wash",
+      "workflows": [
+        "draw"
+      ],
+      "audience": "general",
+      "signals": [
+        "水墨",
+        "逐笔",
+        "国风",
+        "留白",
+        "静谧"
+      ]
+    },
+    {
+      "id": "screencast",
+      "label": "真实界面讲解",
+      "template_id": "lemo-living-screencast",
+      "workflows": [
+        "product"
+      ],
+      "audience": "general",
+      "signals": [
+        "截图",
+        "录屏",
+        "软件",
+        "界面",
+        "演示"
+      ]
+    },
+    {
+      "id": "glass-product",
+      "label": "玻璃质感产品片",
+      "template_id": "lemo-glass-product",
+      "workflows": [
+        "product"
+      ],
+      "audience": "general",
+      "signals": [
+        "玻璃",
+        "宣传",
+        "精致",
+        "产品",
+        "发布"
+      ]
+    },
+    {
+      "id": "blueprint",
+      "label": "工程蓝图",
+      "template_id": "lemo-blueprint",
+      "workflows": [
+        "math",
+        "motion"
+      ],
+      "audience": "advanced",
+      "signals": [
+        "蓝图",
+        "工程",
+        "几何",
+        "结构",
+        "机制"
+      ]
+    },
+    {
+      "id": "microscope",
+      "label": "显微图解",
+      "template_id": "lemo-microscope",
+      "workflows": [
+        "math"
+      ],
+      "audience": "advanced",
+      "signals": [
+        "显微",
+        "精确",
+        "专业",
+        "原理"
+      ]
+    },
+    {
+      "id": "cinematic",
+      "label": "写实叙事",
+      "template_id": null,
+      "workflows": [
+        "generative"
+      ],
+      "audience": "general",
+      "signals": [
+        "写实",
+        "电影感",
+        "电影级",
+        "真人",
+        "角色连续",
+        "实拍"
+      ]
+    }
+  ]
+}

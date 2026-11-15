@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VideoLab · 创作工作台</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <header class="top"><div class="brand"><span aria-hidden="true">▶</span> VideoLab</div><button id="new" class="ghost" type="button">新建创作</button></header>
+  <main>
+    <section class="dialogue" aria-labelledby="create-title">
+      <div class="intro"><h1 id="create-title">这次想拍什么？</h1><p>说说主题、给谁看、在哪里用。Agent 会根据资源库建议风格、片长和话稿。</p></div>
+      <div id="thread" class="thread" aria-live="polite"></div>
+      <form id="composer">
+        <label class="sr" for="message">创作描述</label>
+        <textarea id="message" placeholder="描述视频，或补充刚才的想法…" rows="3" maxlength="2000" required></textarea>
+        <div class="composer-foot"><span id="status" role="status"></span><button id="send" class="primary" type="submit">发送</button></div>
+      </form>
+    </section>
+    <section class="work" aria-label="创作方案和预览">
+      <div class="work-head"><h2>创作方案</h2><span id="brief"></span></div>
+      <div id="plans" class="plans"><p class="muted">发送创作描述后查看推荐方案。</p></div>
+      <section id="proposal" hidden aria-label="Agent 创作建议">
+        <p id="rationale"></p>
+        <p id="assumptions" class="muted"></p>
+        <h3 id="script-title"></h3>
+        <ol id="script"></ol>
+      </section>
+      <div id="references" class="references" hidden aria-label="方案参考"></div>
+      <p id="estimates" class="muted" hidden></p>
+      <div id="question" class="muted"></div>
+      <div id="production" hidden>
+        <h2>Agent 制作</h2>
+        <div id="activity" role="status"></div>
+        <video id="player" controls playsinline hidden></video>
+        <div class="actions">
+          <button id="preview" class="primary" type="button">确认方案并制作预览</button>
+          <button id="export" type="button" disabled>导出成片</button>
+          <button id="cancel" type="button" hidden>取消</button>
+          <a id="download" hidden download="videolab.mp4">下载 MP4</a>
+          <a id="previous-preview" hidden target="_blank" rel="noopener">观看修改前的预览</a>
+        </div>
+        <div id="job-records" class="references" hidden aria-label="制作记录"></div>
+        <form id="feedback" hidden>
+          <label for="revision">想怎么改？</label>
+          <div class="feedback-row"><input id="revision" placeholder="例如：第二段更简洁，文字少一点" maxlength="1000" required><button type="submit">更新预览</button></div>
+          <p class="muted">可以指定时间或分镜。Agent 会参考上一版源码和这次反馈，交付新版本。</p>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

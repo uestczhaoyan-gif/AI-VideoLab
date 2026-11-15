@@ -118,4 +118,4 @@ Swapping `demo/content.json` and rebuilding is a technical check that the engine
 
 ---
 
-How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/engraving/DEMO.md). Read it after your treatment exists.

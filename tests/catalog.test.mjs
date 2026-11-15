@@ -93,20 +93,14 @@ test('timing and lineage are validated, not decorative', () => {
   assert.ok(validateCatalog(selfLineage).some((e) => e.includes('references itself')));
 });
 
-test('every local recipe points at real files, examples and a registered director model', () => {
-  const examples = { 'code-motion': 'examples/code-motion/content.json', 'explain-data': 'examples/explain-data/content.json', 'real-product': 'examples/real-product/make-project.mjs' };
+test('every local recipe points at an adapter and a registered director model', () => {
   for (const recipe of catalog.recipes.filter((r) => r.runnable)) {
     const entry = path.join(ROOT, recipe.adapter.entry);
     assert.ok(fs.existsSync(entry), `missing adapter entry ${recipe.adapter.entry}`);
-    assert.ok(fs.existsSync(path.join(ROOT, examples[recipe.id])), `missing example for ${recipe.id}`);
     assert.ok(catalog.models.some((m) => m.id === recipe.adapter.director_model));
     const model = catalog.models.find((m) => m.id === recipe.adapter.director_model);
     assert.equal(model.verification, 'user_designated_unverified');
   }
-  const content = JSON.parse(fs.readFileSync(path.join(ROOT, 'examples/code-motion/content.json'), 'utf8'));
-  assert.equal(content.duration, 10);
-  assert.equal(content.fps, 30);
-  assert.ok(Array.isArray(content.steps) && content.steps.length >= 2 && content.steps.length <= 5);
 });
 
 test('import is deterministic and does not remove entries with no snapshot', () => {

@@ -111,7 +111,7 @@ Each serves information order. A menu: use the ones your film needs.
 
 ## 10. Engine
 
-`demo/engine/silk.js` prints **any shape** in this style from a `Path2D`: `makeTextures`, `paperSheet`, `ink(ctx, {path, knock, paint}, {color, reg, clip, sheen, trap})`, `wipeRegion`/`wipeFront` (ragged pull), `squeegee` (blade, beads, split fountain), `screenFrame`, `inkFinish`, `bandSteps` (the gradient substitute), shape helpers. `demo/engine/poster.js` (template, banner, `pickInk` contrast), `demo/engine/scenes.js` (planes you can reorder or extend), `demo/film.js` (timeline and shots). API table and a minimal example that prints a new shape: [DEMO.md](DEMO.md#engine-reference).
+`demo/engine/silk.js` prints **any shape** in this style from a `Path2D`: `makeTextures`, `paperSheet`, `ink(ctx, {path, knock, paint}, {color, reg, clip, sheen, trap})`, `wipeRegion`/`wipeFront` (ragged pull), `squeegee` (blade, beads, split fountain), `screenFrame`, `inkFinish`, `bandSteps` (the gradient substitute), shape helpers. `demo/engine/poster.js` (template, banner, `pickInk` contrast), `demo/engine/scenes.js` (planes you can reorder or extend), `demo/film.js` (timeline and shots). API table and a minimal example that prints a new shape: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/silkscreen-poster/DEMO.md#engine-reference).
 
 ## 11. Variation space
 
@@ -135,4 +135,4 @@ Swapping `demo/content.json` and rebuilding is a technical check that the engine
 
 ---
 
-How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build, content fields): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/silkscreen-poster/DEMO.md). Read it after your treatment exists.

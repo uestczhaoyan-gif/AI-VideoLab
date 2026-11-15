@@ -24,7 +24,7 @@ for (const file of files) {
     const message = `${file}: ${href}`;
     // 2026-11 清理把自制 demo 工程移出仓库；历史归档按当时路径保留原文，不强行改写。
     if (file.startsWith('docs/archive/')) historical.push(message);
-    else if (/^(docs\/theory\/_(?:sources|evidence)\/|resources\/[^/]+\/source\/)/.test(relative)) optional.push(message);
+    else if (/^(docs\/theory\/_(?:sources|evidence)\/|resources\/(?:[^/]+\/)+source\/)/.test(relative)) optional.push(message);
     else errors.push(message);
   });
 }

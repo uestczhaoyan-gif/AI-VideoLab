@@ -45,6 +45,7 @@ export function validateProject(project) {
   if(!b.topic.trim() || !p.title.trim())errors.push('主题和标题不能只有空白。');
   if(!Number.isFinite(Date.parse(p.created_at)) || new Date(p.created_at).toISOString()!==p.created_at)errors.push('created_at 不是有效 UTC 日期。');
   if(!(b.duration_min_seconds<=b.duration_seconds && b.duration_seconds<=b.duration_max_seconds))errors.push('时长须满足最短 ≤ 目标 ≤ 最长。');
+  if(b.deadline != null && !Number.isFinite(Date.parse(b.deadline)))errors.push('交付期限无效。');
   if((p.cost.status==='unknown') !== (p.cost.estimate===null))errors.push('未知费用须为 null；估算／实测费用须有数值及依据。');
   if(Boolean(s.template_id)!==Boolean(s.template_revision) || Boolean(s.template_id)!==Boolean(s.source_id) || Boolean(s.template_id)!==Boolean(p.template))errors.push('模板 ID、版本、来源和快照必须一起存在或一起为空。');
   if(Boolean(s.recipe_id)!==Boolean(s.recipe_revision))errors.push('流程 ID 和版本必须成对记录。');
@@ -95,9 +96,34 @@ export function createProject(brief, {projectId, originalRequest}={}) {
 export function loadProject(value) {
   if(value?.schema_version===2)return assertProject(structuredClone(value));
   if(value?.schema_version!==1)throw new Error('不支持的项目版本；仅接受原方案 v1 和共享项目 v2。');
+  if(value.mode==='agent_led')return migrateAgentProject(value);
   const errors=schemaErrors(validateV1,value);if(errors.length)throw new Error('旧方案校验失败：\n'+errors.join('\n'));
   const p=structuredClone(value),duration=p.brief.duration_seconds;
   return assertProject({...p,schema_version:2,project_id:p.id,revision:1,parent_id:null,brief:{...defaultBrief(),...p.brief,duration_min_seconds:duration,duration_max_seconds:duration},selection:{...p.selection,reason:''},resources:{...defaultResources(),policy:'unspecified'},acceptance:[],records:{...defaultRecords(),original_request:p.brief.topic},migration:{from_version:1,notes:['旧版受众、深度、公式、资源和验收字段未记录，保留为待明确。','原始 ID、来源版本、费用、声音要求和缺口原样保留；不推定当前可执行。']}});
+}
+function migrateAgentProject(value) {
+  if(typeof value.topic !== 'string' || typeof value.duration !== 'number' ||
+      !Number.isFinite(value.duration) || value.duration < 3 || value.duration > 600 ||
+      ![24,30,60].includes(value.fps) || !['16:9','9:16','1:1','3:4'].includes(value.aspect)) {
+    throw new Error('旧 Agent 任务的主题、片长、帧率或画幅无效。');
+  }
+  const resources = Array.isArray(value.resources) ? value.resources.slice(0,200) : [];
+  const inputs = resources.flatMap((resource, index) => {
+    if(!safeProjectPath(resource?.prompt_path))return [];
+    const description = [resource.source_id, resource.id].filter(part => typeof part === 'string' && part.trim()).join(' / ').slice(0,3000);
+    return [{id:`agent-prompt-${index + 1}`, reference:{base:'repository',path:resource.prompt_path}, description:description || '旧 Agent Prompt'}];
+  });
+  const project = createProject({
+    topic:value.topic,
+    duration_seconds:value.duration,
+    fps:value.fps,
+    aspect_ratio:value.aspect,
+    resolution:'720p',
+    field_sources:{purpose:'default'},
+  });
+  project.migration = {from_version:1, notes:['旧 Agent 任务导入为共享项目。受众、用途与 Workflow 仍待确认。']};
+  project.records.inputs = inputs;
+  return assertProject(project);
 }
 export function parseProject(text) {
   if(new TextEncoder().encode(text).length>MAX_PROJECT_BYTES)throw new Error('项目 JSON 不能超过 2 MiB。');

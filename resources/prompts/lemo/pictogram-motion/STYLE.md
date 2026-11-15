@@ -102,7 +102,7 @@ A menu: use the ones your film needs.
 
 ## 10. Engine
 
-In `demo/`: `engine.js` (`G.pattern`, `G.motif`, `G.joints` / `G.drawFigure`, `G.keyPose`, `G.maskText`, easings), `poses/base.js` (pose contract, props `G.P`), `edl.js` (edit list in beats), `scenes.js` (layouts, transitions, HUD, motion blur), `lab.mjs` (pose sheets), `music/music.py` (picture-locked score with onset report). API table, pose convention and a minimal example: [DEMO.md](DEMO.md#engine-reference).
+In `demo/`: `engine.js` (`G.pattern`, `G.motif`, `G.joints` / `G.drawFigure`, `G.keyPose`, `G.maskText`, easings), `poses/base.js` (pose contract, props `G.P`), `edl.js` (edit list in beats), `scenes.js` (layouts, transitions, HUD, motion blur), `lab.mjs` (pose sheets), `music/music.py` (picture-locked score with onset report). API table, pose convention and a minimal example: [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/pictogram-motion/DEMO.md#engine-reference).
 
 ## 11. Variation space
 
@@ -114,4 +114,4 @@ You decide the items, grouping, verbs, palette, chapter order, any long take, th
 
 ---
 
-How our demo was made (story, shots, score, end card, build, engine reference): [DEMO.md](DEMO.md). Read it after your treatment exists.
+How our demo was made (story, shots, score, end card, build, engine reference): [DEMO.md](https://github.com/lemomo-ai/lemo-opuscar/blob/b5e8ef93930b6d828f352055a689320f138237b1/styles/pictogram-motion/DEMO.md). Read it after your treatment exists.

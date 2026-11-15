@@ -11,6 +11,7 @@ const oldBrief = ['topic','purpose','duration_seconds','aspect_ratio','resolutio
 const retain = (object, keys) => { object.properties = Object.fromEntries(keys.map(k => [k, object.properties[k]])); object.required = keys; };
 retain(legacy, oldRoot);
 retain(legacy.properties.brief, oldBrief);
+legacy.properties.brief.properties.duration_seconds.minimum = 5;
 retain(legacy.properties.selection, ['template_id','template_revision','source_id','recipe_id','recipe_revision','tier']);
 legacy.properties.schema_version = {const:1};
 legacy.properties.selection.properties.tier = {enum:['premium','budget']};
